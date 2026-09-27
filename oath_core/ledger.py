@@ -47,6 +47,22 @@ CREATE TABLE IF NOT EXISTS positions (
 );
 CREATE TABLE IF NOT EXISTS equity_snapshots (ts TEXT NOT NULL, equity_usd TEXT NOT NULL, source TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS fee_allocations (ts TEXT NOT NULL, bucket TEXT NOT NULL, amount TEXT NOT NULL, tx_sig TEXT);
+
+-- Off-chain decisions that are not trades (e.g. "looked, chose not to trade"). No memo, no seq.
+CREATE TABLE IF NOT EXISTS decisions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK (kind IN ('stand_aside')),
+  mkt TEXT NOT NULL,
+  reason_code TEXT NOT NULL,
+  why TEXT NOT NULL,
+  evidence_json TEXT NOT NULL,
+  session_id TEXT
+);
+CREATE TRIGGER IF NOT EXISTS decisions_no_update BEFORE UPDATE ON decisions
+BEGIN SELECT RAISE(ABORT, 'decisions are append-only'); END;
+CREATE TRIGGER IF NOT EXISTS decisions_no_delete BEFORE DELETE ON decisions
+BEGIN SELECT RAISE(ABORT, 'decisions are append-only'); END;
 """
 
 POSITION_COLS = {
@@ -160,6 +176,17 @@ class Ledger:
         """Positions holding (or about to hold) risk: committed, open, or exited-but-unrevealed."""
         return self.db.execute("SELECT COUNT(*) AS n FROM positions WHERE status IN "
                                "('prepared','committed','open','closed')").fetchone()["n"]
+
+    def record_decision(self, kind: str, mkt: str, reason_code: str, why: str, evidence: dict,
+                        session_id: str | None = None) -> int:
+        cur = self.db.execute(
+            "INSERT INTO decisions (ts, kind, mkt, reason_code, why, evidence_json, session_id) VALUES (?,?,?,?,?,?,?)",
+            (now_iso(), kind, mkt, reason_code, why, json.dumps(evidence, sort_keys=True, default=str), session_id))
+        return cur.lastrowid
+
+    def decisions(self, limit: int = 20) -> list[dict]:
+        rows = self.db.execute("SELECT * FROM decisions ORDER BY id DESC LIMIT ?", (limit,))
+        return [{**dict(r), "evidence": json.loads(r["evidence_json"])} for r in rows]
 
     def events(self, seq: int | None = None) -> list[dict]:
         q, args = "SELECT * FROM events", ()

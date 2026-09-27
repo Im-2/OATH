@@ -1,0 +1,122 @@
+[
+  {
+    "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "ok": true,
+    "verdict": "valid thesis",
+    "open_args": {
+      "entry": "market",
+      "horizon_min": 15,
+      "stop_pct": "3",
+      "tp_pct": "5",
+      "mkt": "SOL/USDC",
+      "conf": "0.60",
+      "size_usd": "1.00",
+      "strat": "acceptance_test",
+      "why": "TEST: acceptance test trade"
+    },
+    "turns": 2,
+    "trace": [
+      {
+        "turn": 0,
+        "content": "",
+        "tool_calls": [
+          {
+            "name": "mcp__clawpump_stdio__get_price",
+            "arguments": "{\"tokens\":\"SOL\"}"
+          }
+        ]
+      },
+      {
+        "turn": 1,
+        "content": "",
+        "tool_calls": [
+          {
+            "name": "oath_open_position",
+            "arguments": "{\"entry\":\"market\",\"horizon_min\":15,\"stop_pct\":\"3\",\"tp_pct\":\"5\",\"mkt\":\"SOL/USDC\",\"conf\":\"0.60\",\"size_usd\":\"1.00\",\"strat\":\"acceptance_test\",\"why\":\"TEST: acceptance test trade\"}"
+          }
+        ]
+      }
+    ],
+    "seconds": 21.1
+  },
+  {
+    "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "ok": true,
+    "verdict": "valid thesis",
+    "open_args": {
+      "entry": "market",
+      "size_usd": "1.00",
+      "stop_pct": "3",
+      "tp_pct": "5",
+      "conf": "0.60",
+      "strat": "acceptance_test",
+      "horizon_min": 15,
+      "mkt": "SOL/USDC",
+      "why": "TEST: acceptance test run"
+    },
+    "turns": 2,
+    "trace": [
+      {
+        "turn": 0,
+        "content": "",
+        "tool_calls": [
+          {
+            "name": "mcp__clawpump_stdio__get_price",
+            "arguments": "{\"tokens\":\"SOL\"}"
+          }
+        ]
+      },
+      {
+        "turn": 1,
+        "content": "",
+        "tool_calls": [
+          {
+            "name": "oath_open_position",
+            "arguments": "{\"entry\":\"market\",\"size_usd\":\"1.00\",\"stop_pct\":\"3\",\"tp_pct\":\"5\",\"conf\":\"0.60\",\"strat\":\"acceptance_test\",\"horizon_min\":15,\"mkt\":\"SOL/USDC\",\"why\":\"TEST: acceptance test run\"}"
+          }
+        ]
+      }
+    ],
+    "seconds": 21.4
+  },
+  {
+    "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "ok": true,
+    "verdict": "valid thesis",
+    "open_args": {
+      "why": "ACCEPTANCE_TEST: automated acceptance test run",
+      "tp_pct": "5",
+      "mkt": "SOL/USDC",
+      "horizon_min": 15,
+      "conf": "0.60",
+      "stop_pct": "3",
+      "size_usd": "1.00",
+      "strat": "acceptance_test",
+      "entry": "market"
+    },
+    "turns": 2,
+    "trace": [
+      {
+        "turn": 0,
+        "content": "",
+        "tool_calls": [
+          {
+            "name": "mcp__clawpump_stdio__get_price",
+            "arguments": "{\"tokens\":\"SOL\"}"
+          }
+        ]
+      },
+      {
+        "turn": 1,
+        "content": "",
+        "tool_calls": [
+          {
+            "name": "oath_open_position",
+            "arguments": "{\"why\":\"ACCEPTANCE_TEST: automated acceptance test run\",\"tp_pct\":\"5\",\"mkt\":\"SOL/USDC\",\"horizon_min\":15,\"conf\":\"0.60\",\"stop_pct\":\"3\",\"size_usd\":\"1.00\",\"strat\":\"acceptance_test\",\"entry\":\"market\"}"
+          }
+        ]
+      }
+    ],
+    "seconds": 15.7
+  }
+]

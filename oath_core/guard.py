@@ -36,6 +36,14 @@ SENSITIVE_PATTERNS = (
     "clawpump-mcp-production", "mcp.clawpump.tech",
 )
 
+# Argument repair for read tools (Hermes `modify` directive). intelligence_market only resolves
+# mint addresses: with the symbol "SOL" ClawPump returns "Bitget market info request failed."
+# (seen live 2026-09-27); with the mint it returns full data.
+SYMBOL_MINTS = {"SOL": "So11111111111111111111111111111111111111112",
+                "WSOL": "So11111111111111111111111111111111111111112",
+                "USDC": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"}
+MINT_ONLY_TOOLS = {"intelligence_market": "token"}
+
 BLOCK_TRADE = "OATH: trades must go through oath_open_position (commit first). This ClawPump tool is not available."
 BLOCK_SENSITIVE = "OATH: this call references protected trading credentials or trade endpoints and is blocked."
 
@@ -53,9 +61,15 @@ def decide(tool_name: str, args) -> dict | None:
     if not isinstance(tool_name, str):
         return {"action": "block", "message": BLOCK_TRADE}
     if is_clawpump_tool(tool_name):
-        if suffix(tool_name) in READ_ALLOWLIST | MCP_HELPERS:
-            return None
-        return {"action": "block", "message": BLOCK_TRADE}
+        name = suffix(tool_name)
+        if name not in READ_ALLOWLIST | MCP_HELPERS:
+            return {"action": "block", "message": BLOCK_TRADE}
+        field = MINT_ONLY_TOOLS.get(name)
+        if field and isinstance(args, dict):
+            val = str(args.get(field, "")).strip().lstrip("$").upper()
+            if val in SYMBOL_MINTS:
+                return {"action": "modify", "args": {field: SYMBOL_MINTS[val]}}
+        return None
     if tool_name.startswith("oath_"):
         return None
     try:

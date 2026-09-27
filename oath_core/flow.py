@@ -14,6 +14,7 @@ import datetime as dt
 import json
 from dataclasses import dataclass, field
 from decimal import Decimal
+from pathlib import Path
 from typing import Callable
 
 from . import memo as memos
@@ -28,6 +29,7 @@ from .market import equity_usd, price_info, realised_pnl_today
 from .notary import Notary
 from .policy import Policy, load_policy
 from .solana_rpc import Rpc, RpcError
+from . import testmode
 from .thesis import ThesisError, build_thesis, canonical_json, digest, fmt_decimal, new_salt
 from .verify import collect
 
@@ -48,6 +50,7 @@ class Ctx:
     cp: ClawPump
     tokens: ExecTokens
     load_policy: Callable[[], Policy] = field(default=load_policy)
+    testmode_path: Path = field(default=testmode.TESTMODE_PATH)
 
 
 def _notary_funded(ctx: Ctx, n_txs: int, dry_run: bool = False) -> None:
@@ -109,6 +112,9 @@ def open_position(ctx: Ctx, *, mkt: str, size_usd, entry, stop=None, tp=None, st
         raise FlowError("size_usd must be > 0")
     if (stop is None) == (stop_pct is None) or (tp is None) == (tp_pct is None):
         raise FlowError("give exactly one of stop/stop_pct and one of tp/tp_pct")
+    is_test = strat == testmode.TEST_STRAT
+    if is_test and not testmode.status(ctx.testmode_path).get("armed"):
+        raise FlowError(f"strat '{testmode.TEST_STRAT}' is reserved for operator test mode, which is not armed")
 
     assert_agent_wallet(ctx.cp, cfg)
     in_raw = int(size * 10**6)
@@ -164,6 +170,11 @@ def open_position(ctx: Ctx, *, mkt: str, size_usd, entry, stop=None, tp=None, st
         return {"ok": False, "blocked": True, **base, "blocked_sig": b.sig, "salt_hex": salt.hex()}
 
     _notary_funded(ctx, 3)  # commit + open + reveal
+    if is_test:
+        try:
+            testmode.consume(ctx.testmode_path)  # one-shot: spent only when a commit is about to happen
+        except testmode.TestModeError as e:
+            raise FlowError(str(e)) from e
     ctx.ledger.prepare(agent, seq, thesis, salt.hex(), dg)
     c = ctx.notary.commit(agent, seq, dg, 0)
     ctx.ledger.record(seq, "commit", {"digest": dg}, tx_sig=c.sig, slot=c.slot,

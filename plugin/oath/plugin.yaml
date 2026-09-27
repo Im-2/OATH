@@ -1,10 +1,11 @@
 name: oath
-version: "0.2.0"
+version: "0.3.0"
 label: "OATH (Proof-of-Thesis)"
 description: "Commit-reveal honesty layer for trading agents. The agent must commit a salted thesis hash on Solana before any trade (oath_open_position); every fund-moving ClawPump tool is blocked for the model; deterministic exits reveal the thesis on-chain for anyone to verify."
 author: "OATH"
 provides_tools:
   - oath_open_position
+  - oath_stand_aside
   - oath_status
   - oath_policy
 hooks:

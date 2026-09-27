@@ -37,7 +37,7 @@ def test_hook_is_registered_before_anything_else():
     load_plugin().register(ctx)
     assert ctx.calls[0][0] == "register_hook" and ctx.calls[0][1][0] == "pre_tool_call"
     tools = [c[2]["name"] for c in ctx.calls if c[0] == "register_tool"]
-    assert tools == ["oath_open_position", "oath_status", "oath_policy"]
+    assert tools == ["oath_open_position", "oath_stand_aside", "oath_status", "oath_policy"]
     section = next(c for c in ctx.calls if c[0] == "register_system_prompt_section")
     assert len(section[1][1]) <= 4000
     skill = next(c for c in ctx.calls if c[0] == "register_skill")
@@ -58,7 +58,7 @@ def test_open_schema_matches_manifest_and_requires_thesis_fields():
     req = set(mod.OPEN_SCHEMA["parameters"]["required"])
     assert {"size_usd", "entry", "horizon_min", "conf", "strat", "why"} <= req
     manifest = (PLUGIN.parent / "plugin.yaml").read_text()
-    for name in ("oath_open_position", "oath_status", "oath_policy", "pre_tool_call"):
+    for name in ("oath_open_position", "oath_stand_aside", "oath_status", "oath_policy", "pre_tool_call"):
         assert name in manifest
 
 

@@ -8,6 +8,7 @@
   python -m oath_core recover --seq N
   python -m oath_core verify [--out report.json]
   python -m oath_core policy [--set key=value ...]      # e.g. --set max_trade_usd=3.00
+  python -m oath_core testmode {arm,status,disarm} [--minutes 30]   # operator acceptance test
 """
 from __future__ import annotations
 
@@ -120,6 +121,20 @@ def cmd_policy(a) -> int:
     return 0
 
 
+def cmd_testmode(a) -> int:
+    from . import testmode
+
+    if a.action == "arm":
+        s = testmode.arm(a.minutes)
+        print(f"ARMED: one '{testmode.TEST_STRAT}' position allowed until {s['expires_at']} "
+              "(firewall, commit and reveal still apply)")
+    elif a.action == "disarm":
+        testmode.disarm()
+        print("disarmed")
+    _print(testmode.status())
+    return 0
+
+
 def cmd_verify(a) -> int:
     from .verify import main as verify_main
 
@@ -168,6 +183,11 @@ def main(argv=None) -> int:
     p = sub.add_parser("policy", help="show or change the firewall policy (~/.oath/policy.json)")
     p.add_argument("--set", action="append", metavar="KEY=VALUE")
     p.set_defaults(fn=cmd_policy)
+
+    p = sub.add_parser("testmode", help="operator acceptance-test mode (one forced position)")
+    p.add_argument("action", choices=["arm", "status", "disarm"])
+    p.add_argument("--minutes", type=int, default=30)
+    p.set_defaults(fn=cmd_testmode)
 
     p = sub.add_parser("verify", help="independent chain-only verification of this notary")
     p.add_argument("--out")

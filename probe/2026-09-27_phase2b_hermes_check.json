@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-27T19:11:06.420425+00:00",
+  "checks": {
+    "intelligence_market_SOL_now_returns_data": true,
+    "oath_stand_aside_registered": true,
+    "status_shows_test_mode": true,
+    "unarmed_acceptance_test_refused": true
+  },
+  "pass": true,
+  "status": {
+    "open": [],
+    "recent": [
+      {
+        "seq": 1,
+        "status": "revealed",
+        "exit_reason": "manual",
+        "pnl_usd": "-0.006519",
+        "reveal_sig": "5DE7tDbeErioA4R3AmHxTYUjvDStMmDQfNZAV4iMmw8ajG7W4tZj8dDrLrpvFQsM5WPxdAWeSfT9KkvyzJpwa6S4"
+      }
+    ],
+    "totals": {
+      "positions": 1,
+      "blocked": 0,
+      "revealed": 1,
+      "realised_pnl_usd": "-0.006519",
+      "stand_asides": 0
+    },
+    "recent_stand_asides": [],
+    "test_mode": {
+      "armed": false
+    }
+  },
+  "acceptance_refusal": {
+    "ok": false,
+    "refused": "strat 'acceptance_test' is reserved for operator test mode, which is not armed"
+  },
+  "intelligence_market_head": "{\"result\": \"{\\n  \\\"chain\\\": \\\"sol\\\",\\n  \\\"contract\\\": \\\"So11111111111111111111111111111111111111112\\\",\\n  \\\"source\\\": \\\"bitget-wallet\\\",\\n  \\\"price_usd\\\": 123.29564879915031,\\n  \\\"market_cap_usd\\\": 66456354702.74202,\\n  \\\"fdv_usd\\\": 74717163172.2851,\\n  \\\"total_liquidity_usd\\\": 140678518.97566205,\\n  \\\"turnover_24h_usd\\\": 3574699612.1219945,\\n  \\\"holders\\\": 3557894,\\n  \\\"age_seconds\\\": 3007530,\\n "
+}

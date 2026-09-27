@@ -150,9 +150,10 @@ class FakeNotary:
 
 
 def make_ctx(tmp_path, *, cp=None, rpc=None, notary=None, policy=None):
+    tmp_path.mkdir(parents=True, exist_ok=True)
     return Ctx(Config(agent_id=AGENT_ID, agent_wallet=AGENT), rpc or FakeRpc(), notary or FakeNotary(),
                Ledger(tmp_path / "ledger.db"), cp or FakeCP(), ExecTokens(),
-               load_policy=lambda: policy or Policy())
+               load_policy=lambda: policy or Policy(), testmode_path=tmp_path / "test_mode.json")
 
 
 OPEN_ARGS = dict(mkt="SOL/USDC", size_usd="1.00", entry="market", stop_pct="3", tp_pct="5", horizon_min=60,

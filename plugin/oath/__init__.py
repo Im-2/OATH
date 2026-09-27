@@ -2,7 +2,7 @@
 
 Registers, in this order so a later failure can never leave trading unguarded:
   1. pre_tool_call hook  -> oath_core.guard.decide (default-deny for ClawPump fund movers)
-  2. tools               -> oath_open_position, oath_status, oath_policy
+  2. tools               -> oath_open_position, oath_stand_aside, oath_status, oath_policy
   3. system prompt rules + oath-trader skill + `hermes oath ...` CLI + /oath slash command
 
 Trades execute via ctx.call_mcp("clawpump-stdio", "swap_execute", ...), which needs
@@ -35,7 +35,10 @@ Rules:
 5. A firewall may BLOCK a thesis (size, stop distance, slippage, liquidity, drawdown, ...).
    A block is recorded on-chain and counts in your record. Do not immediately resubmit a
    tweaked thesis to get around a block; reassess or stand aside.
-6. Not trading is a valid decision. Use read-only market tools and `oath_status` first.
+6. Not trading is a valid decision: when you stand aside, record it with `oath_stand_aside`.
+   Use read-only market tools and `oath_status` first.
+7. `strat: "acceptance_test"` is reserved for operator test mode. Use it only when `oath_status`
+   shows test_mode.armed = true AND the user explicitly asks for an acceptance test.
 Load the `oath:oath-trader` skill for the full strategy playbook.
 """
 
@@ -69,6 +72,24 @@ STATUS_SCHEMA = {
     "name": "oath_status",
     "description": "Your OATH record: open positions, recent closed/blocked positions with P&L, and totals.",
     "parameters": {"type": "object", "properties": {}},
+}
+STAND_ASIDE_SCHEMA = {
+    "name": "oath_stand_aside",
+    "description": (
+        "Record that you looked at the market and chose NOT to trade. Off-chain (no memo, no cost), shown on "
+        "the public record as discipline. Call it whenever the playbook says stand aside."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "mkt": {"type": "string", "enum": ["SOL/USDC"]},
+            "reason_code": {"type": "string", "description": "e.g. INSUFFICIENT_SIGNALS, SIGNAL_AGAINST, OPEN_POSITION"},
+            "why": {"type": "string", "description": "Short public explanation (<=280 chars)"},
+            "evidence": {"type": "object", "description": "Signal readings you used, e.g. {\"sol_24h_pct\": 1.6, "
+                                                           "\"sentiment\": \"neutral\", \"agreeing\": 1}"},
+        },
+        "required": ["reason_code", "why"],
+    },
 }
 POLICY_SCHEMA = {
     "name": "oath_policy",
@@ -140,8 +161,32 @@ def _make_open(ctx):
     return handler
 
 
+def record_stand_aside(ledger, params: dict, session_id: str | None = None) -> dict:
+    """Validate and store a stand-aside decision. Bounded so a model can't bloat the ledger."""
+    import re
+
+    reason = str(params.get("reason_code", "")).strip().upper()
+    why = str(params.get("why", "")).strip()
+    mkt = str(params.get("mkt") or "SOL/USDC")
+    if not re.fullmatch(r"[A-Z0-9_]{1,32}", reason):
+        return {"ok": False, "refused": "reason_code must be [A-Z0-9_]{1,32}"}
+    if not why or len(why) > 280:
+        return {"ok": False, "refused": "why must be 1..280 chars"}
+    if mkt != "SOL/USDC":
+        return {"ok": False, "refused": "unsupported market"}
+    evidence = params.get("evidence") or {}
+    if not isinstance(evidence, dict):
+        evidence = {"value": str(evidence)}
+    evidence = {str(k)[:40]: (v if isinstance(v, (int, float, bool)) or v is None else str(v)[:120])
+                for k, v in list(evidence.items())[:20]}
+    rid = ledger.record_decision("stand_aside", mkt, reason, why, evidence, session_id)
+    return {"ok": True, "recorded": "stand_aside", "id": rid, "on_chain": False}
+
+
 def status_summary(ledger) -> dict:
     from decimal import Decimal
+
+    from oath_core import testmode
 
     rows = ledger.positions()
     closed = [r for r in rows if r["status"] == "revealed" and r["pnl_usd"]]
@@ -155,7 +200,10 @@ def status_summary(ledger) -> dict:
             "blocked": sum(1 for r in rows if r["status"] == "blocked"),
             "revealed": sum(1 for r in rows if r["status"] == "revealed"),
             "realised_pnl_usd": str(sum((Decimal(r["pnl_usd"]) for r in closed), Decimal(0))),
+            "stand_asides": len(ledger.decisions(limit=100000)),
         },
+        "recent_stand_asides": [{k: d[k] for k in ("ts", "reason_code", "why")} for d in ledger.decisions(limit=5)],
+        "test_mode": {"armed": bool(testmode.status().get("armed"))},
     }
 
 
@@ -163,6 +211,15 @@ def _make_status(ctx):
     def handler(params: dict, **kwargs) -> str:
         try:
             return _json(status_summary(_runtime(ctx).ledger))
+        except Exception as e:  # noqa: BLE001
+            return _json({"ok": False, "error": f"{type(e).__name__}: {str(e)[:400]}"})
+    return handler
+
+
+def _make_stand_aside(ctx):
+    def handler(params: dict, **kwargs) -> str:
+        try:
+            return _json(record_stand_aside(_runtime(ctx).ledger, dict(params or {}), kwargs.get("session_id")))
         except Exception as e:  # noqa: BLE001
             return _json({"ok": False, "error": f"{type(e).__name__}: {str(e)[:400]}"})
     return handler
@@ -208,6 +265,8 @@ def register(ctx) -> None:
     # 2. Tools
     ctx.register_tool(name="oath_open_position", toolset="oath", schema=OPEN_SCHEMA, handler=_make_open(ctx),
                       description=OPEN_SCHEMA["description"], emoji="⚖️")
+    ctx.register_tool(name="oath_stand_aside", toolset="oath", schema=STAND_ASIDE_SCHEMA,
+                      handler=_make_stand_aside(ctx), description=STAND_ASIDE_SCHEMA["description"])
     ctx.register_tool(name="oath_status", toolset="oath", schema=STATUS_SCHEMA, handler=_make_status(ctx),
                       description=STATUS_SCHEMA["description"])
     ctx.register_tool(name="oath_policy", toolset="oath", schema=POLICY_SCHEMA, handler=_policy_handler,
