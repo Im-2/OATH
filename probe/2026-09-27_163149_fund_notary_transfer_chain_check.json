@@ -1,0 +1,9 @@
+{
+  "notary_before": 650240,
+  "notary_after": 674240,
+  "received": 24000,
+  "tx": "5AtZZknzkF9tC9yU5Vvnw89Dvh8yuHK6ayT5tgosWtKvWMSkNxyFXeGvnaQ2icuEkweMctsHTrkSfmRBkvMocp97",
+  "tx_err": null,
+  "tx_fee": 5000,
+  "tx_notary_delta": 24000
+}

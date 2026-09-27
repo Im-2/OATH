@@ -13,10 +13,10 @@ import shutil
 import threading
 from typing import Protocol
 
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-
 from .config import CLAWPUMP_PKG, load_clawpump_key
+
+# The `mcp` client package is imported lazily inside StdioClawPump: the Hermes plugin never
+# needs it (it uses ctx.call_mcp), and Hermes ships mcp 2.x while this client targets mcp 1.x.
 
 
 class ClawPumpError(RuntimeError):
@@ -50,7 +50,7 @@ class StdioClawPump:
         self._ready = threading.Event()
         self._closing: asyncio.Event | None = None
         self._life = None
-        self._session: ClientSession | None = None
+        self._session = None  # mcp.ClientSession once open
 
     def __enter__(self) -> "StdioClawPump":
         self._thread.start()
@@ -74,6 +74,9 @@ class StdioClawPump:
         return asyncio.run_coroutine_threadsafe(coro, self._loop).result(self.timeout_s)
 
     async def _lifecycle(self) -> None:
+        from mcp import ClientSession, StdioServerParameters
+        from mcp.client.stdio import stdio_client
+
         env = dict(os.environ)
         env.pop("CLAWPUMP_TOKEN", None)  # swap tools refuse when both are set
         env["CLAWPUMP_API_KEY"] = load_clawpump_key()

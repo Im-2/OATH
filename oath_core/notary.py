@@ -119,6 +119,12 @@ class Notary:
     def commit(self, agent: str, seq: int, digest: str, bond_amt: int = 0) -> Posted:
         return self.post([memos.commit(agent, seq, digest, bond_amt)])
 
+    def blocked(self, agent: str, seq: int, digest: str, reason_code: str) -> Posted:
+        return self.post([memos.blocked(agent, seq, digest, reason_code)])
+
+    def slash(self, agent: str, seq: int, reason: str) -> Posted:
+        return self.post([memos.slash(agent, seq, reason)])
+
     def open(self, agent: str, seq: int, swap_sig: str) -> Posted:
         return self.post([memos.open_(agent, seq, swap_sig)])
 

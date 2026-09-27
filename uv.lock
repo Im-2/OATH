@@ -255,7 +255,7 @@ wheels = [
 [[package]]
 name = "oath"
 version = "0.0.1"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "httpx" },
     { name = "mcp" },

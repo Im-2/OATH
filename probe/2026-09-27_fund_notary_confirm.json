@@ -1,0 +1,13 @@
+{
+  "transfer_sig": "5AtZZknzkF9tC9yU5Vvnw89Dvh8yuHK6ayT5tgosWtKvWMSkNxyFXeGvnaQ2icuEkweMctsHTrkSfmRBkvMocp97",
+  "err": null,
+  "signers": [
+    "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY"
+  ],
+  "notary_received": 24000,
+  "notary_balance": 674240,
+  "needs_for_round_trip": 668240,
+  "agent_lamports": 5153715,
+  "whitelist": [],
+  "notary_on_whitelist": false
+}

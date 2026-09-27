@@ -91,7 +91,8 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
             if len(k.get("c", [])) + len(k.get("b", [])) > 1:
                 p.append("duplicate commitment for seq")
             if k.get("b"):
-                row["status"] = "blocked"
+                b = k["b"][0]
+                row.update(status="blocked", blocked_sig=b["sig"], reason_code=b["reason_code"], digest=b["digest"])
                 rows.append(row)
                 continue
             committed += 1
@@ -184,6 +185,14 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
                 g = grade_trade(thesis, entry.to_dict(), exit_fill.to_dict() if exit_fill else None, r["exit_reason"])
                 row["grade"] = g
                 trades.append(g)
+                adh = g.get("adherence")
+                if adh and not adh["ok"]:
+                    failed = [k for k, ok in adh["checks"].items() if not ok]
+                    p.append(f"exit did not honour the committed thesis ({', '.join(failed)})")
+            if entry and entry.block_time and r["block_time"]:
+                deadline = entry.block_time + (int(thesis["horizon_min"]) + REVEAL_GRACE_MIN) * 60
+                if r["block_time"] > deadline:
+                    p.append(f"late reveal: {r['block_time'] - deadline}s after the reveal deadline")
             elif r["exit_reason"] == "exec_failed" and not o:
                 trades.append({"seq": seq, "closed": False, "exit_reason": "exec_failed"})
             row["status"] = "revealed" if not p else "invalid"
@@ -200,7 +209,8 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
 
         report_agents[agent] = {
             "positions": rows, "gaps": gaps,
-            "stats": aggregate(trades, committed=committed, open_count=open_count, unrevealed=unrevealed),
+            "stats": aggregate(trades, committed=committed, open_count=open_count, unrevealed=unrevealed,
+                               blocked_reasons=[r["reason_code"] for r in rows if r.get("status") == "blocked"]),
             "uncommitted_trades": uncommitted,
         }
 

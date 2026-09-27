@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-27T16:18:23.473266+00:00",
+  "oath_tools_registered": [
+    "oath_open_position",
+    "oath_status",
+    "oath_policy"
+  ],
+  "clawpump_tools_exposed_to_model": [
+    "mcp__clawpump_stdio__get_agent",
+    "mcp__clawpump_stdio__get_indicators",
+    "mcp__clawpump_stdio__get_market_signals",
+    "mcp__clawpump_stdio__get_news_feed",
+    "mcp__clawpump_stdio__get_portfolio",
+    "mcp__clawpump_stdio__get_price",
+    "mcp__clawpump_stdio__get_prompt",
+    "mcp__clawpump_stdio__get_wallet_history",
+    "mcp__clawpump_stdio__intelligence_capabilities",
+    "mcp__clawpump_stdio__intelligence_macro",
+    "mcp__clawpump_stdio__intelligence_market",
+    "mcp__clawpump_stdio__intelligence_signals",
+    "mcp__clawpump_stdio__list_agents",
+    "mcp__clawpump_stdio__list_prompts",
+    "mcp__clawpump_stdio__list_resources",
+    "mcp__clawpump_stdio__read_resource",
+    "mcp__clawpump_stdio__swap_quote",
+    "mcp__clawpump_stdio__token_search"
+  ],
+  "cases": {
+    "direct swap_execute (stdio prefix)": {
+      "error": "OATH: trades must go through oath_open_position (commit first). This ClawPump tool is not available."
+    },
+    "direct swap_execute (remote prefix)": {
+      "error": "OATH: trades must go through oath_open_position (commit first). This ClawPump tool is not available."
+    },
+    "direct wallet_transfer": {
+      "error": "OATH: trades must go through oath_open_position (commit first). This ClawPump tool is not available."
+    },
+    "terminal with trade endpoint (harmless echo)": {
+      "error": "OATH: this call references protected trading credentials or trade endpoints and is blocked."
+    },
+    "read tool get_price (must pass)": {
+      "result": "{\n  \"prices\": {\n    \"So11111111111111111111111111111111111111112\": {\n      \"usd\": 122.06,\n      \"change24h\": 0.2734482916342437,\n      \"source\": \"coingecko\"\n    },\n    \"SOL\": {\n      \"usd\": 122.06,\n      \"change24h\": 0.2734482916342437,\n      \"source\": \"coingecko\"\n    }\n  }\n}"
+    },
+    "oath_policy": {
+      "max_trade_usd": "2.00",
+      "max_open_positions": 2,
+      "allowed_markets": [
+        "SOL/USDC"
+      ],
+      "allowed_mints": [
+        "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "So11111111111111111111111111111111111111112"
+      ],
+      "max_daily_loss_pct": "5",
+      "max_drawdown_pct": "15",
+      "max_entry_slippage_pct": "1.0",
+      "min_liquidity_usd": "1000000",
+      "stop_distance_pct_min": "1",
+      "stop_distance_pct_max": "10",
+      "max_horizon_min": 360,
+      "reveal_grace_min": 30,
+      "swap_slippage_bps": 100,
+      "max_blocked_per_hour": 5
+    },
+    "oath_status": {
+      "open": [],
+      "recent": [
+        {
+          "seq": 1,
+          "status": "revealed",
+          "exit_reason": "manual",
+          "pnl_usd": "-0.006519",
+          "reveal_sig": "5DE7tDbeErioA4R3AmHxTYUjvDStMmDQfNZAV4iMmw8ajG7W4tZj8dDrLrpvFQsM5WPxdAWeSfT9KkvyzJpwa6S4"
+        }
+      ],
+      "totals": {
+        "positions": 1,
+        "blocked": 0,
+        "revealed": 1,
+        "realised_pnl_usd": "-0.006519"
+      }
+    },
+    "oath_open_position malformed (must refuse, no memo)": {
+      "ok": false,
+      "refused": "thesis rejected: why must be 1..140 printable chars"
+    }
+  },
+  "checks": {
+    "swap_execute_blocked_stdio": true,
+    "swap_execute_blocked_remote": true,
+    "wallet_transfer_blocked": true,
+    "terminal_sensitive_blocked": true,
+    "get_price_passes": true,
+    "oath_policy_works": true,
+    "oath_status_works": true,
+    "open_refused_before_chain": true
+  },
+  "pass": true
+}

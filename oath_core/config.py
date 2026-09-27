@@ -1,15 +1,16 @@
-"""Paths, verified constants and operator config for OATH.
+"""Paths, verified constants and operator identity config for OATH.
 
 Secrets (notary keypair, ledger with unrevealed salts) live in OATH_HOME
-(default ~/.oath), never in the repo. Non-secret settings live in
-OATH_HOME/config.json, written by `python -m oath_core init`.
+(default ~/.oath), never in the repo. Identity settings live in
+OATH_HOME/config.json (`python -m oath_core init`); trading limits live in
+OATH_HOME/policy.json (oath_core.policy).
 """
 from __future__ import annotations
 
 import json
 import os
 import re
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 
 OATH_HOME = Path(os.environ.get("OATH_HOME") or Path.home() / ".oath")
@@ -29,6 +30,7 @@ TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
 TOKEN_2022_PROGRAM_ID = "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
 
 CLAWPUMP_PKG = "@clawpump/agents@0.1.27"  # 0.1.25 ships without dist/
+CLAWPUMP_SERVER = "clawpump-stdio"        # Hermes mcp_servers entry the plugin calls via ctx.call_mcp
 DEFAULT_RPC_URL = "https://api.mainnet-beta.solana.com"
 
 BASE58_RE = re.compile(r"^[1-9A-HJ-NP-Za-km-z]+$")
@@ -47,13 +49,6 @@ class Config:
     agent_id: str
     agent_wallet: str
     rpc_url: str = DEFAULT_RPC_URL
-    # Phase 1 caps: real money, tiny size (SPEC §0.5). Raise only on user instruction.
-    max_trade_usd: str = "2.00"
-    max_entry_slippage_pct: str = "1.0"
-    max_horizon_min: int = 360
-    reveal_grace_min: int = 30
-    slippage_bps: int = 100
-    allowed_mints: list[str] = field(default_factory=lambda: [USDC_MINT, SOL_MINT])
 
     def validate(self) -> None:
         if not self.agent_id or not is_pubkey(self.agent_wallet):
@@ -64,10 +59,20 @@ class Config:
         return os.environ.get("OATH_RPC_URL") or self.rpc_url
 
 
+# Keys that moved to policy.json in Phase 2; tolerated (ignored) in old config files.
+_MOVED_TO_POLICY = {"max_trade_usd", "max_entry_slippage_pct", "max_horizon_min", "reveal_grace_min",
+                    "slippage_bps", "allowed_mints", "min_notary_lamports"}
+
+
 def load_config(path: Path = CONFIG_PATH) -> Config:
     if not path.is_file():
         raise SystemExit(f"No OATH config at {path}. Run: python -m oath_core init --agent-id ... --agent-wallet ...")
-    cfg = Config(**json.loads(path.read_text(encoding="utf-8")))
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    known = {f.name for f in fields(Config)}
+    unknown = set(raw) - known - _MOVED_TO_POLICY
+    if unknown:
+        raise ValueError(f"unknown config keys {sorted(unknown)} in {path}")
+    cfg = Config(**{k: v for k, v in raw.items() if k in known})
     cfg.validate()
     return cfg
 

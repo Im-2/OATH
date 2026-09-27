@@ -6,6 +6,7 @@
 >
 > **Changelog**
 > - 2026-09-27: Phase 0 corrections applied (evidence in `probe/FINDINGS.md`): tool-name format `mcp__<server>__<tool>`; `call_mcp` bypasses hooks and `tools.include`; claw-agent pre-wires all ClawPump tools, now handled by a two-layer model lockout (config allowlist + default-deny hook, §5.2); launchpad MCP gone, server uses stdio with the same key + `agent_id`; `agent_balance`/`fee_earnings`/`agent_send` don't exist; pin `@clawpump/agents@0.1.27`; perps denied (spot-only confirmed); $ANSEM mint confirmed, token program detected at runtime (§7); hook signature verified; Windows install notes; `mcp<2`; hosted-agent bypass disclosed.
+> - 2026-09-27 (Phase 2): firewall + policy.json (§6), `oath_core/guard.py` default-deny hook + sensitive-argument heuristic, Hermes plugin `plugin/oath` (junctioned into `~/.hermes/plugins/oath`; `oath_core` installed editable into Hermes's venv with `--no-deps`, because **Hermes ships `mcp` 2.0.0** and our stdio client pins `mcp<2`, now imported lazily), rules via `register_system_prompt_section`, playbook skill `oath:oath-trader` (plugin skills aren't indexed; preload with `-s`), `oath_server/monitor.py` (stop/tp/expiry exits, pending-reveal retry, deadline sweeper → `oath1:s`), verify adds adherence (exit honoured stop/tp/horizon) + late-reveal checks. Trading agent runs locked down: `hermes chat -t oath,mcp-clawpump-stdio -s oath:oath-trader`.
 > - 2026-09-27: Swap test passed (`swap_execute` returns `data.txHash`). Fills and P&L are on-chain balance deltas only (§5.6). Renamed PoT → **OATH** everywhere: `oath_core`, `oath` plugin, `hermes oath` CLI, `oath1:` memo prefix, `oath_open_position`, `~/.oath/`, `oath-server`.
 
 ---
@@ -262,8 +263,10 @@ ClawPump's `swap_execute` response is **not** a fill: its `output.rawAmount` is 
 
 ## 6. Firewall (deliberately small — Redline territory)
 Rules, fail closed, config at `~/.oath/policy.json`:
-- `max_trade_usd` (default 5), `max_open_positions` (default 2), `allowed_mints` (USDC, SOL, JUP, + $ANSEM optional), `max_daily_loss_pct` (5), `max_drawdown_pct` (15 → halt), `max_entry_slippage_pct` (1), `min_liquidity_usd` for the out-mint (via `intelligence_market`/`token_search`), `stop_distance_pct` bounds (e.g. 1–10%) so theses can't declare meaningless stops.
-- Reason codes are short strings used in the `blocked` memo.
+- `max_trade_usd` (**configurable**; default 2.00 while sizes are tiny: `python -m oath_core policy --set max_trade_usd=3.00`), `max_open_positions` (default 2), `allowed_markets` (SOL/USDC), `allowed_mints` (USDC, SOL; JUP / $ANSEM later), `max_daily_loss_pct` (5), `max_drawdown_pct` (15 → halt), `max_entry_slippage_pct` (1), `min_liquidity_usd` (1,000,000) for the out-mint, `stop_distance_pct_min/max` (1–10%) so theses can't declare meaningless stops, `max_horizon_min` (360), `reveal_grace_min` (30), `swap_slippage_bps` (100), `max_blocked_per_hour` (5).
+- Reason codes (in the `blocked` memo): `market_not_allowed, mint_not_allowed, size_cap, horizon_cap, max_open, stop_too_tight, stop_too_wide, price_unavailable, entry_slippage, price_outside_range, liquidity_unavailable, low_liquidity, equity_unavailable, drawdown_halt, daily_loss, insufficient_equity`. Missing data blocks (fail closed).
+- *Implemented (Phase 2):* `oath_core/policy.py` + `oath_core/firewall.py` (pure). Inputs: live quote; out-mint liquidity from ClawPump `get_price` (its CoinGecko path, seen live, has **no liquidity**, which is then filled from Jupiter Price API v3); equity = on-chain USDC + SOL × price, snapshotted to `equity_snapshots` (peak → drawdown, first-of-day → daily loss).
+- Malformed requests (bad schema, unsupported market, no quote for a `market` entry) are refused **without** a seq or memo. Policy blocks consume a seq and post `oath1:b` (thesis + salt returned to the caller; public via API in Phase 3). Blocked memos are rate-limited (`max_blocked_per_hour`) so a looping model can't drain the notary; beyond the limit the refusal is not recorded on-chain.
 
 ---
 
@@ -301,18 +304,21 @@ Hosted ClawPump agents can't load plugins (Redline's own caveat) — but they ca
 
 ## 10. Repo layout
 ```
-oath/
-  plugin/oath/               # the Hermes plugin (symlink into ~/.hermes/plugins/oath)
+OATH/
+  plugin/oath/                  # the Hermes plugin (junction: ~/.hermes/plugins/oath -> here)
     plugin.yaml
-    __init__.py             # register(ctx): tools, hook, skill, cli
-    skills/oath-trader/SKILL.md   # strategy + "always use oath_open_position" rules
+    __init__.py                 # register(ctx): hook first, tools, prompt rules, skill, cli, /oath
+    skills/oath-trader/SKILL.md # strategy playbook + "always use oath_open_position" rules
   oath_core/
-    config.py thesis.py firewall.py notary.py executor.py ledger.py grader.py verify.py clawpump.py prices.py bond.py
-  server/
-    app.py monitor.py indexer.py
-  probe/                    # dated probe outputs (Phase 0)
-  tests/                    # unit + integration (fixtures only here)
-  pyproject.toml  .env.example  .gitignore  README.md
+    config.py policy.py thesis.py memo.py firewall.py guard.py notary.py executor.py fills.py
+    market.py ledger.py grader.py verify.py flow.py clawpump.py solana_rpc.py keys.py __main__.py
+    (bond.py: Phase 3)
+  oath_server/
+    monitor.py                  # (app.py, indexer.py: Phase 3)
+  probe/                        # dated probe outputs + FINDINGS.md
+  scripts/                      # operator one-offs (never model-facing)
+  tests/                        # unit + integration (fixtures only here)
+  pyproject.toml  .env.example  .gitignore  SPEC.md
 ```
 Plugin tools to register: `oath_open_position`, `oath_status` (open positions + stats), `oath_policy` (read-only view). CLI: `hermes oath {init,verify,status,policy}`.
 

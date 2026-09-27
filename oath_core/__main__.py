@@ -7,6 +7,7 @@
   python -m oath_core close --seq N [--reason manual]
   python -m oath_core recover --seq N
   python -m oath_core verify [--out report.json]
+  python -m oath_core policy [--set key=value ...]      # e.g. --set max_trade_usd=3.00
 """
 from __future__ import annotations
 
@@ -104,6 +105,21 @@ def cmd_recover(a) -> int:
     return 0
 
 
+def cmd_policy(a) -> int:
+    from .policy import load_policy, save_policy, set_value
+
+    pol = load_policy()
+    for kv in a.set or []:
+        if "=" not in kv:
+            raise SystemExit(f"--set expects key=value, got {kv!r}")
+        k, v = kv.split("=", 1)
+        pol = set_value(pol, k.strip(), v.strip())
+    if a.set:
+        save_policy(pol)
+    _print(pol.public())
+    return 0
+
+
 def cmd_verify(a) -> int:
     from .verify import main as verify_main
 
@@ -148,6 +164,10 @@ def main(argv=None) -> int:
     p = sub.add_parser("recover", help="finish a position stuck in prepared/committed")
     p.add_argument("--seq", type=int, required=True)
     p.set_defaults(fn=cmd_recover)
+
+    p = sub.add_parser("policy", help="show or change the firewall policy (~/.oath/policy.json)")
+    p.add_argument("--set", action="append", metavar="KEY=VALUE")
+    p.set_defaults(fn=cmd_policy)
 
     p = sub.add_parser("verify", help="independent chain-only verification of this notary")
     p.add_argument("--out")

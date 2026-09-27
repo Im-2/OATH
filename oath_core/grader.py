@@ -13,6 +13,28 @@ from .config import MINT_DECIMALS, SOL_MINT, USDC_MINT
 
 Q6 = Decimal("0.000001")
 
+# Adherence tolerances: did the exit honour what was committed?
+TP_TOLERANCE = Decimal("0.02")           # a 'tp' exit must fill >= tp * (1 - 2%)
+STOP_TOLERANCE = Decimal("0.02")         # a 'stop' exit must fill <= stop * (1 + 2%) ...
+STOP_BREACH_TOLERANCE = Decimal("0.05")  # ... and not below stop * (1 - 5%) (stop breached = slashable)
+EXPIRY_EARLY_S = 120                     # an 'expiry' exit may not land more than 2 min before the horizon
+
+
+def adherence(thesis: dict, entry: dict, exit_: dict, exit_reason: str, exit_px: Decimal) -> dict:
+    """Checks the exit against the committed thesis. `manual` exits have nothing to check."""
+    stop, tp = Decimal(thesis["stop"]), Decimal(thesis["tp"])
+    checks: dict[str, bool] = {}
+    if exit_reason == "tp":
+        checks["tp_honoured"] = exit_px >= tp * (1 - TP_TOLERANCE)
+    elif exit_reason == "stop":
+        checks["stop_honoured"] = exit_px <= stop * (1 + STOP_TOLERANCE)
+        checks["stop_not_breached"] = exit_px >= stop * (1 - STOP_BREACH_TOLERANCE)
+    elif exit_reason == "expiry":
+        t0, t1 = entry.get("block_time"), exit_.get("block_time")
+        checks["expiry_honoured"] = (t0 is not None and t1 is not None and
+                                     t1 >= t0 + int(thesis["horizon_min"]) * 60 - EXPIRY_EARLY_S)
+    return {"ok": all(checks.values()), "checks": checks}
+
 
 def units(raw: int, mint: str) -> Decimal:
     return Decimal(raw).scaleb(-MINT_DECIMALS[mint])
@@ -56,10 +78,12 @@ def grade_trade(thesis: dict, entry: dict, exit_: dict | None, exit_reason: str)
         "pnl_usd": str(pnl.quantize(Q6)),
         "r_multiple": str((pnl / risk).quantize(Decimal("0.01"))) if risk > 0 else None,
         "volume_usd": str((entry_usdc + exit_usdc).quantize(Q6)),
+        "adherence": adherence(thesis, entry, exit_, exit_reason, exit_px),
     }
 
 
-def aggregate(trades: list[dict], *, committed: int, open_count: int, unrevealed: list[dict]) -> dict:
+def aggregate(trades: list[dict], *, committed: int, open_count: int, unrevealed: list[dict],
+              blocked_reasons: list[str] | None = None) -> dict:
     """Stats over graded trades. Unrevealed commitments count as a full loss of committed size."""
     closed = [t for t in trades if t.get("closed")]
     pnl = sum((Decimal(t["pnl_usd"]) for t in closed), Decimal(0))
@@ -76,4 +100,7 @@ def aggregate(trades: list[dict], *, committed: int, open_count: int, unrevealed
         "realised_pnl_usd": str((pnl - unrevealed_loss).quantize(Q6)),
         "win_rate": str(Decimal(wins) / len(closed)) if closed else None,
         "volume_usd": str(sum((Decimal(t["volume_usd"]) for t in closed), Decimal(0)).quantize(Q6)),
+        "blocked": len(blocked_reasons or []),
+        "blocked_by_reason": {r: (blocked_reasons or []).count(r) for r in sorted(set(blocked_reasons or []))},
+        "adherence_violations": sum(1 for t in closed if not (t.get("adherence") or {"ok": True})["ok"]),
     }

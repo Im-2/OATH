@@ -9,6 +9,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import sqlite3
+from decimal import Decimal
 from pathlib import Path
 
 from .keys import restrict_to_owner
@@ -67,8 +68,12 @@ class Ledger:
     def __init__(self, path: Path):
         new = not path.exists()
         path.parent.mkdir(parents=True, exist_ok=True)
-        self.db = sqlite3.connect(path, isolation_level=None)  # autocommit; explicit txns below
+        # autocommit; explicit txns below. Plugin (Hermes) and monitor are separate processes.
+        self.db = sqlite3.connect(path, isolation_level=None, timeout=30, check_same_thread=False)
         self.db.row_factory = sqlite3.Row
+        self.db.execute("PRAGMA busy_timeout = 30000")
+        if str(path) != ":memory:":
+            self.db.execute("PRAGMA journal_mode = WAL")
         self.db.executescript(SCHEMA)
         if new and str(path) != ":memory:":
             restrict_to_owner(path)
@@ -79,11 +84,11 @@ class Ledger:
 
     def prepare(self, agent: str, seq: int, thesis: dict, salt_hex: str, digest: str, bond_amt: int = 0) -> None:
         """Persist thesis + salt before anything goes on-chain. Enforces contiguous, unique seq."""
-        expected = self.next_seq(agent)
-        if seq != expected:
-            raise LedgerError(f"seq {seq} is not contiguous (expected {expected})")
-        self.db.execute("BEGIN IMMEDIATE")
+        self.db.execute("BEGIN IMMEDIATE")  # take the write lock before reading next_seq
         try:
+            expected = self.next_seq(agent)
+            if seq != expected:
+                raise LedgerError(f"seq {seq} is not contiguous (expected {expected})")
             self.db.execute(
                 "INSERT INTO positions (seq, agent, status, thesis_json, salt_hex, digest, bond_amt) "
                 "VALUES (?, ?, 'prepared', ?, ?, ?, ?)",
@@ -130,6 +135,31 @@ class Ledger:
         if status:
             q, args = q + " WHERE status = ?", (status,)
         return [dict(r) for r in self.db.execute(q + " ORDER BY seq", args)]
+
+    # --- equity + counters for the firewall -------------------------------------------------
+
+    def snapshot_equity(self, equity_usd, source: str) -> None:
+        self.db.execute("INSERT INTO equity_snapshots (ts, equity_usd, source) VALUES (?, ?, ?)",
+                        (now_iso(), str(equity_usd), source))
+
+    def equity_peak(self):
+        rows = [Decimal(r["equity_usd"]) for r in self.db.execute("SELECT equity_usd FROM equity_snapshots")]
+        return max(rows) if rows else None
+
+    def equity_day_start(self, day: str):
+        """First snapshot on `day` (YYYY-MM-DD, UTC), or None."""
+        row = self.db.execute("SELECT equity_usd FROM equity_snapshots WHERE substr(ts, 1, 10) = ? "
+                              "ORDER BY ts LIMIT 1", (day,)).fetchone()
+        return Decimal(row["equity_usd"]) if row else None
+
+    def count_events_since(self, kind: str, since_iso: str) -> int:
+        return self.db.execute("SELECT COUNT(*) AS n FROM events WHERE kind = ? AND created_at >= ?",
+                               (kind, since_iso)).fetchone()["n"]
+
+    def open_count(self) -> int:
+        """Positions holding (or about to hold) risk: committed, open, or exited-but-unrevealed."""
+        return self.db.execute("SELECT COUNT(*) AS n FROM positions WHERE status IN "
+                               "('prepared','committed','open','closed')").fetchone()["n"]
 
     def events(self, seq: int | None = None) -> list[dict]:
         q, args = "SELECT * FROM events", ()

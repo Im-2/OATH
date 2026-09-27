@@ -63,9 +63,9 @@ def to_units(raw: int, mint: str) -> Decimal:
     return Decimal(raw).scaleb(-MINT_DECIMALS[mint])
 
 
-def quote(cp: ClawPump, cfg: Config, in_mint: str, out_mint: str, in_raw: int) -> Quote:
+def quote(cp: ClawPump, cfg: Config, in_mint: str, out_mint: str, in_raw: int, slippage_bps: int) -> Quote:
     q = cp.call("swap_quote", {"agent_id": cfg.agent_id, "input_mint": in_mint, "output_mint": out_mint,
-                               "amount": str(in_raw), "slippage_bps": cfg.slippage_bps})
+                               "amount": str(in_raw), "slippage_bps": slippage_bps})
     try:
         qi, qo = int(q["input"]["rawAmount"]), int(q["output"]["rawAmount"])
         ok = q["status"] == "quoted" and q["input"]["mint"] == in_mint and q["output"]["mint"] == out_mint
@@ -90,14 +90,14 @@ class SwapResult:
 
 
 def swap(cp: ClawPump, rpc: Rpc, cfg: Config, tokens: ExecTokens, token: str, seq: int,
-         in_mint: str, out_mint: str, in_raw: int) -> SwapResult:
+         in_mint: str, out_mint: str, in_raw: int, *, slippage_bps: int, allowed_mints: list[str]) -> SwapResult:
     tokens.consume(token, seq)
     for m in (in_mint, out_mint):
-        if m not in cfg.allowed_mints:
+        if m not in allowed_mints:
             raise ClawPumpError(f"mint {m} not allowed")
     assert_agent_wallet(cp, cfg)
     resp = cp.call("swap_execute", {"agent_id": cfg.agent_id, "input_mint": in_mint, "output_mint": out_mint,
-                                    "amount": str(in_raw), "slippage_bps": cfg.slippage_bps})
+                                    "amount": str(in_raw), "slippage_bps": slippage_bps})
     sig = resp.get("txHash") if isinstance(resp, dict) else None
     if not is_signature(sig or "") or resp.get("status") != "executed":
         raise ClawPumpError(f"swap_execute returned no executed txHash: {resp!r:.300}")

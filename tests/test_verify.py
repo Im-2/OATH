@@ -179,3 +179,46 @@ def test_exit_quantity_mismatch_flagged():
     r = run(rpc)
     assert not r["pass"]
     assert any("exit sold" in i for i in r["issues"])
+
+
+def test_blocked_seq_counts_in_sequence_and_stats():
+    rpc = FakeRpc()
+    round_trip(rpc)
+    rpc.add(sig(6), memo_tx(sig(6), ENTRY_SLOT + 6000, [m.blocked(AGENT, 2, "ef" * 32, "size_cap")]))
+    r = run(rpc)
+    assert r["pass"], r["issues"]
+    stats = r["agents"][AGENT]["stats"]
+    assert stats["blocked"] == 1 and stats["blocked_by_reason"] == {"size_cap": 1}
+
+
+def test_exit_that_breaks_its_word_is_flagged():
+    """Reveal says 'tp' but the exit filled far below the committed take-profit."""
+    rpc = FakeRpc()
+    t = thesis()
+    canon = canonical_json(t)
+    dg = digest(canon, SALT)
+    rpc.add(sig(1), memo_tx(sig(1), ENTRY_SLOT - 20, [m.commit(AGENT, 1, dg, 0)]))
+    rpc.add(ENTRY_SIG, ENTRY_TX)
+    rpc.add(sig(2), memo_tx(sig(2), ENTRY_SLOT + 5, [m.open_(AGENT, 1, ENTRY_SIG)]))
+    rpc.add(sig(3), exit_tx(sig(3), ENTRY_SLOT + 5000, 8_226_769, 1_000_000))  # ~121.55, tp is 127.60
+    rpc.add(sig(4), memo_tx(sig(4), ENTRY_SLOT + 5010, [m.reveal(AGENT, 1, SALT.hex(), sig(3), "tp"),
+                                                       "oath1:t:1:" + canon.decode()]))
+    r = run(rpc)
+    assert not r["pass"]
+    assert any("did not honour" in i and "tp_honoured" in i for i in r["issues"])
+    assert r["agents"][AGENT]["stats"]["adherence_violations"] == 1
+
+
+def test_late_reveal_is_flagged():
+    rpc = FakeRpc()
+    t = thesis()  # horizon 60 min -> deadline = entry + 90 min
+    canon = canonical_json(t)
+    dg = digest(canon, SALT)
+    rpc.add(sig(1), memo_tx(sig(1), ENTRY_SLOT - 20, [m.commit(AGENT, 1, dg, 0)]))
+    rpc.add(ENTRY_SIG, ENTRY_TX)
+    rpc.add(sig(2), memo_tx(sig(2), ENTRY_SLOT + 5, [m.open_(AGENT, 1, ENTRY_SIG)]))
+    rpc.add(sig(3), exit_tx(sig(3), ENTRY_SLOT + 5000, 8_226_769, 1_010_000))
+    rpc.add(sig(4), memo_tx(sig(4), ENTRY_SLOT + 12_000, [m.reveal(AGENT, 1, SALT.hex(), sig(3), "manual"),
+                                                         "oath1:t:1:" + canon.decode()]))  # T0 + 100 min
+    r = verify(rpc, NOTARY, now=T0 + 7200)
+    assert any("late reveal" in i for i in r["issues"])
