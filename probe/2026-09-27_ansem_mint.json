@@ -1,0 +1,15 @@
+{
+  "source": "coingecko the-black-bull + solana getAccountInfo",
+  "mint": "9cRCn9rGT8V2imeM2BaKs13yhMEais3ruM3rPvTGpump",
+  "checked_at": "2026-09-27T14:04:11.620136Z",
+  "onchain": {
+    "owner_program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "type": "mint",
+    "decimals": 6,
+    "supply_raw": "997361935851319",
+    "mint_authority": null,
+    "freeze_authority": null
+  },
+  "clawpump_token_search": "PENDING (needs API key)",
+  "user_confirmed": false
+}

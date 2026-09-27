@@ -1,0 +1,26 @@
+# --- secrets: NEVER commit ---
+.env
+.env.*
+!.env.example
+*.key
+*keypair*.json
+notary.json
+escrow.json
+.oath/
+cpk_*
+# probe raw dumps may echo account identifiers; review before committing
+probe/raw/
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# --- ledger / local state ---
+*.db
+*.sqlite
+*.sqlite3

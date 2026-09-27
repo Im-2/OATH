@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-27T14:57:38.336112+00:00",
+  "registered_clawpump_tools": [
+    "mcp__clawpump_stdio__get_agent",
+    "mcp__clawpump_stdio__get_indicators",
+    "mcp__clawpump_stdio__get_market_signals",
+    "mcp__clawpump_stdio__get_news_feed",
+    "mcp__clawpump_stdio__get_portfolio",
+    "mcp__clawpump_stdio__get_price",
+    "mcp__clawpump_stdio__get_prompt",
+    "mcp__clawpump_stdio__get_wallet_history",
+    "mcp__clawpump_stdio__intelligence_capabilities",
+    "mcp__clawpump_stdio__intelligence_macro",
+    "mcp__clawpump_stdio__intelligence_market",
+    "mcp__clawpump_stdio__intelligence_signals",
+    "mcp__clawpump_stdio__list_agents",
+    "mcp__clawpump_stdio__list_prompts",
+    "mcp__clawpump_stdio__list_resources",
+    "mcp__clawpump_stdio__read_resource",
+    "mcp__clawpump_stdio__swap_quote",
+    "mcp__clawpump_stdio__token_search"
+  ],
+  "allowed_missing": [],
+  "unexpected_tools_exposed": [],
+  "remote_clawpump_tools_exposed": [],
+  "get_portfolio_via_hermes": {
+    "result": "{\n  \"agent_id\": \"2b9abb41-60e1-4b62-b1ec-ce772445003e\",\n  \"wallet_address\": \"9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY\",\n  \"sol_balance\": \"0.005935253\",\n  \"usdc_balance\": \"2.000176\",\n  \"sol_price_usd\": 121.73,\n  \"total_value_usd\": 2.72,\n  \"tokens\": [\n    {\n      \"mint\": \"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v\",\n      \"amount\": 2.000176,\n      \"decimals\": 6,\n      \"tokenProgram\": \"spl-token\",\n      \"priceUsd\": 0.9998735,\n      \"valueUsd\": 1.9999229777360001,\n      \"symbol\": \"USDC\",\n      \"name\": \"USD Coin\"\n    }\n  ],\n  \"total_token_accounts\": 1,\n  \"recent_transactions\": [\n    {\n      \"signature\": \"TdcMRQGHoguSeJDQZjHQbaUqzgXkWxpBmwskQB8c9doBcgiJ6S4KjcLZHA7vKrqYVFg4DXqaNgMFbCw7fbVPqrx\",\n      \"timestamp\": 1790520152,\n      \"date\": \"2026-09-27T14:42:32.000Z\",\n      \"status\": \"success\",\n      \"memo\": null\n    },\n    {\n      \"signature\": \"41Aq5MtCcpkBasgUASkWm6uvMTNVZBALFHXyed6PQrpRHyNH8ss5Q4vSfP92i4PbBwmbzFBDiXtzD1qnGkXCo5CL\",\n      \"timestamp\": 1790520100,\n      \"date\": \"2026-09-27T14:41:40.000Z\",\n      \"status\": \"success\",\n      \"memo\": null\n    }\n  ]\n}"
+  },
+  "pass": true
+}

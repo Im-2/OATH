@@ -1,0 +1,31 @@
+{
+  "request_lamports": 16336402,
+  "response": {
+    "status": "executed",
+    "venue": "jupiter",
+    "swapMode": "ExactIn",
+    "input": {
+      "token": "SOL",
+      "mint": "So11111111111111111111111111111111111111112",
+      "amount": "0.016336402",
+      "rawAmount": "16336402",
+      "decimals": 9
+    },
+    "output": {
+      "token": "USDC",
+      "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "amount": "1.986874",
+      "rawAmount": "1986874",
+      "decimals": 6
+    },
+    "slippageBps": 100,
+    "priceImpactPct": "0",
+    "route": [
+      "Byreal"
+    ],
+    "otherAmountThreshold": "1.967006",
+    "platformFee": null,
+    "txHash": "59Nh4B6icBSWznZkvd9cAYXuthx2oCRpbrtEtYL1XHRNmUZpHVAAJB1SsrgVfLrVwqMbHZjRaAenG9B4P59vYiK4",
+    "explorerUrl": "https://solscan.io/tx/59Nh4B6icBSWznZkvd9cAYXuthx2oCRpbrtEtYL1XHRNmUZpHVAAJB1SsrgVfLrVwqMbHZjRaAenG9B4P59vYiK4"
+  }
+}

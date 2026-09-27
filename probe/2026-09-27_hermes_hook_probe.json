@@ -1,0 +1,250 @@
+{
+  "date": "2026-09-27T14:00:16.142231+00:00",
+  "hermes_src": "C:\\Users\\hp\\.hermes\\hermes-agent",
+  "real_server_tool_names": {
+    "clawpump": "mcp__clawpump__swap_execute",
+    "clawpump-stdio": "mcp__clawpump_stdio__swap_execute",
+    "clawpump-agents": "mcp__clawpump_agents__swap_execute"
+  },
+  "registered_mcp_tool_names": [
+    "mcp__clawpump__accept_marketplace_bid",
+    "mcp__clawpump__add_to_whitelist",
+    "mcp__clawpump__agent_card_balance",
+    "mcp__clawpump__agent_card_cancel",
+    "mcp__clawpump__agent_card_connect",
+    "mcp__clawpump__agent_card_connect_link",
+    "mcp__clawpump__agent_card_create",
+    "mcp__clawpump__agent_card_data",
+    "mcp__clawpump__agent_card_get",
+    "mcp__clawpump__agent_card_list",
+    "mcp__clawpump__agent_card_quote",
+    "mcp__clawpump__agent_card_refresh",
+    "mcp__clawpump__agent_card_reveal",
+    "mcp__clawpump__agent_card_search_gift_cards",
+    "mcp__clawpump__agent_card_search_merchants",
+    "mcp__clawpump__agent_card_status",
+    "mcp__clawpump__agent_card_withdraw",
+    "mcp__clawpump__agent_card_withdrawals",
+    "mcp__clawpump__agent_mail_create",
+    "mcp__clawpump__agent_mail_get_address",
+    "mcp__clawpump__agent_mail_list",
+    "mcp__clawpump__agent_mail_read",
+    "mcp__clawpump__agent_mail_send",
+    "mcp__clawpump__arbitrage_prices",
+    "mcp__clawpump__arbitrage_quote",
+    "mcp__clawpump__browse_marketplace",
+    "mcp__clawpump__browse_public_agents",
+    "mcp__clawpump__cancel_agent_run",
+    "mcp__clawpump__chat_with_agent",
+    "mcp__clawpump__configure_twitter_posting",
+    "mcp__clawpump__connect_twitter",
+    "mcp__clawpump__create_agent",
+    "mcp__clawpump__create_agent_run",
+    "mcp__clawpump__create_automation",
+    "mcp__clawpump__create_custom_skill",
+    "mcp__clawpump__create_marketplace_listing",
+    "mcp__clawpump__dca_cancel",
+    "mcp__clawpump__dca_create",
+    "mcp__clawpump__dca_list",
+    "mcp__clawpump__delete_agent",
+    "mcp__clawpump__delete_automation",
+    "mcp__clawpump__delete_custom_skill",
+    "mcp__clawpump__delist_marketplace_listing",
+    "mcp__clawpump__dexter_search",
+    "mcp__clawpump__generate_link_code",
+    "mcp__clawpump__get_account_status",
+    "mcp__clawpump__get_agent",
+    "mcp__clawpump__get_agent_asset_url",
+    "mcp__clawpump__get_agent_run_steps",
+    "mcp__clawpump__get_automation",
+    "mcp__clawpump__get_balance",
+    "mcp__clawpump__get_balance_history",
+    "mcp__clawpump__get_budget",
+    "mcp__clawpump__get_chat_history",
+    "mcp__clawpump__get_custom_skill",
+    "mcp__clawpump__get_dashboard_urls",
+    "mcp__clawpump__get_free_tier_status",
+    "mcp__clawpump__get_indicators",
+    "mcp__clawpump__get_launch_status",
+    "mcp__clawpump__get_linked_accounts",
+    "mcp__clawpump__get_market_signals",
+    "mcp__clawpump__get_marketplace_history",
+    "mcp__clawpump__get_model_catalog",
+    "mcp__clawpump__get_my_bids",
+    "mcp__clawpump__get_news_feed",
+    "mcp__clawpump__get_portfolio",
+    "mcp__clawpump__get_price",
+    "mcp__clawpump__get_private_wallet_balance",
+    "mcp__clawpump__get_prompt",
+    "mcp__clawpump__get_received_bids",
+    "mcp__clawpump__get_transactions",
+    "mcp__clawpump__get_usage",
+    "mcp__clawpump__get_usage_history",
+    "mcp__clawpump__get_wallet_history",
+    "mcp__clawpump__get_wallet_summaries",
+    "mcp__clawpump__get_whitelist",
+    "mcp__clawpump__intelligence_capabilities",
+    "mcp__clawpump__intelligence_macro",
+    "mcp__clawpump__intelligence_market",
+    "mcp__clawpump__intelligence_perps",
+    "mcp__clawpump__intelligence_signals",
+    "mcp__clawpump__launch_metaplex_genesis_token",
+    "mcp__clawpump__launch_token_gasless",
+    "mcp__clawpump__limit_order_cancel",
+    "mcp__clawpump__limit_order_create",
+    "mcp__clawpump__limit_order_history",
+    "mcp__clawpump__link_google_account",
+    "mcp__clawpump__list_agent_runs",
+    "mcp__clawpump__list_agents",
+    "mcp__clawpump__list_automations",
+    "mcp__clawpump__list_available_skills",
+    "mcp__clawpump__list_custom_skills",
+    "mcp__clawpump__list_integrations",
+    "mcp__clawpump__list_prompts",
+    "mcp__clawpump__list_resources",
+    "mcp__clawpump__pay_sh_execute_approved",
+    "mcp__clawpump__pay_sh_prepare_call",
+    "mcp__clawpump__pay_sh_provider_details",
+    "mcp__clawpump__pay_sh_search",
+    "mcp__clawpump__perps_account",
+    "mcp__clawpump__perps_account_prepare",
+    "mcp__clawpump__perps_collateral_deposit",
+    "mcp__clawpump__perps_collateral_withdraw",
+    "mcp__clawpump__perps_market_data",
+    "mcp__clawpump__perps_markets",
+    "mcp__clawpump__perps_order_cancel",
+    "mcp__clawpump__perps_order_execute",
+    "mcp__clawpump__perps_order_preview",
+    "mcp__clawpump__perps_trader_register",
+    "mcp__clawpump__place_bid",
+    "mcp__clawpump__predictions_close",
+    "mcp__clawpump__predictions_events",
+    "mcp__clawpump__predictions_open",
+    "mcp__clawpump__predictions_positions",
+    "mcp__clawpump__read_resource",
+    "mcp__clawpump__reject_marketplace_bid",
+    "mcp__clawpump__remove_from_whitelist",
+    "mcp__clawpump__remove_integration",
+    "mcp__clawpump__save_integration",
+    "mcp__clawpump__set_external_wallet",
+    "mcp__clawpump__swap_execute",
+    "mcp__clawpump__swap_quote",
+    "mcp__clawpump__sync_billing",
+    "mcp__clawpump__token_search",
+    "mcp__clawpump__trigger_automation",
+    "mcp__clawpump__update_agent",
+    "mcp__clawpump__update_agent_run",
+    "mcp__clawpump__update_automation",
+    "mcp__clawpump__update_custom_skill",
+    "mcp__clawpump__upload_agent_avatar",
+    "mcp__clawpump__usepod_deposit",
+    "mcp__clawpump__usepod_provision",
+    "mcp__clawpump__wallet_transfer",
+    "mcp__clawpump__withdraw_marketplace_bid",
+    "mcp__clawpump__x402_pay",
+    "mcp__clawpump__x402_pay_check",
+    "mcp__stubcp__get_price",
+    "mcp__stubcp__get_prompt",
+    "mcp__stubcp__list_prompts",
+    "mcp__stubcp__list_resources",
+    "mcp__stubcp__read_resource",
+    "mcp__stubcp__swap_execute",
+    "mcp__stubcp_stdio__get_price",
+    "mcp__stubcp_stdio__get_prompt",
+    "mcp__stubcp_stdio__list_prompts",
+    "mcp__stubcp_stdio__list_resources",
+    "mcp__stubcp_stdio__read_resource"
+  ],
+  "cases": [
+    {
+      "label": "direct get_price on 'stubcp' (hook should pass)",
+      "call": "mcp__stubcp__get_price",
+      "result": "{\"result\": \"{\\\"stub\\\": \\\"price\\\", \\\"tokens\\\": \\\"SOL\\\"}\", \"structuredContent\": {\"result\": \"{\\\"stub\\\": \\\"price\\\", \\\"tokens\\\": \\\"SOL\\\"}\"}}",
+      "hook_calls_during": [
+        {
+          "tool_name": "mcp__stubcp__get_price",
+          "kwargs_keys": [
+            "api_request_id",
+            "middleware_trace",
+            "session_id",
+            "telemetry_schema_version",
+            "tool_call_id",
+            "turn_id"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "direct swap_execute on 'stubcp' (hook should block)",
+      "call": "mcp__stubcp__swap_execute",
+      "result": "{\"error\": \"PoT probe: blocked mcp__stubcp__swap_execute\"}",
+      "hook_calls_during": [
+        {
+          "tool_name": "mcp__stubcp__swap_execute",
+          "kwargs_keys": [
+            "api_request_id",
+            "middleware_trace",
+            "session_id",
+            "telemetry_schema_version",
+            "tool_call_id",
+            "turn_id"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "direct swap_execute on 'stubcp-stdio' (excluded by tools.include)",
+      "call": "mcp__stubcp_stdio__swap_execute",
+      "result": "{\"error\": \"PoT probe: blocked mcp__stubcp_stdio__swap_execute\"}",
+      "hook_calls_during": [
+        {
+          "tool_name": "mcp__stubcp_stdio__swap_execute",
+          "kwargs_keys": [
+            "api_request_id",
+            "middleware_trace",
+            "session_id",
+            "telemetry_schema_version",
+            "tool_call_id",
+            "turn_id"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "plugin tool -> ctx.call_mcp('stubcp', swap_execute)",
+      "call": "potprobe_call_mcp",
+      "result": "{\"ok\": true, \"result\": \"{\\\"stub\\\": \\\"STUB_SWAP_EXECUTED\\\"}\", \"structuredContent\": {\"result\": \"{\\\"stub\\\": \\\"STUB_SWAP_EXECUTED\\\"}\"}}",
+      "hook_calls_during": [
+        {
+          "tool_name": "potprobe_call_mcp",
+          "kwargs_keys": [
+            "api_request_id",
+            "middleware_trace",
+            "session_id",
+            "telemetry_schema_version",
+            "tool_call_id",
+            "turn_id"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "plugin tool -> ctx.call_mcp('stubcp-stdio', swap_execute) [excluded tool]",
+      "call": "potprobe_call_mcp",
+      "result": "{\"ok\": true, \"result\": \"{\\\"stub\\\": \\\"STUB_SWAP_EXECUTED\\\"}\", \"structuredContent\": {\"result\": \"{\\\"stub\\\": \\\"STUB_SWAP_EXECUTED\\\"}\"}}",
+      "hook_calls_during": [
+        {
+          "tool_name": "potprobe_call_mcp",
+          "kwargs_keys": [
+            "api_request_id",
+            "middleware_trace",
+            "session_id",
+            "telemetry_schema_version",
+            "tool_call_id",
+            "turn_id"
+          ]
+        }
+      ]
+    }
+  ]
+}

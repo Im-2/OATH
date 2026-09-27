@@ -1,0 +1,14 @@
+{
+  "lamports": 668240,
+  "amount_ui": "0.000668240",
+  "response": {
+    "ok": true,
+    "status": "sent",
+    "from": "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY",
+    "to": "FhpJ6i5oaBiCpNJasksf2qBgFmTv6ikgSUuqDzSBiUod",
+    "amount": 0.00066824,
+    "token": "SOL",
+    "txHash": "F6CRmi7YrYZ7yT1hqmMUbGtBTmGphwx9szcHZGDYxxuHXaTE8VSSLcWRZKKJe3D7s4SDEBRd5CXcjtE9rkL3rss",
+    "explorerUrl": "https://solscan.io/tx/F6CRmi7YrYZ7yT1hqmMUbGtBTmGphwx9szcHZGDYxxuHXaTE8VSSLcWRZKKJe3D7s4SDEBRd5CXcjtE9rkL3rss"
+  }
+}

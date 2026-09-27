@@ -1,0 +1,104 @@
+{
+  "notary": "FhpJ6i5oaBiCpNJasksf2qBgFmTv6ikgSUuqDzSBiUod",
+  "checked_at": "2026-09-27T15:58:09.040852+00:00",
+  "notary_txs_with_oath1_memos": 3,
+  "agents": {
+    "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY": {
+      "positions": [
+        {
+          "seq": 1,
+          "problems": [],
+          "commit_sig": "2SvrPsYgAsxd7j2ReDXr2R5LEhhYWXQx3Li8EMLoj2RgxYv3JoLZKWUjyZH4NvVVpmCMQfvq18H5QBdjXmgapUVa",
+          "commit_slot": 451042990,
+          "digest": "3521654f00bb48c89d51e7fdbc39d3098abe55db1dab90e73700f98e11318aea",
+          "open_sig": "4JgizB91GBYESGAzzESR3Nr8UeuwxGcxggaMxqL43hVjwcE4phREw5nNccD9JR1ptKovNCV3XZZ4TjmNLiq3Wgvb",
+          "swap_sig": "64bkWuoQvgtJkoX277JWQBzZBU8PLFPVBAHybhWEbGfJwfE3Pe3W5TorcMwC2XQitHtQZu76CSH2gNnzytNiJdyn",
+          "swap_slot": 451043006,
+          "reveal_sig": "5DE7tDbeErioA4R3AmHxTYUjvDStMmDQfNZAV4iMmw8ajG7W4tZj8dDrLrpvFQsM5WPxdAWeSfT9KkvyzJpwa6S4",
+          "exit_sig": "3NxW74i2HFQkcfpyNcvmbKaAc8sW4vc1UdsmGYZsjhzXkkZvbJh3YsCTkEajXw3pgWEeG32dSWAmXW8YroMMULe3",
+          "exit_reason": "manual",
+          "digest_ok": true,
+          "thesis": {
+            "agent": "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY",
+            "conf": "0.55",
+            "entry": "121.619702",
+            "horizon_min": "60",
+            "in_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "mkt": "SOL/USDC",
+            "out_mint": "So11111111111111111111111111111111111111112",
+            "seq": "1",
+            "side": "long",
+            "size_usd": "1.00",
+            "stop": "117.971111",
+            "strat": "manual_test",
+            "tp": "127.700687",
+            "ts": "2026-09-27T15:54:05Z",
+            "v": "1",
+            "why": "PHASE1_ROUNDTRIP: manual commit-swap-reveal verification"
+          },
+          "exit_slot": 451043348,
+          "entry_fill": {
+            "sig": "64bkWuoQvgtJkoX277JWQBzZBU8PLFPVBAHybhWEbGfJwfE3Pe3W5TorcMwC2XQitHtQZu76CSH2gNnzytNiJdyn",
+            "slot": 451043006,
+            "block_time": 1790524450,
+            "in_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "out_mint": "So11111111111111111111111111111111111111112",
+            "in_raw": 1000000,
+            "out_raw": 8221741,
+            "fee_lamports": 56334,
+            "agent_paid_fee": true
+          },
+          "exit_fill": {
+            "sig": "3NxW74i2HFQkcfpyNcvmbKaAc8sW4vc1UdsmGYZsjhzXkkZvbJh3YsCTkEajXw3pgWEeG32dSWAmXW8YroMMULe3",
+            "slot": 451043348,
+            "block_time": 1790524541,
+            "in_mint": "So11111111111111111111111111111111111111112",
+            "out_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "in_raw": 8221741,
+            "out_raw": 1000948,
+            "fee_lamports": 5000,
+            "agent_paid_fee": true
+          },
+          "grade": {
+            "seq": 1,
+            "entry_usdc": "1.000000",
+            "qty": "0.008221741",
+            "entry_px": "121.628740",
+            "committed_entry": "121.619702",
+            "committed_stop": "117.971111",
+            "committed_tp": "127.700687",
+            "size_ok": true,
+            "exit_reason": "manual",
+            "closed": true,
+            "exit_usdc": "1.000948",
+            "sold_qty": "0.008221741",
+            "exit_px": "121.744044",
+            "qty_match": true,
+            "fees_lamports": 61334,
+            "fees_usd": "0.007467",
+            "gross_pnl_usd": "0.000948",
+            "pnl_usd": "-0.006519",
+            "r_multiple": "-0.22",
+            "volume_usd": "2.000948"
+          },
+          "status": "revealed"
+        }
+      ],
+      "gaps": [],
+      "stats": {
+        "committed": 1,
+        "open": 0,
+        "closed": 1,
+        "revealed": 1,
+        "unrevealed": 0,
+        "completeness": "1",
+        "realised_pnl_usd": "-0.006519",
+        "win_rate": "0",
+        "volume_usd": "2.000948"
+      },
+      "uncommitted_trades": []
+    }
+  },
+  "issues": [],
+  "pass": true
+}

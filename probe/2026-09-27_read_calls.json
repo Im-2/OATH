@@ -1,0 +1,5848 @@
+{
+  "get_account_status": {
+    "args": {},
+    "is_error": false,
+    "data": {
+      "authenticated": true,
+      "auth_method": "api_key_direct",
+      "note": "account profile (user id, handles, linked accounts, deposit wallet) removed before commit"
+    }
+  },
+  "list_agents": {
+    "args": {},
+    "is_error": false,
+    "data": [
+      {
+        "id": "2b9abb41-60e1-4b62-b1ec-ce772445003e",
+        "name": "OATH",
+        "status": "stopped",
+        "model": "moonshotai/kimi-k2.5",
+        "skills": [
+          "defi-trading",
+          "market-intel",
+          "portfolio",
+          "wallet-ops",
+          "token-launch",
+          "action-plans",
+          "web-browsing",
+          "private-transfers",
+          "bitget-intel",
+          "self-learning",
+          "skill-management"
+        ],
+        "wallet": "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY",
+        "token_mint": null,
+        "is_public": true,
+        "created_at": "2026-09-27T14:22:30.592536+00:00",
+        "dashboard_url": "https://agents.clawpump.tech/dashboard?agent=2b9abb41-60e1-4b62-b1ec-ce772445003e"
+      }
+    ]
+  },
+  "get_portfolio": {
+    "args": {},
+    "is_error": false,
+    "data": {
+      "agent_id": "2b9abb41-60e1-4b62-b1ec-ce772445003e",
+      "wallet_address": "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY",
+      "sol_balance": "0.005935253",
+      "usdc_balance": "2.000176",
+      "sol_price_usd": 121.76,
+      "total_value_usd": 2.72,
+      "tokens": [
+        {
+          "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+          "amount": 2.000176,
+          "decimals": 6,
+          "tokenProgram": "spl-token",
+          "priceUsd": 0.9998913023522077,
+          "valueUsd": 1.9999585855736295,
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      ],
+      "total_token_accounts": 1,
+      "recent_transactions": [
+        {
+          "signature": "TdcMRQGHoguSeJDQZjHQbaUqzgXkWxpBmwskQB8c9doBcgiJ6S4KjcLZHA7vKrqYVFg4DXqaNgMFbCw7fbVPqrx",
+          "timestamp": 1790520152,
+          "date": "2026-09-27T14:42:32.000Z",
+          "status": "success",
+          "memo": null
+        },
+        {
+          "signature": "41Aq5MtCcpkBasgUASkWm6uvMTNVZBALFHXyed6PQrpRHyNH8ss5Q4vSfP92i4PbBwmbzFBDiXtzD1qnGkXCo5CL",
+          "timestamp": 1790520100,
+          "date": "2026-09-27T14:41:40.000Z",
+          "status": "success",
+          "memo": null
+        }
+      ]
+    }
+  },
+  "get_price": {
+    "args": {
+      "tokens": "SOL,USDC"
+    },
+    "is_error": false,
+    "data": {
+      "prices": {
+        "So11111111111111111111111111111111111111112": {
+          "usd": 121.7908281387302,
+          "change24h": 0.6533843489301521,
+          "liquidity": 7268102688.124857,
+          "updateUnixTime": 1790520878,
+          "updatedAt": "2026-09-27T14:54:38",
+          "source": "birdeye"
+        },
+        "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": {
+          "usd": 0.9998913023522077,
+          "change24h": -0.0008008454163546074,
+          "liquidity": 1320069268.3699238,
+          "updateUnixTime": 1790520878,
+          "updatedAt": "2026-09-27T14:54:38",
+          "source": "birdeye"
+        },
+        "SOL": {
+          "usd": 121.7908281387302,
+          "change24h": 0.6533843489301521,
+          "liquidity": 7268102688.124857,
+          "updateUnixTime": 1790520878,
+          "updatedAt": "2026-09-27T14:54:38",
+          "source": "birdeye"
+        },
+        "USDC": {
+          "usd": 0.9998913023522077,
+          "change24h": -0.0008008454163546074,
+          "liquidity": 1320069268.3699238,
+          "updateUnixTime": 1790520878,
+          "updatedAt": "2026-09-27T14:54:38",
+          "source": "birdeye"
+        }
+      }
+    }
+  },
+  "swap_quote": {
+    "args": {
+      "input_mint": "USDC",
+      "output_mint": "SOL",
+      "amount": "1000000"
+    },
+    "is_error": false,
+    "data": {
+      "status": "quoted",
+      "venue": "jupiter",
+      "swapMode": "ExactIn",
+      "input": {
+        "token": "USDC",
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "amount": "1",
+        "rawAmount": "1000000",
+        "decimals": 6
+      },
+      "output": {
+        "token": "SOL",
+        "mint": "So11111111111111111111111111111111111111112",
+        "amount": "0.008210794",
+        "rawAmount": "8210794",
+        "decimals": 9
+      },
+      "slippageBps": 50,
+      "priceImpactPct": "0",
+      "route": [
+        "Byreal"
+      ],
+      "otherAmountThreshold": "0.008169741",
+      "platformFee": null
+    }
+  },
+  "get_wallet_history": {
+    "args": {},
+    "is_error": false,
+    "data": [
+      {
+        "signature": "TdcMRQGHoguSeJDQZjHQbaUqzgXkWxpBmwskQB8c9doBcgiJ6S4KjcLZHA7vKrqYVFg4DXqaNgMFbCw7fbVPqrx",
+        "timestamp": 1790520152,
+        "date": "2026-09-27T14:42:32.000Z",
+        "status": "success",
+        "memo": null
+      },
+      {
+        "signature": "41Aq5MtCcpkBasgUASkWm6uvMTNVZBALFHXyed6PQrpRHyNH8ss5Q4vSfP92i4PbBwmbzFBDiXtzD1qnGkXCo5CL",
+        "timestamp": 1790520100,
+        "date": "2026-09-27T14:41:40.000Z",
+        "status": "success",
+        "memo": null
+      }
+    ]
+  },
+  "perps_account": {
+    "args": {},
+    "is_error": true,
+    "text": "Access denied: Phoenix perps requires the perps-trading skill to be enabled on this agent. Check your API key tier at https://agents.clawpump.tech/dashboard/api"
+  },
+  "perps_markets": {
+    "args": {},
+    "is_error": false,
+    "data": {
+      "status": "ok",
+      "venue": "phoenix",
+      "apiBaseUrl": "https://perp-api.phoenix.trade",
+      "count": 90,
+      "markets": [
+        {
+          "symbol": "SUI",
+          "perpSymbol": "SUI-PERP",
+          "assetId": 9,
+          "status": "active",
+          "category": "crypto",
+          "logoUri": "https://phoenixcdn.trade/logos/SUI/8ac5aa06896f0499f11335eb9296f8441ac14863e49e1f85d505cf8c4d2a0237.svg",
+          "marketPubkey": "GQS3qn9EjKYpqoLwpvPVbeW9o1bjFYhc1SRMZYw4iNru",
+          "splinePubkey": "7PNzQtPd1EjVEs9ixAqPb9ynRcNiK27tJ8qpTwjJYYme",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "1394662",
+          "maxLiquidationSizeBaseLots": "51380",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 2925,
+            "maxRatePerIntervalPercentage": 0.23498128183293432
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "AAVE",
+          "perpSymbol": "AAVE-PERP",
+          "assetId": 8,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Aave",
+          "logoUri": "https://phoenixcdn.trade/logos/AAVE/e4494a3c1024b4b9db079eb17b8de52867330cac87d5de3631561dce30551d9c.svg",
+          "marketPubkey": "A6CdPuNY3mp4tsY1ifQoesHKfwYdVv3wqcaKirEGtaMS",
+          "splinePubkey": "6LpsZSmcVU48zpbyFqJhNvVVGDF4keiQYM89ChJtuJLS",
+          "tickSize": 100,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "1646091",
+          "maxLiquidationSizeBaseLots": "45000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 3308,
+            "maxRatePerIntervalPercentage": 0.21557510589768658
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "TSM",
+          "perpSymbol": "TSM-PERP",
+          "assetId": 57,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "TSMC",
+          "logoUri": "https://phoenixcdn.trade/logos/TSM/6b3e11fca21922209fc0c2a01a77c57749b8e38fc09f360434b299e8d91285eb.svg",
+          "marketPubkey": "D4pD7YcXo1Nd6DkAYiDQ6Sky9j6S1yJQJ2exd7R9imXZ",
+          "splinePubkey": "DGer2cL44GcLPt8hxvz1tgdbzbvV6dF2A98eKHdM4YTf",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "7770000",
+          "maxLiquidationSizeBaseLots": "780000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 991,
+            "maxRatePerIntervalPercentage": 0.21895713654441004
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 45120,
+              "decimals": 3,
+              "ui": "45.120"
+            },
+            "lastKnownIndexPrice": {
+              "value": 451260,
+              "decimals": 3,
+              "ui": "451.260"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 406140,
+                "decimals": 3,
+                "ui": "406.140"
+              },
+              "max": {
+                "value": 496380,
+                "decimals": 3,
+                "ui": "496.380"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 406140,
+                "decimals": 3,
+                "ui": "406.140"
+              },
+              "max": {
+                "value": 496380,
+                "decimals": 3,
+                "ui": "496.380"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "WTIOIL",
+          "perpSymbol": "WTIOIL-PERP",
+          "assetId": 21,
+          "status": "active",
+          "category": "commodities",
+          "displayName": "West Texas Intermediate",
+          "logoUri": "https://phoenixcdn.trade/logos/WTIOIL/58e7eaad2fb378e88e1343303e5f47b367a11ee7ad9acf29af4eaa3001a2014b.svg",
+          "marketPubkey": "aYRsjCr1JEcdPWYeztgRWz8zDTs2mzhQ1hTxNWCmXND",
+          "splinePubkey": "8YutMhx5dJP7mdFCb9XzktmewafUbLmyDdRqZmv2R42U",
+          "tickSize": 100,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": true,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "3263353",
+          "maxLiquidationSizeBaseLots": "85000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 2094,
+            "maxRatePerIntervalPercentage": 0.22217506631299735
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 0,
+            "upnlForWithdrawalsBps": 0,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 46200,
+              "decimals": 4,
+              "ui": "4.6200"
+            },
+            "lastKnownIndexPrice": {
+              "value": 924600,
+              "decimals": 4,
+              "ui": "92.4600"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 878400,
+                "decimals": 4,
+                "ui": "87.8400"
+              },
+              "max": {
+                "value": 970800,
+                "decimals": 4,
+                "ui": "97.0800"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 878400,
+                "decimals": 4,
+                "ui": "87.8400"
+              },
+              "max": {
+                "value": 970800,
+                "decimals": 4,
+                "ui": "97.0800"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790546700
+          }
+        },
+        {
+          "symbol": "SPY",
+          "perpSymbol": "SPY-PERP",
+          "assetId": 78,
+          "status": "active",
+          "category": "stocks",
+          "logoUri": "https://phoenixcdn.trade/logos/SPY/fde6d99e1a0e6390ca20a0b088f74c5d2f870689fc13589d03f21a1cb97829bc.svg",
+          "marketPubkey": "FbkK74mnwf51gyccTJxDLWQNw9yN3Ff8jsUXUCEw4LPZ",
+          "splinePubkey": "57RbXMGfTw9cLu4rYLbiGzymPee2G1s46cEwG9Grw7Fk",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "3920000",
+          "maxLiquidationSizeBaseLots": "390000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 1750,
+            "maxRatePerIntervalPercentage": 0.22718126468564606
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 38610,
+              "decimals": 3,
+              "ui": "38.610"
+            },
+            "lastKnownIndexPrice": {
+              "value": 772310,
+              "decimals": 3,
+              "ui": "772.310"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 733700,
+                "decimals": 3,
+                "ui": "733.700"
+              },
+              "max": {
+                "value": 810920,
+                "decimals": 3,
+                "ui": "810.920"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 733700,
+                "decimals": 3,
+                "ui": "733.700"
+              },
+              "max": {
+                "value": 810920,
+                "decimals": 3,
+                "ui": "810.920"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "DOGE",
+          "perpSymbol": "DOGE-PERP",
+          "assetId": 7,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Dogecoin",
+          "logoUri": "https://phoenixcdn.trade/logos/DOGE/777475ca158957c3403af89a4600aaaa5cf05eb59386fb02941c984c4ac1d764.svg",
+          "marketPubkey": "Hqt5Vom5L3X3RcKysKnBmLAvjYgo6TGAwoheW658h5cz",
+          "splinePubkey": "Fg5UGzY7pJ39zKCsJkcMnvX4kxroZb2waKDusM4RwihS",
+          "tickSize": 1,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "12241101",
+          "maxLiquidationSizeBaseLots": "539170",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 214,
+            "maxRatePerIntervalPercentage": 0.22107666401512413
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "TAO",
+          "perpSymbol": "TAO-PERP",
+          "assetId": 11,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Bittensor",
+          "logoUri": "https://phoenixcdn.trade/logos/TAO/c7fbb8829cc8a7ddb54b2c4cfc102d9241c16acc3f7affdff8f50bc3ef32200a.svg",
+          "marketPubkey": "CoshgxCZygQnS5jJLi24DkuJN4hddRNdPVSmTWrURbHu",
+          "splinePubkey": "6E5o1ZzEwxW7xWwR6YPbYEL53bDpYTtqoQfXLLxXss7j",
+          "tickSize": 100,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "5178664",
+          "maxLiquidationSizeBaseLots": "150000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 719,
+            "maxRatePerIntervalPercentage": 0.2215033887861984
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "HOOD",
+          "perpSymbol": "HOOD-PERP",
+          "assetId": 53,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Robinhood",
+          "logoUri": "https://phoenixcdn.trade/logos/HOOD/ce38b0b6d7c4e92cd9bd5a099c03cf7a82a8274286f12968c600159f81cda22c.svg",
+          "marketPubkey": "9qQELE9sXDhyVHSzgJfgXHbWfMF77AMgZoAYTxgZZkTr",
+          "splinePubkey": "4y3p41FDQsZu3H2RS42f8ditYuCDCUPs5iVcNuTaPyAK",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "26230000",
+          "maxLiquidationSizeBaseLots": "2620000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 261,
+            "maxRatePerIntervalPercentage": 0.2187395239691586
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 11900,
+              "decimals": 3,
+              "ui": "11.900"
+            },
+            "lastKnownIndexPrice": {
+              "value": 119010,
+              "decimals": 3,
+              "ui": "119.010"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 107110,
+                "decimals": 3,
+                "ui": "107.110"
+              },
+              "max": {
+                "value": 130910,
+                "decimals": 3,
+                "ui": "130.910"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 107110,
+                "decimals": 3,
+                "ui": "107.110"
+              },
+              "max": {
+                "value": 130910,
+                "decimals": 3,
+                "ui": "130.910"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "QQQ",
+          "perpSymbol": "QQQ-PERP",
+          "assetId": 79,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "QQQ",
+          "logoUri": "https://phoenixcdn.trade/logos/QQQ/f4a5b4182a4e0e6b5d0c8da0d35ac682f3c49b3ef50da92eaac93dfb7b1a4821.svg",
+          "marketPubkey": "95i7EhCz9oW816FkDYjqoFwE1zbZqXuXPqzfWAESAzSm",
+          "splinePubkey": "AXmyQtcmdBD2ENPt7ZTNX28tDuDRtxXfZscbjytPfETc",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "4180000",
+          "maxLiquidationSizeBaseLots": "420000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 1640,
+            "maxRatePerIntervalPercentage": 0.22022290855378004
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 37280,
+              "decimals": 3,
+              "ui": "37.280"
+            },
+            "lastKnownIndexPrice": {
+              "value": 745760,
+              "decimals": 3,
+              "ui": "745.760"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 708480,
+                "decimals": 3,
+                "ui": "708.480"
+              },
+              "max": {
+                "value": 783040,
+                "decimals": 3,
+                "ui": "783.040"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 708480,
+                "decimals": 3,
+                "ui": "708.480"
+              },
+              "max": {
+                "value": 783040,
+                "decimals": 3,
+                "ui": "783.040"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "LTC",
+          "perpSymbol": "LTC-PERP",
+          "assetId": 86,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Litecoin",
+          "logoUri": "https://phoenixcdn.trade/logos/LTC/0ab4d0989714f6b293cfc517ceed21b81745f4b998ede5900424b768ab677a6b.svg",
+          "marketPubkey": "HFYNBdwXP1BrnD7eLx7B3NGHi3VqEHdTkQH9FhEUFa8n",
+          "splinePubkey": "DgLtAFyYDJJzdKDSA6Eg4m5MWiixEsGXHd2qyLWbBBWk",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "1601000",
+          "maxLiquidationSizeBaseLots": "160000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 1591,
+            "maxRatePerIntervalPercentage": 0.22484454494064438
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "PLTR",
+          "perpSymbol": "PLTR-PERP",
+          "assetId": 64,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Palantir",
+          "logoUri": "https://phoenixcdn.trade/logos/PLTR/bc39194d3667b02ead8e1c92eec2d6d22c3cd8552fdb12db6630b777936d392f.svg",
+          "marketPubkey": "DqX6VGx2mo7EZsbEhgFeoXNJBReyJphA9QMj8pN9sh55",
+          "splinePubkey": "2JxbRJ4Tct9gsPanfBQByDGGWGp1zEgwhZUvoFPyVj89",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "17030000",
+          "maxLiquidationSizeBaseLots": "1700000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 400,
+            "maxRatePerIntervalPercentage": 0.2096326188354908
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 18960,
+              "decimals": 3,
+              "ui": "18.960"
+            },
+            "lastKnownIndexPrice": {
+              "value": 189630,
+              "decimals": 3,
+              "ui": "189.630"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 170670,
+                "decimals": 3,
+                "ui": "170.670"
+              },
+              "max": {
+                "value": 208590,
+                "decimals": 3,
+                "ui": "208.590"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 170670,
+                "decimals": 3,
+                "ui": "170.670"
+              },
+              "max": {
+                "value": 208590,
+                "decimals": 3,
+                "ui": "208.590"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "SILVER",
+          "perpSymbol": "SILVER-PERP",
+          "assetId": 131099,
+          "status": "active",
+          "category": "commodities",
+          "displayName": "Silver",
+          "logoUri": "https://phoenixcdn.trade/logos/SILVER/01a1947bef573f548442fc315a6ae3f2bd4b77b94795d024b0278908310d30cc.svg",
+          "marketPubkey": "GD4XZsTfAbjromE1zac61AUAhyfXhwFa8soBmUo59WqB",
+          "splinePubkey": "AzLaPv4LcFAMBz1zNaSuFq1nY5tN74tRM8KmSPdwkVWS",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": true,
+          "maxLeverage": 25,
+          "openInterestCapBaseLots": "4422040",
+          "maxLiquidationSizeBaseLots": "56000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1534,
+            "maxRatePerIntervalPercentage": 0.23944057690506665
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 0,
+            "upnlForWithdrawalsBps": 0,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 25720,
+              "decimals": 4,
+              "ui": "2.5720"
+            },
+            "lastKnownIndexPrice": {
+              "value": 643170,
+              "decimals": 4,
+              "ui": "64.3170"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 617450,
+                "decimals": 4,
+                "ui": "61.7450"
+              },
+              "max": {
+                "value": 668890,
+                "decimals": 4,
+                "ui": "66.8890"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 617450,
+                "decimals": 4,
+                "ui": "61.7450"
+              },
+              "max": {
+                "value": 668890,
+                "decimals": 4,
+                "ui": "66.8890"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790546700
+          }
+        },
+        {
+          "symbol": "BNB",
+          "perpSymbol": "BNB-PERP",
+          "assetId": 6,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "BNB",
+          "logoUri": "https://phoenixcdn.trade/logos/BNB/86a22a9edf0d5b0f8c7af5280525f37120e0c895f2798927179d543ddc30bdb0.svg",
+          "marketPubkey": "4Xd7E3eBXazSoudAMACsNdezA4UuJETURL1S6fqpjcTR",
+          "splinePubkey": "AftmFSqv3xKC1cNjepN72RuHKWLmwrke5V8f8Va7Ss4W",
+          "tickSize": 100,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "174083",
+          "maxLiquidationSizeBaseLots": "8000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 16941,
+            "maxRatePerIntervalPercentage": 0.21772545592412187
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "XRP",
+          "perpSymbol": "XRP-PERP",
+          "assetId": 3,
+          "status": "active",
+          "category": "crypto",
+          "logoUri": "https://phoenixcdn.trade/logos/XRP/27fd1eb1dd77447c1a9bfb743d1d584060e76dab3e050d4483613e4b3164688b.svg",
+          "marketPubkey": "CwaHtR69D287PLnoX8zzzk1zqwNQKVJiJQTNs6JrVyna",
+          "splinePubkey": "DTX3dsRdJfx2bUWWKgGAKv3UGfRFHB2NGX7a5DmG81Em",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 15,
+          "openInterestCapBaseLots": "91491309",
+          "maxLiquidationSizeBaseLots": "10000000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 34,
+            "maxRatePerIntervalPercentage": 0.22368421052631576
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 0,
+            "upnlForWithdrawalsBps": 0,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "XLM",
+          "perpSymbol": "XLM-PERP",
+          "assetId": 37,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Stellar",
+          "logoUri": "https://phoenixcdn.trade/logos/XLM/9505885c37458ad21acd704938033d39af79d3844ae79e54cb02a86e62f44990.svg",
+          "marketPubkey": "AXewQALSfgppjhfsZ6w5pqV7wNR5ShDRXPPTy7yx7yuE",
+          "splinePubkey": "CFocmzoNqtUwAKk7Ctw8uzZgQrzTjancigkXSV95Mb9K",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "4726122",
+          "maxLiquidationSizeBaseLots": "431410",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 474,
+            "maxRatePerIntervalPercentage": 0.22057797012424962
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "STONK",
+          "perpSymbol": "STONK-PERP",
+          "assetId": 81,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "STONK",
+          "logoUri": "https://phoenixcdn.trade/logos/STONK/38ca21f418cc65759cca96655a459f5cc7a50d489bd416118c6eb4945616e1d9.svg",
+          "marketPubkey": "zZvkfVnUiRd2MU9t9Uzthk4CcnZi3kmwAG5pdwGZuoM",
+          "splinePubkey": "DdwRwJCgakaTKxt9nmc6vBPKUeknyopzfYqjmgrQ2MR8",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": true,
+          "maxLeverage": 3,
+          "openInterestCapBaseLots": "1642940",
+          "maxLiquidationSizeBaseLots": "164290",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 641,
+            "maxRatePerIntervalPercentage": 0.24140398448386247
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 0,
+            "upnlForWithdrawalsBps": 0,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "WLD",
+          "perpSymbol": "WLD-PERP",
+          "assetId": 30,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Worldcoin",
+          "logoUri": "https://phoenixcdn.trade/logos/WLD/92909ba078813f147af5a2767d9235a08521c19c3af73bb30b2fd36427b090da.svg",
+          "marketPubkey": "9fpYNmbtByPavdaQ6NV141aUyYLvcrBnNA6FDkh5aGp8",
+          "splinePubkey": "qqoo3u7rtLPrYhZigDy3x4ohe2rmmkAdeWzmWShHFQ9",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "2604940",
+          "maxLiquidationSizeBaseLots": "130490",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1211,
+            "maxRatePerIntervalPercentage": 0.2124710506000421
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "MON",
+          "perpSymbol": "MON-PERP",
+          "assetId": 13,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Monad",
+          "logoUri": "https://phoenixcdn.trade/logos/MON/bde5afa01bc30eaaf4ffd3747ce62e60dd9ce5ed38efaa10d168ed01245cfb53.svg",
+          "marketPubkey": "7hnu7Fm4UXF3K5wpytJuaSeAjw2XYDN4avgy6ZDKCPhs",
+          "splinePubkey": "ELApxywmv4VRB6iBuycAtJxepKd57oFenMvVfBdNyGab",
+          "tickSize": 1,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "47664443",
+          "maxLiquidationSizeBaseLots": "1412030",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 56,
+            "maxRatePerIntervalPercentage": 0.21210514354973112
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "AMZN",
+          "perpSymbol": "AMZN-PERP",
+          "assetId": 50,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Amazon",
+          "logoUri": "https://phoenixcdn.trade/logos/AMZN/e316d2239790f78864badf9166c53708b173115c12330697d076611694f36cf1.svg",
+          "marketPubkey": "6YMH94edtLcktxTosAxsgjPc8ZgrKnG6x6ozRHAykhRs",
+          "splinePubkey": "2azAi6XzPXGzSPDiRZ1LTf7eRF5HvjTya8rAqPWc37rr",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "12670000",
+          "maxLiquidationSizeBaseLots": "1270000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 540,
+            "maxRatePerIntervalPercentage": 0.21651096587947558
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 12500,
+              "decimals": 3,
+              "ui": "12.500"
+            },
+            "lastKnownIndexPrice": {
+              "value": 250030,
+              "decimals": 3,
+              "ui": "250.030"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 237530,
+                "decimals": 3,
+                "ui": "237.530"
+              },
+              "max": {
+                "value": 262530,
+                "decimals": 3,
+                "ui": "262.530"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 237530,
+                "decimals": 3,
+                "ui": "237.530"
+              },
+              "max": {
+                "value": 262530,
+                "decimals": 3,
+                "ui": "262.530"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "NBIS",
+          "perpSymbol": "NBIS-PERP",
+          "assetId": 63,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Nebius",
+          "logoUri": "https://phoenixcdn.trade/logos/NBIS/8bb3db24d409c7e8e4b6a32371e7decc35e5a7511391777948c2fd32af7203a2.svg",
+          "marketPubkey": "13gh32h3RQszCZze6RzTnd3DZWRLCTYKNNLjS8HxnKeT",
+          "splinePubkey": "4bMhiR2aGPM97rSBqPX5pVPXC5oAjhH8YahsA1nX4YNG",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "15759614",
+          "maxLiquidationSizeBaseLots": "1575962",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 564,
+            "maxRatePerIntervalPercentage": 0.2353530295443165
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 23840,
+              "decimals": 3,
+              "ui": "23.840"
+            },
+            "lastKnownIndexPrice": {
+              "value": 238420,
+              "decimals": 3,
+              "ui": "238.420"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 214580,
+                "decimals": 3,
+                "ui": "214.580"
+              },
+              "max": {
+                "value": 262260,
+                "decimals": 3,
+                "ui": "262.260"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 214580,
+                "decimals": 3,
+                "ui": "214.580"
+              },
+              "max": {
+                "value": 262260,
+                "decimals": 3,
+                "ui": "262.260"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "CRV",
+          "perpSymbol": "CRV-PERP",
+          "assetId": 67,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Curve DAO",
+          "logoUri": "https://phoenixcdn.trade/logos/CRV/ede3bed5cd8ebc85dc09544ca05f8bc26cdb5a1c2e1e08aba75cfc8b35b65bef.svg",
+          "marketPubkey": "BCVSk4zyh5grRWRzMiDn75rqYmKZ9y99KcyrYGyeMTmK",
+          "splinePubkey": "ZtqBxTf8cuMzWAMQUZ3cKA4mj8cGLivyaZwcnM6X7NL",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "4220480",
+          "maxLiquidationSizeBaseLots": "422050",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 762,
+            "maxRatePerIntervalPercentage": 0.22137005403521
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "AVGO",
+          "perpSymbol": "AVGO-PERP",
+          "assetId": 66,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Broadcom",
+          "logoUri": "https://phoenixcdn.trade/logos/AVGO/37e09c739fee330bd5abb9ba96134abbbcf999673bd59f3881b95199a7e0a494.svg",
+          "marketPubkey": "2YrxmiNkyd7ikCorvw2acVyQqRocX9yrvwveX4hxCQZ5",
+          "splinePubkey": "83WU7YLWr2rweH3omAPnw5BdKUErxefJrgEgTxvLD7rv",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "7930000",
+          "maxLiquidationSizeBaseLots": "790000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 781,
+            "maxRatePerIntervalPercentage": 0.22123392442354542
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 35380,
+              "decimals": 3,
+              "ui": "35.380"
+            },
+            "lastKnownIndexPrice": {
+              "value": 353810,
+              "decimals": 3,
+              "ui": "353.810"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 318430,
+                "decimals": 3,
+                "ui": "318.430"
+              },
+              "max": {
+                "value": 389190,
+                "decimals": 3,
+                "ui": "389.190"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 318430,
+                "decimals": 3,
+                "ui": "318.430"
+              },
+              "max": {
+                "value": 389190,
+                "decimals": 3,
+                "ui": "389.190"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "ETH",
+          "perpSymbol": "ETH-PERP",
+          "assetId": 2,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Ethereum",
+          "logoUri": "https://phoenixcdn.trade/logos/ETH/b3e3b01e539aed5885ba95670767e8a88bb5c43f1db39c7cbeccec1aeb1899a7.svg",
+          "marketPubkey": "9u7aqptdRFbsnnoHtjK13E5JkeM14EW5fAKTRPidVF88",
+          "splinePubkey": "DN7uE4FBSs9Uy6V3GNvAbTdUMufY1hBkdy3JV1UfYdg",
+          "tickSize": 100,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 25,
+          "openInterestCapBaseLots": "24146424",
+          "maxLiquidationSizeBaseLots": "241464",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 6402,
+            "maxRatePerIntervalPercentage": 0.23814306439013502
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 70,
+            "upnlForWithdrawalsBps": 7000,
+            "cancelOrder": 70,
+            "cancelOrderBps": 7000
+          }
+        },
+        {
+          "symbol": "MU",
+          "perpSymbol": "MU-PERP",
+          "assetId": 44,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Micron",
+          "logoUri": "https://phoenixcdn.trade/logos/MU/6b6df4fc7b1401e8b2c43814f6dad8ce65bcff2b174b89c48aee2db51fe396a1.svg",
+          "marketPubkey": "7STbLCQCPifN3RWFpcaufrTdiTV8s2NY3LiGkqBF9Pdg",
+          "splinePubkey": "8rfvF8ikBBT3pgCHa1WTeybsGwMC5xhs23SAu11BtAmV",
+          "tickSize": 10,
+          "baseLotsDecimals": 4,
+          "isolatedOnly": false,
+          "maxLeverage": 15,
+          "openInterestCapBaseLots": "55629729",
+          "maxLiquidationSizeBaseLots": "5562973",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 248,
+            "maxRatePerIntervalPercentage": 0.22704385242149594
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 7240,
+              "decimals": 2,
+              "ui": "72.40"
+            },
+            "lastKnownIndexPrice": {
+              "value": 108590,
+              "decimals": 2,
+              "ui": "1085.90"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 101350,
+                "decimals": 2,
+                "ui": "1013.50"
+              },
+              "max": {
+                "value": 115830,
+                "decimals": 2,
+                "ui": "1158.30"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 101350,
+                "decimals": 2,
+                "ui": "1013.50"
+              },
+              "max": {
+                "value": 115830,
+                "decimals": 2,
+                "ui": "1158.30"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "CRWV",
+          "perpSymbol": "CRWV-PERP",
+          "assetId": 47,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "CoreWeave",
+          "logoUri": "https://phoenixcdn.trade/logos/CRWV/6118144c0fc7de3eb00ea86220239eb3915b7d122dde88b475ef763a09b034cd.svg",
+          "marketPubkey": "2NWXGa6fqhLLMyJsoNhuMHXZuqUdb6DAJRYaQR8CvbB3",
+          "splinePubkey": "FA2ZsKe5DVLuDKtP7H8ZMPgBxpt8gkTDRpWRE9zRRiRW",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "27140000",
+          "maxLiquidationSizeBaseLots": "2710000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 198,
+            "maxRatePerIntervalPercentage": 0.22672621092408107
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 8740,
+              "decimals": 3,
+              "ui": "8.740"
+            },
+            "lastKnownIndexPrice": {
+              "value": 87460,
+              "decimals": 3,
+              "ui": "87.460"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 78720,
+                "decimals": 3,
+                "ui": "78.720"
+              },
+              "max": {
+                "value": 96200,
+                "decimals": 3,
+                "ui": "96.200"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 78720,
+                "decimals": 3,
+                "ui": "78.720"
+              },
+              "max": {
+                "value": 96200,
+                "decimals": 3,
+                "ui": "96.200"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "NEAR",
+          "perpSymbol": "NEAR-PERP",
+          "assetId": 14,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "NEAR Protocol",
+          "logoUri": "https://phoenixcdn.trade/logos/NEAR/9a73591bd14badd8d9605ce37ca6cd36e05e4ae922e04d3623e8fb6eb9c086ea.svg",
+          "marketPubkey": "AHLLA4oggZssMt1M3sfyZ1z2XWt9m6JjNzjS5getE78q",
+          "splinePubkey": "7cPviQWgKSEiHQVwW99ntVk2EAT6sKffsjCxF4x9BVZ",
+          "tickSize": 100,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "1201750",
+          "maxLiquidationSizeBaseLots": "120175",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 12444,
+            "maxRatePerIntervalPercentage": 0.23718669589249974
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "JUP",
+          "perpSymbol": "JUP-PERP",
+          "assetId": 25,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Jupiter",
+          "logoUri": "https://phoenixcdn.trade/logos/JUP/83139e852e26e9d32c0c8d4c059697a55bc0ac35419187495c2e503602ee2112.svg",
+          "marketPubkey": "9vhQ2yo3b23vQ75iK7qQTRcVkqtpLjaWuphkZ2TQiYEE",
+          "splinePubkey": "FCLk7BZ4anY3dv3HeBqjnG2C9PhudP7MpBsvULBBWRjV",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "6572030",
+          "maxLiquidationSizeBaseLots": "207060",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 727,
+            "maxRatePerIntervalPercentage": 0.21780813709629093
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "ENA",
+          "perpSymbol": "ENA-PERP",
+          "assetId": 17,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Ethena",
+          "logoUri": "https://phoenixcdn.trade/logos/ENA/8188fa2023ee41e20499e6e76354afca414242a751263884afc8aee5784791f2.svg",
+          "marketPubkey": "CQJduVF57Eycp6M6fPDv5GBUR2TL5cCiriaLBhoCz4dj",
+          "splinePubkey": "A86xwLL4iaf75Z7kAHDMhwUEGH1ZRbZzYXA3pccentze",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "11155735",
+          "maxLiquidationSizeBaseLots": "436990",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 590,
+            "maxRatePerIntervalPercentage": 0.21808235381089672
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "SKHY",
+          "perpSymbol": "SKHY-PERP",
+          "assetId": 56,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "SK Hynix",
+          "logoUri": "https://phoenixcdn.trade/logos/SKHY/0ad74c74adbfa8b6444fddcec63dd39ea7f18d39b50aeb120fa1c83cd7220396.svg",
+          "marketPubkey": "8QXmkGdGyz6PFUzoQAa56oZEjFFMrDhhkT8E1HhzV9Rh",
+          "splinePubkey": "GtoeLcqx43PBhCJxBNyvcT2p9Uu1RjbxVUY2MuMNcp1E",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "19290000",
+          "maxLiquidationSizeBaseLots": "1930000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 405,
+            "maxRatePerIntervalPercentage": 0.21035682750740145
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 19130,
+              "decimals": 3,
+              "ui": "19.130"
+            },
+            "lastKnownIndexPrice": {
+              "value": 191340,
+              "decimals": 3,
+              "ui": "191.340"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 172210,
+                "decimals": 3,
+                "ui": "172.210"
+              },
+              "max": {
+                "value": 210470,
+                "decimals": 3,
+                "ui": "210.470"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 172210,
+                "decimals": 3,
+                "ui": "172.210"
+              },
+              "max": {
+                "value": 210470,
+                "decimals": 3,
+                "ui": "210.470"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "MRNA",
+          "perpSymbol": "MRNA-PERP",
+          "assetId": 74,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Moderna",
+          "logoUri": "https://phoenixcdn.trade/logos/MRNA/e19d34cdcfbabb61254b9e7bed2b815e0cce7036171dba217c29bdd4846aa155.svg",
+          "marketPubkey": "ErZ7g7oZvnRoS2CCx2mJ53gcAFYubnN8WAcB78aSzM5w",
+          "splinePubkey": "68LkHW3KHFSFQPo8YYRUMxj1gBbxtFTZgyDnh3NHDKCp",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "21640000",
+          "maxLiquidationSizeBaseLots": "2160000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 416,
+            "maxRatePerIntervalPercentage": 0.20962459057697153
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 19780,
+              "decimals": 3,
+              "ui": "19.780"
+            },
+            "lastKnownIndexPrice": {
+              "value": 197810,
+              "decimals": 3,
+              "ui": "197.810"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 178030,
+                "decimals": 3,
+                "ui": "178.030"
+              },
+              "max": {
+                "value": 217590,
+                "decimals": 3,
+                "ui": "217.590"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 178030,
+                "decimals": 3,
+                "ui": "178.030"
+              },
+              "max": {
+                "value": 217590,
+                "decimals": 3,
+                "ui": "217.590"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "AAPL",
+          "perpSymbol": "AAPL-PERP",
+          "assetId": 40,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Apple",
+          "logoUri": "https://phoenixcdn.trade/logos/AAPL/b051c10671321f665ba528b9ee32ad500c0410cf06d44e99a3fabdf6ecccacee.svg",
+          "marketPubkey": "5pheia5Tou27SJnJjQdrRUMpbWmXF5jU7cXMLBt8upzz",
+          "splinePubkey": "DAc9d2y8M2Bc2KuN2VRUWdBWN8idBfJF9Z9gS57eVASq",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "10320000",
+          "maxLiquidationSizeBaseLots": "1030000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 740,
+            "maxRatePerIntervalPercentage": 0.21763425680842308
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 17070,
+              "decimals": 3,
+              "ui": "17.070"
+            },
+            "lastKnownIndexPrice": {
+              "value": 341570,
+              "decimals": 3,
+              "ui": "341.570"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 324500,
+                "decimals": 3,
+                "ui": "324.500"
+              },
+              "max": {
+                "value": 358640,
+                "decimals": 3,
+                "ui": "358.640"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 324500,
+                "decimals": 3,
+                "ui": "324.500"
+              },
+              "max": {
+                "value": 358640,
+                "decimals": 3,
+                "ui": "358.640"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "CBRS",
+          "perpSymbol": "CBRS-PERP",
+          "assetId": 61,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Cerebras",
+          "logoUri": "https://phoenixcdn.trade/logos/CBRS/41244fc1bd02129d59b144b7cdbf2153b8f37cdde4f8bee1b72b006871ac8762.svg",
+          "marketPubkey": "E9ZzHqXra4t3tQAZRNQq5215rpFoXu9pRQD1noqSZC4v",
+          "splinePubkey": "HsaZmcscztVSvNA6XQfkReSs1APRQZG4rz1FZGedX5R",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "17160000",
+          "maxLiquidationSizeBaseLots": "1720000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 462,
+            "maxRatePerIntervalPercentage": 0.2236529989833955
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 20640,
+              "decimals": 3,
+              "ui": "20.640"
+            },
+            "lastKnownIndexPrice": {
+              "value": 206470,
+              "decimals": 3,
+              "ui": "206.470"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 185830,
+                "decimals": 3,
+                "ui": "185.830"
+              },
+              "max": {
+                "value": 227110,
+                "decimals": 3,
+                "ui": "227.110"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 185830,
+                "decimals": 3,
+                "ui": "185.830"
+              },
+              "max": {
+                "value": 227110,
+                "decimals": 3,
+                "ui": "227.110"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "LINK",
+          "perpSymbol": "LINK-PERP",
+          "assetId": 68,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Chainlink",
+          "logoUri": "https://phoenixcdn.trade/logos/LINK/79eb7eff2e76717d16297de9fcb7e1c118f581851de980001bb952fb704b7e98.svg",
+          "marketPubkey": "U33LNenCZH4dZpHyfvcBFGEcvPZ3AsWfLkjhspiEoLK",
+          "splinePubkey": "CmWV5RzshMRAYjEmr2PXJve4SKH32U9DZbPViVx3esfr",
+          "tickSize": 10,
+          "baseLotsDecimals": 1,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "1061700",
+          "maxLiquidationSizeBaseLots": "106200",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 3150,
+            "maxRatePerIntervalPercentage": 0.22434139775373724
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "BABA",
+          "perpSymbol": "BABA-PERP",
+          "assetId": 65,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Alibaba",
+          "logoUri": "https://phoenixcdn.trade/logos/BABA/0580f15067d909e0411c3af1f1fab7e98da08526adf3a9810e52bb2db5cc488b.svg",
+          "marketPubkey": "2DEhy1RRi9LmPbsQKrX5mvbL7iwBB3xECzwvhy1fGYH2",
+          "splinePubkey": "3UbUxp4vWWKdbunApyEzaZGG9geab6To6hgPDWKPqjdQ",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "23560000",
+          "maxLiquidationSizeBaseLots": "2360000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 251,
+            "maxRatePerIntervalPercentage": 0.22780903975313122
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 10980,
+              "decimals": 3,
+              "ui": "10.980"
+            },
+            "lastKnownIndexPrice": {
+              "value": 109830,
+              "decimals": 3,
+              "ui": "109.830"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 98850,
+                "decimals": 3,
+                "ui": "98.850"
+              },
+              "max": {
+                "value": 120810,
+                "decimals": 3,
+                "ui": "120.810"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 98850,
+                "decimals": 3,
+                "ui": "98.850"
+              },
+              "max": {
+                "value": 120810,
+                "decimals": 3,
+                "ui": "120.810"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "ONDO",
+          "perpSymbol": "ONDO-PERP",
+          "assetId": 31,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Ondo",
+          "logoUri": "https://phoenixcdn.trade/logos/ONDO/71963bf5bbae4441d797c988afd8f64cc157b6368a887fbb96a0626c91613b5a.svg",
+          "marketPubkey": "D1Zzj55T5b4yXF4x7nHpSMVXGZ8xGAnmEqYCzh1ZZHDM",
+          "splinePubkey": "8FAccYePfv4Abg8rDhiKhd1Hq4VBHSceY5vrRNCgeL4P",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "3095113",
+          "maxLiquidationSizeBaseLots": "122430",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1210,
+            "maxRatePerIntervalPercentage": 0.2237467408790843
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "CRCL",
+          "perpSymbol": "CRCL-PERP",
+          "assetId": 52,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Circle Internet Group",
+          "logoUri": "https://phoenixcdn.trade/logos/CRCL/d36951a09d6e5841e88a3522c0da46cd3fe80d9f2a296f9ad8adefd9868114c5.svg",
+          "marketPubkey": "8qaFds6uMGjCDwWRZE5qD1JzCEzBdR2RSd1tiB8HHTyX",
+          "splinePubkey": "8JpiZDSBJwoHh1HAr8AggDmrFT6vzwrvyi1wM8evcr4U",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "4547000",
+          "maxLiquidationSizeBaseLots": "455000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 2017,
+            "maxRatePerIntervalPercentage": 0.22551935418949443
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 87470,
+              "decimals": 4,
+              "ui": "8.7470"
+            },
+            "lastKnownIndexPrice": {
+              "value": 874790,
+              "decimals": 4,
+              "ui": "87.4790"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 787320,
+                "decimals": 4,
+                "ui": "78.7320"
+              },
+              "max": {
+                "value": 962260,
+                "decimals": 4,
+                "ui": "96.2260"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 787320,
+                "decimals": 4,
+                "ui": "78.7320"
+              },
+              "max": {
+                "value": 962260,
+                "decimals": 4,
+                "ui": "96.2260"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "RENDER",
+          "perpSymbol": "RENDER-PERP",
+          "assetId": 32,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Render",
+          "logoUri": "https://phoenixcdn.trade/logos/RENDER/2778cb28e0430bd109fd473793d88586c2ef6dca049854e319b549c18a0954e8.svg",
+          "marketPubkey": "FTfbBSVcAbN9XhkYV4N9m4zqVB8jALsUkTnv7vmuhZnG",
+          "splinePubkey": "8vFfEQSn9zopzdSWcpFZEgrXwdRmpgGuHE7zAbGDdWDS",
+          "tickSize": 10,
+          "baseLotsDecimals": 1,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "6260173",
+          "maxLiquidationSizeBaseLots": "440000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 447,
+            "maxRatePerIntervalPercentage": 0.22090437361008156
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "COPPER",
+          "perpSymbol": "COPPER-PERP",
+          "assetId": 131100,
+          "status": "active",
+          "category": "commodities",
+          "displayName": "Copper",
+          "logoUri": "https://phoenixcdn.trade/logos/COPPER/4b2c546312158ffc384b284c2fbaafd6639523533e9943fc0a9265f403cec440.svg",
+          "marketPubkey": "CYBXMLK8N5SRiWcFRw3vHrLez8bW9uTxSGxr9ZL6MjkJ",
+          "splinePubkey": "5i5vQhcooYbJaU7e1ZenVdiiPNjDSLLtabsiaLAWC8BP",
+          "tickSize": 10,
+          "baseLotsDecimals": 1,
+          "isolatedOnly": true,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "4886471",
+          "maxLiquidationSizeBaseLots": "100000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1435,
+            "maxRatePerIntervalPercentage": 0.2113121972050833
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 33910,
+              "decimals": 5,
+              "ui": "0.33910"
+            },
+            "lastKnownIndexPrice": {
+              "value": 678310,
+              "decimals": 5,
+              "ui": "6.78310"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 644400,
+                "decimals": 5,
+                "ui": "6.44400"
+              },
+              "max": {
+                "value": 712220,
+                "decimals": 5,
+                "ui": "7.12220"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 644400,
+                "decimals": 5,
+                "ui": "6.44400"
+              },
+              "max": {
+                "value": 712220,
+                "decimals": 5,
+                "ui": "7.12220"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790546700
+          }
+        },
+        {
+          "symbol": "LLY",
+          "perpSymbol": "LLY-PERP",
+          "assetId": 75,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Eli Lilly and Company",
+          "logoUri": "https://phoenixcdn.trade/logos/LLY/3a87a6d2e260bd98fe565b2c57221c62beba19109822faed98994970f64da2f0.svg",
+          "marketPubkey": "92yyZnBGGDb9wohtT2ZZLx6Y8TCKgMZSp8stCvyjZws4",
+          "splinePubkey": "CRhEYT9SYK2E8ifVgSxjUgFbSRi79mzb2Qz1VxNLvMAP",
+          "tickSize": 10,
+          "baseLotsDecimals": 4,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "24000000",
+          "maxLiquidationSizeBaseLots": "2400000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 257,
+            "maxRatePerIntervalPercentage": 0.21724429416737112
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 11850,
+              "decimals": 2,
+              "ui": "118.50"
+            },
+            "lastKnownIndexPrice": {
+              "value": 118520,
+              "decimals": 2,
+              "ui": "1185.20"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 106670,
+                "decimals": 2,
+                "ui": "1066.70"
+              },
+              "max": {
+                "value": 130370,
+                "decimals": 2,
+                "ui": "1303.70"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 106670,
+                "decimals": 2,
+                "ui": "1066.70"
+              },
+              "max": {
+                "value": 130370,
+                "decimals": 2,
+                "ui": "1303.70"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "FIL",
+          "perpSymbol": "FIL-PERP",
+          "assetId": 85,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Filecoin",
+          "logoUri": "https://phoenixcdn.trade/logos/FIL/2c49f6ce3a3b2ac6b882e8ae43504ee2d3955185e9abdcb57efc0eb1cc74e0d5.svg",
+          "marketPubkey": "C4KtLwSPjchkbmD3H2kuW7mzLhgKpaYbh15PRqzUPsUe",
+          "splinePubkey": "Hi1Eh7qGQGNy3TbHaV7Y6KjMUMmHL38H4P27jn73n6Vs",
+          "tickSize": 10,
+          "baseLotsDecimals": 1,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "9844900",
+          "maxLiquidationSizeBaseLots": "984500",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 278,
+            "maxRatePerIntervalPercentage": 0.24504186866460995
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "HYPE",
+          "perpSymbol": "HYPE-PERP",
+          "assetId": 4,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Hyperliquid",
+          "logoUri": "https://phoenixcdn.trade/logos/HYPE/0ba96f4a860cc1ae0486a06c9a426be2ebe84bab967d473157fd3b5a24e28bc1.svg",
+          "marketPubkey": "CEx9Mgz5cAmWwy6D5H2xGrhmwKeC5L7KtYhFhVGtiBaZ",
+          "splinePubkey": "8QFRzJQHcUbVmedQv6TN35ppawVGSPn2k6sFFE8qVzGx",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "4000000",
+          "maxLiquidationSizeBaseLots": "200000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 2230,
+            "maxRatePerIntervalPercentage": 0.2436040287518298
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "KBONK",
+          "perpSymbol": "KBONK-PERP",
+          "assetId": 87,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Bonk",
+          "logoUri": "https://phoenixcdn.trade/logos/KBONK/54dc38f3e6c835bb7aba6d37f638c077c84d6cc436eb9a77c9517beafa11d28c.svg",
+          "marketPubkey": "3buzmSTXNBCqkheACHT1epmxNYP3GwMKCFEZiXLwbNrk",
+          "splinePubkey": "9YFLdx4Naj9wojyy7F9DCP9D8NjoZwTTRF5UQQy3yYm",
+          "tickSize": 100,
+          "baseLotsDecimals": -2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "14349261",
+          "maxLiquidationSizeBaseLots": "1434926",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 800,
+            "maxRatePerIntervalPercentage": 0.2160994057266343
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "FET",
+          "perpSymbol": "FET-PERP",
+          "assetId": 35,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Artificial Superintelligence Alliance",
+          "logoUri": "https://phoenixcdn.trade/logos/FET/34a41cd7045c1bf83487543c2dac12e1392b521ec6fbd7b76c91d66814626920.svg",
+          "marketPubkey": "CZCsCBxHca5LPFd4gEZBi9oSeYYH9fcUJzE45b3raQPN",
+          "splinePubkey": "FXLkRHbG9xiEc98VyuqQgjochrisU53qEvsHWauv4Ckb",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "5016052",
+          "maxLiquidationSizeBaseLots": "410050",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 587,
+            "maxRatePerIntervalPercentage": 0.2432858090185676
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "ARB",
+          "perpSymbol": "ARB-PERP",
+          "assetId": 84,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Arbitrum",
+          "logoUri": "https://phoenixcdn.trade/logos/ARB/c584753ee0dff8c6860cbc3d13317e432236d4c2ff3898322131599184ca125d.svg",
+          "marketPubkey": "7zHdoSkEhNHb7oKTUCfJTnPr83N7DzVXQ8Bk6SgPdujM",
+          "splinePubkey": "JC2vm63FbMCh7sKaK8WHAVwitCL2CbWyHUf3ya7HQ7j",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 15,
+          "openInterestCapBaseLots": "4626950",
+          "maxLiquidationSizeBaseLots": "462700",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 502,
+            "maxRatePerIntervalPercentage": 0.22727272727272727
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "META",
+          "perpSymbol": "META-PERP",
+          "assetId": 49,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Meta",
+          "logoUri": "https://phoenixcdn.trade/logos/META/04607c98a1f50d10ec0f5473133e1c7547a73da45bb2e8ec64fbefdc731e2d2c.svg",
+          "marketPubkey": "8pnw1s5jjAyUsJ99hxvHRhb8djoE42ftJ2H1dwAYwRfA",
+          "splinePubkey": "ALidPijar7gzh6NeMPN3i2htCDtwnqCXVTMYG8hrrBmC",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "5260000",
+          "maxLiquidationSizeBaseLots": "530000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1661,
+            "maxRatePerIntervalPercentage": 0.22180973238609047
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 37430,
+              "decimals": 3,
+              "ui": "37.430"
+            },
+            "lastKnownIndexPrice": {
+              "value": 748750,
+              "decimals": 3,
+              "ui": "748.750"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 711320,
+                "decimals": 3,
+                "ui": "711.320"
+              },
+              "max": {
+                "value": 786180,
+                "decimals": 3,
+                "ui": "786.180"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 711320,
+                "decimals": 3,
+                "ui": "711.320"
+              },
+              "max": {
+                "value": 786180,
+                "decimals": 3,
+                "ui": "786.180"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "KSHIB",
+          "perpSymbol": "KSHIB-PERP",
+          "assetId": 88,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Shiba Inu",
+          "logoUri": "https://phoenixcdn.trade/logos/kSHIB/1e63473ca56672fbde7e3a84a838b282df0f4809b0608ec044648d4986dc36c3.svg",
+          "marketPubkey": "9kGYga7xtQbYr8MZtHXj5TVNqTZVUf8xhcCQGoFfBTjE",
+          "splinePubkey": "4YgPasgYCEn4iqCBSnfy5ouYFF5E61C781orp8YMziXS",
+          "tickSize": 100,
+          "baseLotsDecimals": -2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "8896006",
+          "maxLiquidationSizeBaseLots": "889601",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 1280,
+            "maxRatePerIntervalPercentage": 0.21702271956595462
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "LIT",
+          "perpSymbol": "LIT-PERP",
+          "assetId": 12,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Lighter",
+          "logoUri": "https://phoenixcdn.trade/logos/LIT/33f16c79675df14ba354456687c3d8595dd023036def0abe2264904441457c81.svg",
+          "marketPubkey": "CuEkf4SopwRHsdYfTy5zE5aohcWXmFh693Fb99nueJ4r",
+          "splinePubkey": "F3TiSunZ73cw3XHF2vd6oyJjZEYrSGG1Etta5h4b2qvs",
+          "tickSize": 10,
+          "baseLotsDecimals": 1,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "8620690",
+          "maxLiquidationSizeBaseLots": "444700",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1072,
+            "maxRatePerIntervalPercentage": 0.22953066118533744
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "MRVL",
+          "perpSymbol": "MRVL-PERP",
+          "assetId": 70,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Marvell Technology, Inc.",
+          "logoUri": "https://phoenixcdn.trade/logos/MRVL/7057481664e9e288b9a84f5e06bbf4c9aee699de4b559993e86daa091f6455bb.svg",
+          "marketPubkey": "754w7t2WUzYy7urG7TMKPjJ9QXHQQaN2XtGfYyLBYZjG",
+          "splinePubkey": "4gNXFPq4VpV2bYJP5PR72K6HVgZ492WEqZfTWUEYj7Ge",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "12260000",
+          "maxLiquidationSizeBaseLots": "1230000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 561,
+            "maxRatePerIntervalPercentage": 0.21257246788677955
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 26260,
+              "decimals": 3,
+              "ui": "26.260"
+            },
+            "lastKnownIndexPrice": {
+              "value": 262610,
+              "decimals": 3,
+              "ui": "262.610"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 236350,
+                "decimals": 3,
+                "ui": "236.350"
+              },
+              "max": {
+                "value": 288870,
+                "decimals": 3,
+                "ui": "288.870"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 236350,
+                "decimals": 3,
+                "ui": "236.350"
+              },
+              "max": {
+                "value": 288870,
+                "decimals": 3,
+                "ui": "288.870"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "AMD",
+          "perpSymbol": "AMD-PERP",
+          "assetId": 45,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "AMD",
+          "logoUri": "https://phoenixcdn.trade/logos/AMD/669b7351d35d12afea21ded403546060b99940db4249f94a705113817ac87629.svg",
+          "marketPubkey": "ABBz13DENxvLRLh6pjHxNsxBPNNbEnfiMPPXrx8sK7qN",
+          "splinePubkey": "3ZiUiHKJ4tMBF5VTxaDLi4obFZ8GQEtRxkHJ3iPeio4M",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "5730000",
+          "maxLiquidationSizeBaseLots": "570000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1391,
+            "maxRatePerIntervalPercentage": 0.21943524215175897
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 63130,
+              "decimals": 3,
+              "ui": "63.130"
+            },
+            "lastKnownIndexPrice": {
+              "value": 631310,
+              "decimals": 3,
+              "ui": "631.310"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 568180,
+                "decimals": 3,
+                "ui": "568.180"
+              },
+              "max": {
+                "value": 694440,
+                "decimals": 3,
+                "ui": "694.440"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 568180,
+                "decimals": 3,
+                "ui": "568.180"
+              },
+              "max": {
+                "value": 694440,
+                "decimals": 3,
+                "ui": "694.440"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "NFLX",
+          "perpSymbol": "NFLX-PERP",
+          "assetId": 73,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Netflix",
+          "logoUri": "https://phoenixcdn.trade/logos/NFLX/d4cb50ebf6f0780e345b0850853711c8080902760c776d8cda41cdcb50564176.svg",
+          "marketPubkey": "HFjXg3xNthvP2fTfMXefCu8KMbckKyWmB1PAPwdjU391",
+          "splinePubkey": "EdREFKbprHrDECHrShzVqbuJnGYvf25euBJ6KNffwhpJ",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "3697000",
+          "maxLiquidationSizeBaseLots": "370000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1671,
+            "maxRatePerIntervalPercentage": 0.23504754402745737
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 71220,
+              "decimals": 4,
+              "ui": "7.1220"
+            },
+            "lastKnownIndexPrice": {
+              "value": 712290,
+              "decimals": 4,
+              "ui": "71.2290"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 641070,
+                "decimals": 4,
+                "ui": "64.1070"
+              },
+              "max": {
+                "value": 783510,
+                "decimals": 4,
+                "ui": "78.3510"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 641070,
+                "decimals": 4,
+                "ui": "64.1070"
+              },
+              "max": {
+                "value": 783510,
+                "decimals": 4,
+                "ui": "78.3510"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "TRX",
+          "perpSymbol": "TRX-PERP",
+          "assetId": 38,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Tron",
+          "logoUri": "https://phoenixcdn.trade/logos/TRX/60172e1596f7aa6af6059d30d3a848ba9c46737463feadbf0d82982ee2e99d49.svg",
+          "marketPubkey": "FksNfo3SvhtTZcAJUGT2fviTbrocavYAPgT4iK8YRkMr",
+          "splinePubkey": "J4MNZw3X6PbGv6cAy4MgbN8SQ3NZcQ9ogTTLNHutiY3e",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "3088708",
+          "maxLiquidationSizeBaseLots": "294360",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 780,
+            "maxRatePerIntervalPercentage": 0.23393215967369463
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "MET",
+          "perpSymbol": "MET-PERP",
+          "assetId": 29,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Meteora",
+          "logoUri": "https://phoenixcdn.trade/logos/MET/ddd17da8a79e26be2ef0fd880b1340724ec92dbd51d783e63029e501b635f912.svg",
+          "marketPubkey": "HxhDqvdDJ9qWaWJ5tvMEdyL1CvZmnBtqA5PTRLyr7CB",
+          "splinePubkey": "DHFD2VwJkyT2hzMpyvnz34TLQuqPJyqnyVhnrx82A6gH",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "10170871",
+          "maxLiquidationSizeBaseLots": "207060",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 792,
+            "maxRatePerIntervalPercentage": 0.21932982553309333
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "XPL",
+          "perpSymbol": "XPL-PERP",
+          "assetId": 15,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Plasma",
+          "logoUri": "https://phoenixcdn.trade/logos/XPL/5017c1b9d56885b855ccf8f1806b126e6192e74027afebbd9d9997eb326f7818.svg",
+          "marketPubkey": "9HTT4Do4i9NM6Lc8vBE1qPEhEDejuNkza3dnUstyzfcp",
+          "splinePubkey": "EHLJQwwsF2K7ma8md8AeEQvHTpXEYhumJBWrAzXoxxHu",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "15220701",
+          "maxLiquidationSizeBaseLots": "482630",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 266,
+            "maxRatePerIntervalPercentage": 0.250164581961817
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "COIN",
+          "perpSymbol": "COIN-PERP",
+          "assetId": 51,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Coinbase",
+          "logoUri": "https://phoenixcdn.trade/logos/COIN/bdadc8a7c217c8771e931c419e88048749ba8a528083c64c84ae89491118d362.svg",
+          "marketPubkey": "5FCgNAooQZtw5So8UtYqjfC75MeA8Dnpn56iUz61W3xN",
+          "splinePubkey": "FKFNR58iEDPdmwnLsYwVz8NURvtNmAkjKv4sRKdDxwLT",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "18150000",
+          "maxLiquidationSizeBaseLots": "1820000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 434,
+            "maxRatePerIntervalPercentage": 0.22014811808866797
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 19510,
+              "decimals": 3,
+              "ui": "19.510"
+            },
+            "lastKnownIndexPrice": {
+              "value": 195180,
+              "decimals": 3,
+              "ui": "195.180"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 175670,
+                "decimals": 3,
+                "ui": "175.670"
+              },
+              "max": {
+                "value": 214690,
+                "decimals": 3,
+                "ui": "214.690"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 175670,
+                "decimals": 3,
+                "ui": "175.670"
+              },
+              "max": {
+                "value": 214690,
+                "decimals": 3,
+                "ui": "214.690"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "NVDA",
+          "perpSymbol": "NVDA-PERP",
+          "assetId": 39,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "NVIDIA",
+          "logoUri": "https://phoenixcdn.trade/logos/NVDA/625b14891bf1562684704d0f8f2b3b536b9ca13d2d2ae96f9094f0b728259f25.svg",
+          "marketPubkey": "AzySnZQCNjkQMtm5ZDd2FjKYTjBoNb5Bv5Dsm3WyRkbj",
+          "splinePubkey": "2t9xoesj3HtbmfyTKgsh6F5SBUZgZKGDtL3QwmMaw7xv",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "14870000",
+          "maxLiquidationSizeBaseLots": "1490000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 512,
+            "maxRatePerIntervalPercentage": 0.2275252188597076
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 11250,
+              "decimals": 3,
+              "ui": "11.250"
+            },
+            "lastKnownIndexPrice": {
+              "value": 225120,
+              "decimals": 3,
+              "ui": "225.120"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 213870,
+                "decimals": 3,
+                "ui": "213.870"
+              },
+              "max": {
+                "value": 236370,
+                "decimals": 3,
+                "ui": "236.370"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 213870,
+                "decimals": 3,
+                "ui": "213.870"
+              },
+              "max": {
+                "value": 236370,
+                "decimals": 3,
+                "ui": "236.370"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "CHIP",
+          "perpSymbol": "CHIP-PERP",
+          "assetId": 18,
+          "status": "active",
+          "category": "crypto",
+          "logoUri": "https://phoenixcdn.trade/logos/CHIP/a266b8be7e1cff10c047652aa7620300160bba1f91f89414bdc7faf7903e8cf5.svg",
+          "marketPubkey": "7kqxngbXdGsshqN6btUihJsKDJVXPe7ZENk8EAe41bjN",
+          "splinePubkey": "DDNizK5aDRxCj4rFQo3pHW4HR1kasp7Vk9wHRAGzvwv1",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "32722514",
+          "maxLiquidationSizeBaseLots": "493000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 111,
+            "maxRatePerIntervalPercentage": 0.23324227778945156
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "ADA",
+          "perpSymbol": "ADA-PERP",
+          "assetId": 36,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Cardano",
+          "logoUri": "https://phoenixcdn.trade/logos/ADA/01bcaf5809224924687007e060eaa119e5d7554c7a64fab89ae1cf05b012873c.svg",
+          "marketPubkey": "5A8he2Jx5BN8vYgB2Q6uyjemz33gEbEGxacyqXy6va8q",
+          "splinePubkey": "CjwSMWLqABuMrNP9YtPULsAr389WeNMVpsJKSYsNrFy5",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "6369022",
+          "maxLiquidationSizeBaseLots": "450070",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 573,
+            "maxRatePerIntervalPercentage": 0.22558167001299162
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "MSFT",
+          "perpSymbol": "MSFT-PERP",
+          "assetId": 48,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Microsoft",
+          "logoUri": "https://phoenixcdn.trade/logos/MSFT/e27b41fe33090791593f1deeddb6a06b36333b49d02e71b9b31438ca704fc10b.svg",
+          "marketPubkey": "7tZA5NniJBMKay13po6udExeLSFkFLnuXT6fXcunGaT8",
+          "splinePubkey": "DDBMdCDjPNL3RT7yWhSnf3Bh5zF1bBycFs9Pybc9hDTS",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "7990000",
+          "maxLiquidationSizeBaseLots": "800000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1125,
+            "maxRatePerIntervalPercentage": 0.21758050478677113
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 25890,
+              "decimals": 3,
+              "ui": "25.890"
+            },
+            "lastKnownIndexPrice": {
+              "value": 517880,
+              "decimals": 3,
+              "ui": "517.880"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 491990,
+                "decimals": 3,
+                "ui": "491.990"
+              },
+              "max": {
+                "value": 543770,
+                "decimals": 3,
+                "ui": "543.770"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 491990,
+                "decimals": 3,
+                "ui": "491.990"
+              },
+              "max": {
+                "value": 543770,
+                "decimals": 3,
+                "ui": "543.770"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "INTC",
+          "perpSymbol": "INTC-PERP",
+          "assetId": 46,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Intel",
+          "logoUri": "https://phoenixcdn.trade/logos/INTC/31ec4548306d398e91621c8393d2e70970c0219f11c0649386a7c95e59b19571.svg",
+          "marketPubkey": "B9upYgp7z7dFxLFMVxxLiCbp2gujrZGCvpCKdAc4xT3Q",
+          "splinePubkey": "31GTt7eSQ4nbZTsVzPYfGcj1xYoT6CUTGw6Uc5L6f64h",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "21820000",
+          "maxLiquidationSizeBaseLots": "2180000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 283,
+            "maxRatePerIntervalPercentage": 0.2265631254503242
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 12300,
+              "decimals": 3,
+              "ui": "12.300"
+            },
+            "lastKnownIndexPrice": {
+              "value": 123050,
+              "decimals": 3,
+              "ui": "123.050"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 110750,
+                "decimals": 3,
+                "ui": "110.750"
+              },
+              "max": {
+                "value": 135350,
+                "decimals": 3,
+                "ui": "135.350"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 110750,
+                "decimals": 3,
+                "ui": "110.750"
+              },
+              "max": {
+                "value": 135350,
+                "decimals": 3,
+                "ui": "135.350"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "ORCL",
+          "perpSymbol": "ORCL-PERP",
+          "assetId": 77,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Oracle Corporation",
+          "logoUri": "https://phoenixcdn.trade/logos/ORCL/4ae89266dc80d63a21705a93f9c37a3e5191734cca1f59af0d5f6465050070eb.svg",
+          "marketPubkey": "9JJrvzpzTp5BrnuiGdUNkYZ8veRPgruR61RLmPhcPC8i",
+          "splinePubkey": "31jNHKvekkbzaJ4Ew5ZdJ2o4bBHTHhVvcqcFZmbcRBLs",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "20750000",
+          "maxLiquidationSizeBaseLots": "2080000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 342,
+            "maxRatePerIntervalPercentage": 0.24818577648766327
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 13710,
+              "decimals": 3,
+              "ui": "13.710"
+            },
+            "lastKnownIndexPrice": {
+              "value": 137190,
+              "decimals": 3,
+              "ui": "137.190"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 123480,
+                "decimals": 3,
+                "ui": "123.480"
+              },
+              "max": {
+                "value": 150900,
+                "decimals": 3,
+                "ui": "150.900"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 123480,
+                "decimals": 3,
+                "ui": "123.480"
+              },
+              "max": {
+                "value": 150900,
+                "decimals": 3,
+                "ui": "150.900"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "GOLD",
+          "perpSymbol": "GOLD-PERP",
+          "assetId": 65556,
+          "status": "active",
+          "category": "commodities",
+          "displayName": "Gold",
+          "logoUri": "https://phoenixcdn.trade/logos/GOLD/f745ce39bc4dac585e4b10077ff7c54e2f8192c0aa21b244e6122def06f9fe7e.svg",
+          "marketPubkey": "7B7hDscDNBGFpNGypFygoiANCpdM3JR2PY3JbvPvQtmk",
+          "splinePubkey": "4Xf7mkyTyWfiWnRo4oHjfwopSF46aLk8XciWotfG8voB",
+          "tickSize": 100,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": true,
+          "maxLeverage": 25,
+          "openInterestCapBaseLots": "696379",
+          "maxLiquidationSizeBaseLots": "20000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 10630,
+            "maxRatePerIntervalPercentage": 0.24820790622737998
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 171400,
+              "decimals": 3,
+              "ui": "171.400"
+            },
+            "lastKnownIndexPrice": {
+              "value": 4285900,
+              "decimals": 3,
+              "ui": "4285.900"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 4114500,
+                "decimals": 3,
+                "ui": "4114.500"
+              },
+              "max": {
+                "value": 4457300,
+                "decimals": 3,
+                "ui": "4457.300"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 4114500,
+                "decimals": 3,
+                "ui": "4114.500"
+              },
+              "max": {
+                "value": 4457300,
+                "decimals": 3,
+                "ui": "4457.300"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790546700
+          }
+        },
+        {
+          "symbol": "NET",
+          "perpSymbol": "NET-PERP",
+          "assetId": 72,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Cloudflare",
+          "logoUri": "https://phoenixcdn.trade/logos/NET/dcfeb3bb3e4a48416f3fb13d889886fc892d7dc3e0e1158c3a1b9b98b6a8a175.svg",
+          "marketPubkey": "ACfj7jHeshFZkityUdr6qTYzyc4PMd1G44EhMgYC1uKA",
+          "splinePubkey": "EzgvWVg2GjJneKagsrpHWy4s2rkNymoAzUS94rNPGjWJ",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "10660000",
+          "maxLiquidationSizeBaseLots": "1070000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 805,
+            "maxRatePerIntervalPercentage": 0.2296915570519588
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 34890,
+              "decimals": 3,
+              "ui": "34.890"
+            },
+            "lastKnownIndexPrice": {
+              "value": 348930,
+              "decimals": 3,
+              "ui": "348.930"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 314040,
+                "decimals": 3,
+                "ui": "314.040"
+              },
+              "max": {
+                "value": 383820,
+                "decimals": 3,
+                "ui": "383.820"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 314040,
+                "decimals": 3,
+                "ui": "314.040"
+              },
+              "max": {
+                "value": 383820,
+                "decimals": 3,
+                "ui": "383.820"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "SPCX",
+          "perpSymbol": "SPCX-PERP",
+          "assetId": 41,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "SpaceX",
+          "logoUri": "https://phoenixcdn.trade/logos/SPCX/d82907afe0054e532e701621fa8d3e16a6e1afe55cee85fee05ef571333c5a98.svg",
+          "marketPubkey": "HCPybc8PFzS3gL2AHWXtT7jT1WDYSva7A6qf9aVGiLMf",
+          "splinePubkey": "Cw1SXqYHP2At3EE1xgSTi4xa6Xu3WrVrCqZAYeHedppS",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 15,
+          "openInterestCapBaseLots": "50602166",
+          "maxLiquidationSizeBaseLots": "600000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 339,
+            "maxRatePerIntervalPercentage": 0.2277613544746036
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 9920,
+              "decimals": 3,
+              "ui": "9.920"
+            },
+            "lastKnownIndexPrice": {
+              "value": 148770,
+              "decimals": 3,
+              "ui": "148.770"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 138850,
+                "decimals": 3,
+                "ui": "138.850"
+              },
+              "max": {
+                "value": 158690,
+                "decimals": 3,
+                "ui": "158.690"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 138850,
+                "decimals": 3,
+                "ui": "138.850"
+              },
+              "max": {
+                "value": 158690,
+                "decimals": 3,
+                "ui": "158.690"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "VVV",
+          "perpSymbol": "VVV-PERP",
+          "assetId": 24,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Venice Token",
+          "logoUri": "https://phoenixcdn.trade/logos/VVV/1a8c335dad1e0f663ba68094812a05adadb9f36f56e91062e9b8ff48685a5eb2.svg",
+          "marketPubkey": "5kPZcErZ12YbqhUHzguCgYyjMVHxpiMAW324KL2jWVHQ",
+          "splinePubkey": "7CyFxgjHDxGt4hU3JoFuiFygAedgmHVY5CYoB2Tdezyx",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "6366994",
+          "maxLiquidationSizeBaseLots": "296000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 709,
+            "maxRatePerIntervalPercentage": 0.2350016572754392
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "IREN",
+          "perpSymbol": "IREN-PERP",
+          "assetId": 71,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "IREN Limited",
+          "logoUri": "https://phoenixcdn.trade/logos/IREN/f823b515e78148f5a343ed9748554dae6efea5e8856ec35c1f3469756cd6b966.svg",
+          "marketPubkey": "AGBw8hyKQ19Djd1vLueaep5e8M612Q2cBoiA17bER7z3",
+          "splinePubkey": "8PitnFPepRRykHws6CyQiACFYUdcqWNhmw5kv5FWnjaH",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "7264000",
+          "maxLiquidationSizeBaseLots": "726000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1056,
+            "maxRatePerIntervalPercentage": 0.23747947916432413
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 44190,
+              "decimals": 4,
+              "ui": "4.4190"
+            },
+            "lastKnownIndexPrice": {
+              "value": 441900,
+              "decimals": 4,
+              "ui": "44.1900"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 397710,
+                "decimals": 4,
+                "ui": "39.7710"
+              },
+              "max": {
+                "value": 486090,
+                "decimals": 4,
+                "ui": "48.6090"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 397710,
+                "decimals": 4,
+                "ui": "39.7710"
+              },
+              "max": {
+                "value": 486090,
+                "decimals": 4,
+                "ui": "48.6090"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "SNDK",
+          "perpSymbol": "SNDK-PERP",
+          "assetId": 65559,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Sandisk",
+          "logoUri": "https://phoenixcdn.trade/logos/SNDK/2fbc4ebd63a351a709959790940e84f90ddebe0f075239b0b202c07667460ea6.svg",
+          "marketPubkey": "HGFx44Fmfxp6Ggk9n69WLnY6oGABGYiq9crpRHdSsSfJ",
+          "splinePubkey": "74bvCWbbdwiJKW55n2gkasSciEEaS9ghfFD8FdfuB6iY",
+          "tickSize": 10,
+          "baseLotsDecimals": 4,
+          "isolatedOnly": false,
+          "maxLeverage": 15,
+          "openInterestCapBaseLots": "38328862",
+          "maxLiquidationSizeBaseLots": "3832887",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 411,
+            "maxRatePerIntervalPercentage": 0.2312756738506556
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 11820,
+              "decimals": 2,
+              "ui": "118.20"
+            },
+            "lastKnownIndexPrice": {
+              "value": 177220,
+              "decimals": 2,
+              "ui": "1772.20"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 165400,
+                "decimals": 2,
+                "ui": "1654.00"
+              },
+              "max": {
+                "value": 189040,
+                "decimals": 2,
+                "ui": "1890.40"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 165400,
+                "decimals": 2,
+                "ui": "1654.00"
+              },
+              "max": {
+                "value": 189040,
+                "decimals": 2,
+                "ui": "1890.40"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "TSLA",
+          "perpSymbol": "TSLA-PERP",
+          "assetId": 42,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Tesla",
+          "logoUri": "https://phoenixcdn.trade/logos/TSLA/c61faa4743f931d5bac1b24424d5be564dfb24e0e89ebfc03f636530ddba8f84.svg",
+          "marketPubkey": "9ZKCwuQDRYkxoMhwk8aiKfYmUYfymdtnYhprf995JmD2",
+          "splinePubkey": "2QmJ5bTxadZm9o9vGt5PTU6ho9u3yz5d5xCM5VsSuQeH",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "13602112",
+          "maxLiquidationSizeBaseLots": "1360212",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 825,
+            "maxRatePerIntervalPercentage": 0.22105517001152164
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 18640,
+              "decimals": 3,
+              "ui": "18.640"
+            },
+            "lastKnownIndexPrice": {
+              "value": 372860,
+              "decimals": 3,
+              "ui": "372.860"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 354220,
+                "decimals": 3,
+                "ui": "354.220"
+              },
+              "max": {
+                "value": 391500,
+                "decimals": 3,
+                "ui": "391.500"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 354220,
+                "decimals": 3,
+                "ui": "354.220"
+              },
+              "max": {
+                "value": 391500,
+                "decimals": 3,
+                "ui": "391.500"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "AMAT",
+          "perpSymbol": "AMAT-PERP",
+          "assetId": 62,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Applied Materials",
+          "logoUri": "https://phoenixcdn.trade/logos/AMAT/0de879241518539bc56a0b4842ccbb8a3c21a1337218a0d20a732b56598620e2.svg",
+          "marketPubkey": "AvPTRe4XjC1xdVhwzUiVwDDfqrqm6eVaKMAnS39raEjW",
+          "splinePubkey": "52udTPMTPt5tViUSvdjhMzSJ8khEFRXtLNirANUJbhHd",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "5660000",
+          "maxLiquidationSizeBaseLots": "570000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1076,
+            "maxRatePerIntervalPercentage": 0.2217505100673907
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 48620,
+              "decimals": 3,
+              "ui": "48.620"
+            },
+            "lastKnownIndexPrice": {
+              "value": 486210,
+              "decimals": 3,
+              "ui": "486.210"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 437590,
+                "decimals": 3,
+                "ui": "437.590"
+              },
+              "max": {
+                "value": 534830,
+                "decimals": 3,
+                "ui": "534.830"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 437590,
+                "decimals": 3,
+                "ui": "437.590"
+              },
+              "max": {
+                "value": 534830,
+                "decimals": 3,
+                "ui": "534.830"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "VIRTUAL",
+          "perpSymbol": "VIRTUAL-PERP",
+          "assetId": 33,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Virtuals Protocol",
+          "logoUri": "https://phoenixcdn.trade/logos/VIRTUAL/a2c54f11b6cc45b1f8a12d3d3364b4933fd1a1e2c33e8dc42b6a6b445f10152a.svg",
+          "marketPubkey": "4vAnWXWaoGCS54S6LWUxfeyNyER7SjgWx17riAuoNQPe",
+          "splinePubkey": "CcEUm5Scr87paTNSeDhkMs1y7noYxmbYtTDjjE7BkzmT",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "1835907",
+          "maxLiquidationSizeBaseLots": "62010",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 1795,
+            "maxRatePerIntervalPercentage": 0.2228982987706445
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "AVAX",
+          "perpSymbol": "AVAX-PERP",
+          "assetId": 83,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Avalanche",
+          "logoUri": "https://phoenixcdn.trade/logos/AVAX/efef237c3553475a1506d9accb7905635b9935cbe481c091142c48203f360314.svg",
+          "marketPubkey": "8sd8Di5kn94xWXjDGZNQ3wAH1SWjsoLBoY639j9yZN53",
+          "splinePubkey": "12X5N5J4pdnmJi9V5nKZ8mphTNDCT2yD3xpnfBJ7jWfJ",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "9085000",
+          "maxLiquidationSizeBaseLots": "909000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 250,
+            "maxRatePerIntervalPercentage": 0.228644594841778
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "MEGA",
+          "perpSymbol": "MEGA-PERP",
+          "assetId": 19,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "MegaETH",
+          "logoUri": "https://phoenixcdn.trade/logos/MEGA/b9d96aa4574edd4d9eea9b875f2ee332455160ea5f1e742677adb5212da2989a.svg",
+          "marketPubkey": "6KS7HgwRHZG47d7yJgVQrEJQv3jVCrBwDDRxK3YFCMV4",
+          "splinePubkey": "9MsdsbqstnKxw4hdBmDnRLVGjj49KDkpW4z2iLvQBwQg",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "22441652",
+          "maxLiquidationSizeBaseLots": "276610",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 100,
+            "maxRatePerIntervalPercentage": 0.22825838849577723
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "DELL",
+          "perpSymbol": "DELL-PERP",
+          "assetId": 76,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Dell Technologies",
+          "logoUri": "https://phoenixcdn.trade/logos/DELL/b9beb92a691ab57b97267f9ce8adcf45c7791f6d236d7cfce8987a6d76f7716d.svg",
+          "marketPubkey": "gQsEpX7cFLzQ19X3gFVh2wAcukZ1mL2icVqeryub5tc",
+          "splinePubkey": "5Dww9v5NpDJxvNsaLMPs7UU1fqknBVxk6SztixzGJPfg",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "6760000",
+          "maxLiquidationSizeBaseLots": "680000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 1241,
+            "maxRatePerIntervalPercentage": 0.21937810461560214
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 56340,
+              "decimals": 3,
+              "ui": "56.340"
+            },
+            "lastKnownIndexPrice": {
+              "value": 563460,
+              "decimals": 3,
+              "ui": "563.460"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 507120,
+                "decimals": 3,
+                "ui": "507.120"
+              },
+              "max": {
+                "value": 619800,
+                "decimals": 3,
+                "ui": "619.800"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 507120,
+                "decimals": 3,
+                "ui": "507.120"
+              },
+              "max": {
+                "value": 619800,
+                "decimals": 3,
+                "ui": "619.800"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "BTC",
+          "perpSymbol": "BTC-PERP",
+          "assetId": 1,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Bitcoin",
+          "logoUri": "https://phoenixcdn.trade/logos/BTC/29e92755162f3146841609e71d09b81142196df38b3d7301c82d4cb51dd692dd.svg",
+          "marketPubkey": "AXFz1MuzMUBHi5UKJuK3FDCQ73o3rSzubGU2mPr4LLU7",
+          "splinePubkey": "Dh9NrYjzzdvcYgFSbrkATQ1rPkPjDovXWnFVhfWmD2ZF",
+          "tickSize": 100,
+          "baseLotsDecimals": 4,
+          "isolatedOnly": false,
+          "maxLeverage": 40,
+          "openInterestCapBaseLots": "7350672",
+          "maxLiquidationSizeBaseLots": "73507",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 17957,
+            "maxRatePerIntervalPercentage": 0.21214233395553242
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 70,
+            "upnlForWithdrawalsBps": 7000,
+            "cancelOrder": 70,
+            "cancelOrderBps": 7000
+          }
+        },
+        {
+          "symbol": "PUMP",
+          "perpSymbol": "PUMP-PERP",
+          "assetId": 26,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Pump.fun",
+          "logoUri": "https://phoenixcdn.trade/logos/PUMP/9fc5eff135f51f2a89a5108d9e739609f3f3d833b6d491d4afa76e8d78f529bf.svg",
+          "marketPubkey": "EwveokQBpaTiGkwCHm2yVdwogHm26PRwponFDt7EjEhz",
+          "splinePubkey": "4RaR6tfT53to2dxU9XJT9jdBoS8bPGdDau51ALZa2f3A",
+          "tickSize": 10,
+          "baseLotsDecimals": -2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "7044238",
+          "maxLiquidationSizeBaseLots": "273224",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 979,
+            "maxRatePerIntervalPercentage": 0.2063224446786091
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "MSTR",
+          "perpSymbol": "MSTR-PERP",
+          "assetId": 54,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Strategy",
+          "logoUri": "https://phoenixcdn.trade/logos/MSTR/dfc0bbaee0f8137b27c183a9a07664dd06ab1770a791f9cda0a8c7687299ce3e.svg",
+          "marketPubkey": "G86UMmDMW8aAEr6Twi2V2WzVRYQmd6DZBvSeSywnhVDJ",
+          "splinePubkey": "G7PGzFNLQRXQLGLZKRUQtekQtAem74UkWNZPKCG7akbA",
+          "tickSize": 10,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "3024000",
+          "maxLiquidationSizeBaseLots": "302000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 3842,
+            "maxRatePerIntervalPercentage": 0.23750061816923
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 159150,
+              "decimals": 4,
+              "ui": "15.9150"
+            },
+            "lastKnownIndexPrice": {
+              "value": 1591550,
+              "decimals": 4,
+              "ui": "159.1550"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 1432400,
+                "decimals": 4,
+                "ui": "143.2400"
+              },
+              "max": {
+                "value": 1750700,
+                "decimals": 4,
+                "ui": "175.0700"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 1432400,
+                "decimals": 4,
+                "ui": "143.2400"
+              },
+              "max": {
+                "value": 1750700,
+                "decimals": 4,
+                "ui": "175.0700"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "ZEC",
+          "perpSymbol": "ZEC-PERP",
+          "assetId": 10,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Zcash",
+          "logoUri": "https://phoenixcdn.trade/logos/ZEC/e36cd15d1b8e42b8f53d643cfbf2020abbf320216e65f3ac0018ab43b82e02b4.svg",
+          "marketPubkey": "FTbbqCP2N2NkUHw1nMPpBhiQCrYGiMQAhK7g1G8NJKEt",
+          "splinePubkey": "A4DMNb5gn8QCTt8NB1zwTHyqUWZShjgonSMtRYFfqNfZ",
+          "tickSize": 100,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "1250657",
+          "maxLiquidationSizeBaseLots": "24000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 38203,
+            "maxRatePerIntervalPercentage": 0.23702954570836487
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "FARTCOIN",
+          "perpSymbol": "FARTCOIN-PERP",
+          "assetId": 16,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Fartcoin",
+          "logoUri": "https://phoenixcdn.trade/logos/FARTCOIN/b4f530c3a933435495102d04227da9a4a165c9be0a7cc7c97d09dbe23d711dfe.svg",
+          "marketPubkey": "ERTPfrA1VzpnefeGWUtoWRuE9r8wak5KL3Mm4EYCVgc7",
+          "splinePubkey": "6qiBuFdbYQwFKF9e834HTXrLkYvPdtjgH6QWtY9M4tbD",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "9457160",
+          "maxLiquidationSizeBaseLots": "248980",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 424,
+            "maxRatePerIntervalPercentage": 0.2200539755034254
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "UNI",
+          "perpSymbol": "UNI-PERP",
+          "assetId": 82,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Uniswap",
+          "logoUri": "https://phoenixcdn.trade/logos/UNI/052b4a65adf4440071abfda3456cc1bb457d83a92331ed0a0260c18c89eccf84.svg",
+          "marketPubkey": "4PgqjUyALHjN8fF6VUBAD9peWmYagqaQb1WhgwqJ88Xd",
+          "splinePubkey": "AzBJ55czyFQjEvTjT2vjdznPfFMtsZgNTmzQYGzf8Epy",
+          "tickSize": 10,
+          "baseLotsDecimals": 1,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "1100800",
+          "maxLiquidationSizeBaseLots": "110100",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 2087,
+            "maxRatePerIntervalPercentage": 0.21481580599672684
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "ASML",
+          "perpSymbol": "ASML-PERP",
+          "assetId": 58,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "ASML",
+          "logoUri": "https://phoenixcdn.trade/logos/ASML/9b755db3c7041f25b822de4144e59592eac9b25f7c55cc03039126797af361b8.svg",
+          "marketPubkey": "HN2HKXdadc3CSsdu1bNaXXNrawVZ6EYNpg5pntv2567a",
+          "splinePubkey": "4AbuJvVtyYZ8NCQunKDgxVbrbYaMasoXwT3aPiwRM7oH",
+          "tickSize": 10,
+          "baseLotsDecimals": 4,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "19200000",
+          "maxLiquidationSizeBaseLots": "1900000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 401,
+            "maxRatePerIntervalPercentage": 0.22991800928845824
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 17440,
+              "decimals": 2,
+              "ui": "174.40"
+            },
+            "lastKnownIndexPrice": {
+              "value": 174430,
+              "decimals": 2,
+              "ui": "1744.30"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 156990,
+                "decimals": 2,
+                "ui": "1569.90"
+              },
+              "max": {
+                "value": 191870,
+                "decimals": 2,
+                "ui": "1918.70"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 156990,
+                "decimals": 2,
+                "ui": "1569.90"
+              },
+              "max": {
+                "value": 191870,
+                "decimals": 2,
+                "ui": "1918.70"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "JTO",
+          "perpSymbol": "JTO-PERP",
+          "assetId": 22,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Jito",
+          "logoUri": "https://phoenixcdn.trade/logos/JTO/6f2288a0461f3689b36bc70a8cfa04fb92dfc967384168e89d7ad1c4eb3d4f3e.svg",
+          "marketPubkey": "AJCsYQYT9ezpdcq28yzVkXos5RKhaWrRbDFASgJxNtu9",
+          "splinePubkey": "EbGkB4TxceMrZjtBhj5M8zqS3rwtRVhPHa9UD6hfhdH2",
+          "tickSize": 10,
+          "baseLotsDecimals": 1,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "69735007",
+          "maxLiquidationSizeBaseLots": "6973501",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 139,
+            "maxRatePerIntervalPercentage": 0.22979004794180855
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "ARM",
+          "perpSymbol": "ARM-PERP",
+          "assetId": 60,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "ARM",
+          "logoUri": "https://phoenixcdn.trade/logos/ARM/4b63f03370cd0a783e168009c776e3271507ff13866b3ed651bdb1789f283f5f.svg",
+          "marketPubkey": "9jdfERWjLnxo9dZpsyRD3hqfFG5oTZrxPugiHJNGXsZx",
+          "splinePubkey": "AD3EnoB8Czc92ftEuribfWRpfjhtEnx5fe5SygPLNtHH",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "12380000",
+          "maxLiquidationSizeBaseLots": "1240000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 709,
+            "maxRatePerIntervalPercentage": 0.2264379930375906
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 31080,
+              "decimals": 3,
+              "ui": "31.080"
+            },
+            "lastKnownIndexPrice": {
+              "value": 310840,
+              "decimals": 3,
+              "ui": "310.840"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 279760,
+                "decimals": 3,
+                "ui": "279.760"
+              },
+              "max": {
+                "value": 341920,
+                "decimals": 3,
+                "ui": "341.920"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 279760,
+                "decimals": 3,
+                "ui": "279.760"
+              },
+              "max": {
+                "value": 341920,
+                "decimals": 3,
+                "ui": "341.920"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "KPEPE",
+          "perpSymbol": "KPEPE-PERP",
+          "assetId": 89,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Pepe",
+          "logoUri": "https://phoenixcdn.trade/logos/kPEPE/ad378a7dd34e6d043db93ed4087c23e0ec9859483bddf9771618ef751d0e1ed6.svg",
+          "marketPubkey": "Fw9WM8cFMMNxynsvCE5wrVgYNqh6jkmCZCCdHeqM69uU",
+          "splinePubkey": "ATtoA4ANuyfJvWfJD67iPQ8HuEBdn896ryUbkGTWSdWF",
+          "tickSize": 100,
+          "baseLotsDecimals": -2,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "11389522",
+          "maxLiquidationSizeBaseLots": "1138952",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 1000,
+            "maxRatePerIntervalPercentage": 0.22925263640531865
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "SKR",
+          "perpSymbol": "SKR-PERP",
+          "assetId": 5,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Seeker",
+          "logoUri": "https://phoenixcdn.trade/logos/SKR/0c767efa77e6095b4a7cbc4bd939989957ff9cac12c5486d18c0c44c2b64deb6.svg",
+          "marketPubkey": "HnKUNWrcrpYqK5Uworv2wH6Ki3ciDVDDYqicE5SRAAWs",
+          "splinePubkey": "CBiXToL5bStyjJKcvyMBNfD4JDrj6cmFu8H2ebsBTSDu",
+          "tickSize": 1,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": true,
+          "maxLeverage": 3,
+          "openInterestCapBaseLots": "14000000",
+          "maxLiquidationSizeBaseLots": "1400000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 434,
+            "maxRatePerIntervalPercentage": 2.301166489925769
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "MORPHO",
+          "perpSymbol": "MORPHO-PERP",
+          "assetId": 34,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Morpho",
+          "logoUri": "https://phoenixcdn.trade/logos/MORPHO/69df5fdd6206614c4034fbb8824ad01d080a46b3b230409bbb59c1cb46e4a31f.svg",
+          "marketPubkey": "7HPBU4Z1ZBxy6xSfHhgHfTFNXfGh8E4NVHZKJZcBytie",
+          "splinePubkey": "ChnM99F3drGnKVaFw9WTM8zTZXZAGKo3CtXBrxbxh5sa",
+          "tickSize": 10,
+          "baseLotsDecimals": 1,
+          "isolatedOnly": false,
+          "maxLeverage": 5,
+          "openInterestCapBaseLots": "6083096",
+          "maxLiquidationSizeBaseLots": "222800",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 611,
+            "maxRatePerIntervalPercentage": 0.22818090151996118
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "SOL",
+          "perpSymbol": "SOL-PERP",
+          "assetId": 0,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Solana",
+          "logoUri": "https://phoenixcdn.trade/logos/SOL/b82944495839f0a92b535eaa8923ea68283b875e8c444840b9eff4fac8819c01.svg",
+          "marketPubkey": "71Si24E4uc3oCaPbPZTozC1ptSNNqygjjebxSmErSsC2",
+          "splinePubkey": "EVhkquLbfm5rDRXtZu9FoyDSXX5mYq2EYU6yD8zfKEqM",
+          "tickSize": 100,
+          "baseLotsDecimals": 2,
+          "isolatedOnly": false,
+          "maxLeverage": 25,
+          "openInterestCapBaseLots": "32164684",
+          "maxLiquidationSizeBaseLots": "500000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 2650,
+            "maxRatePerIntervalPercentage": 0.21744481824895381
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 70,
+            "upnlForWithdrawalsBps": 7000,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "CRWD",
+          "perpSymbol": "CRWD-PERP",
+          "assetId": 69,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "CrowdStrike Holdings",
+          "logoUri": "https://phoenixcdn.trade/logos/CRWD/225bc80356418f24f44825b7cf75aafd23f40ad1fdd77d0a05c2ad3bf5db07ef.svg",
+          "marketPubkey": "4XgPoTWesw4E37zis1ypJuDUPk9m97sPBW8eJ4XV7qd1",
+          "splinePubkey": "GjVYZMgK82sueo1kz5F8uN7d5jKWPxdfF8PWHXTbo5L7",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "15640000",
+          "maxLiquidationSizeBaseLots": "1560000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 553,
+            "maxRatePerIntervalPercentage": 0.21662488248198059
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 25300,
+              "decimals": 3,
+              "ui": "25.300"
+            },
+            "lastKnownIndexPrice": {
+              "value": 253090,
+              "decimals": 3,
+              "ui": "253.090"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 227790,
+                "decimals": 3,
+                "ui": "227.790"
+              },
+              "max": {
+                "value": 278390,
+                "decimals": 3,
+                "ui": "278.390"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 227790,
+                "decimals": 3,
+                "ui": "227.790"
+              },
+              "max": {
+                "value": 278390,
+                "decimals": 3,
+                "ui": "278.390"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "GOOGL",
+          "perpSymbol": "GOOGL-PERP",
+          "assetId": 43,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Google",
+          "logoUri": "https://phoenixcdn.trade/logos/GOOGL/ee995ceb4fd0b46b78cba712d90602f5fdbb09a93aa7e0f5c2f9ac8bc63b3477.svg",
+          "marketPubkey": "BssatSRXDNf5J7465caVwLj9tj3tUnCWuBKMUbY2xsxC",
+          "splinePubkey": "8w2WHmvxfDwxWjSratnUW2b6Du97GRjajp8iamMDwxKY",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 20,
+          "openInterestCapBaseLots": "8210000",
+          "maxLiquidationSizeBaseLots": "820000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 755,
+            "maxRatePerIntervalPercentage": 0.21971945754030614
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 17210,
+              "decimals": 3,
+              "ui": "17.210"
+            },
+            "lastKnownIndexPrice": {
+              "value": 344270,
+              "decimals": 3,
+              "ui": "344.270"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 327060,
+                "decimals": 3,
+                "ui": "327.060"
+              },
+              "max": {
+                "value": 361480,
+                "decimals": 3,
+                "ui": "361.480"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 327060,
+                "decimals": 3,
+                "ui": "327.060"
+              },
+              "max": {
+                "value": 361480,
+                "decimals": 3,
+                "ui": "361.480"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        },
+        {
+          "symbol": "ANSEM",
+          "perpSymbol": "ANSEM-PERP",
+          "assetId": 55,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "ANSEM",
+          "logoUri": "https://phoenixcdn.trade/logos/ANSEM/36ca35040380f6968c7965bf49e05686d901398455f7c6d32400d99d53404cc7.svg",
+          "marketPubkey": "3X4TMR17aZLp9hzK4UZ7YkhHbeCTpVwsQZLA6X11vcAk",
+          "splinePubkey": "BRe4PVK4WDyHhNnGUgcbv9HC3Zb4nffSMnGWrwBSPMmt",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": true,
+          "maxLeverage": 3,
+          "openInterestCapBaseLots": "4416010",
+          "maxLiquidationSizeBaseLots": "441600",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 389,
+            "maxRatePerIntervalPercentage": 0.21812268700235507
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "PONS",
+          "perpSymbol": "PONS-PERP",
+          "assetId": 80,
+          "status": "active",
+          "category": "crypto",
+          "displayName": "Pons",
+          "logoUri": "https://phoenixcdn.trade/logos/PONS/f739a0bac8e488b2da02a40f064ad5e021be6bf9ed44e9d1a2050d94d832d51f.svg",
+          "marketPubkey": "Cv9UFv5i3J3S7hJMQaMKvVZGc5cm9g1EHJWm9zzCo2u9",
+          "splinePubkey": "Fx4XE8pTce2abqMECd9BfWPoD62XipjN1FBnndot4z9b",
+          "tickSize": 10,
+          "baseLotsDecimals": 0,
+          "isolatedOnly": true,
+          "maxLeverage": 3,
+          "openInterestCapBaseLots": "1265620",
+          "maxLiquidationSizeBaseLots": "126560",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 28800,
+            "maxRatePerInterval": 1455,
+            "maxRatePerIntervalPercentage": 0.2487689782519491
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          }
+        },
+        {
+          "symbol": "QCOM",
+          "perpSymbol": "QCOM-PERP",
+          "assetId": 59,
+          "status": "active",
+          "category": "stocks",
+          "displayName": "Qualcomm",
+          "logoUri": "https://phoenixcdn.trade/logos/QCOM/35e34dcee0db968a925375d1b1dcb70fd4524d2e959ba0e8c5829e9cea6c7057.svg",
+          "marketPubkey": "64EcgJyq6vgtkpDQU5YLDiJYNbLDBtqjyomvqrbtac1d",
+          "splinePubkey": "F8VCmZ95HKiMN4u5e322665Zn4mtkPzfbHX1maLCaqBy",
+          "tickSize": 10,
+          "baseLotsDecimals": 3,
+          "isolatedOnly": false,
+          "maxLeverage": 10,
+          "openInterestCapBaseLots": "18160000",
+          "maxLiquidationSizeBaseLots": "1820000",
+          "fees": {
+            "maker": 5e-05,
+            "taker": 0.00035
+          },
+          "funding": {
+            "intervalSeconds": 3600,
+            "periodSeconds": 86400,
+            "maxRatePerInterval": 423,
+            "maxRatePerIntervalPercentage": 0.20734277731483752
+          },
+          "riskFactors": {
+            "maintenance": 50,
+            "maintenanceBps": 5000,
+            "backstop": 20,
+            "backstopBps": 2000,
+            "highRisk": 10,
+            "highRiskBps": 1000,
+            "upnl": 100,
+            "upnlBps": 10000,
+            "upnlForWithdrawals": 1,
+            "upnlForWithdrawalsBps": 100,
+            "cancelOrder": 75,
+            "cancelOrderBps": 7500
+          },
+          "commodityMetadata": {
+            "isCommodity": true,
+            "isReopen": false,
+            "isAfterHours": true,
+            "status": "afterHours",
+            "afterHoursRadius": {
+              "value": 20270,
+              "decimals": 3,
+              "ui": "20.270"
+            },
+            "lastKnownIndexPrice": {
+              "value": 202780,
+              "decimals": 3,
+              "ui": "202.780"
+            },
+            "markPriceBand": {
+              "min": {
+                "value": 182510,
+                "decimals": 3,
+                "ui": "182.510"
+              },
+              "max": {
+                "value": 223050,
+                "decimals": 3,
+                "ui": "223.050"
+              }
+            },
+            "executionPriceBand": {
+              "min": {
+                "value": 182510,
+                "decimals": 3,
+                "ui": "182.510"
+              },
+              "max": {
+                "value": 223050,
+                "decimals": 3,
+                "ui": "223.050"
+              }
+            },
+            "lastIndexExpiryTimestamp": 1790553900
+          }
+        }
+      ]
+    }
+  },
+  "token_search": {
+    "args": {
+      "query": "ANSEM"
+    },
+    "is_error": false,
+    "data": {
+      "query": "ANSEM",
+      "tokens": [
+        {
+          "mint": "9cRCn9rGT8V2imeM2BaKs13yhMEais3ruM3rPvTGpump",
+          "symbol": "ANSEM",
+          "name": "The Black Bull",
+          "decimals": 6,
+          "source": "well_known",
+          "verified": true
+        },
+        {
+          "mint": "6n7Janary9fqzxKaJVrhL9TG2F61VbAtwUMu1YZscaQS",
+          "symbol": "Hobbes",
+          "name": "Ansem's Cat",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": true,
+          "confidence": "medium"
+        },
+        {
+          "mint": "SPqTn8KkooByR41x3SsaNxGxXDqPFFRXR2Kkt8TJhSK",
+          "symbol": "ANSEM",
+          "name": "ANSEM",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "B5YTUMqSnwzztWHWmzAzHApeRy6cuGEx49Bidt4kuH8w",
+          "symbol": "TIPANSEM",
+          "name": "Ansem.tips",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "47pLTW9kgQLGe8QezT5d7WqUFGhNpLHTLd2P81RApump",
+          "symbol": "ansem/acc",
+          "name": "Ansem Accelerationism",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "CLL86PYRL3iEb4kLek5c1rS982yDsUvxTV1E3mHXT8t6",
+          "symbol": "Hobbes",
+          "name": "Ansem cat",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "5u9paAt4igGrZy7AD4HJDr9vEJDwa6XRRM7e2gscpump",
+          "symbol": "ansem",
+          "name": "stansem",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "7ocSk9P1AgbF8MdGn6DLmvn9hmkTxU4FrAVZ8nLSpump",
+          "symbol": "ANSEM",
+          "name": "Goon Ansem",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "Fe9mfm1S9Xa6HdoiduQXVc4qemQNaPLuAVwvG24vpump",
+          "symbol": "ANSEM",
+          "name": "The Brown Goat",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "CcpczaZbUJXWVtveuTx5cWLRonL1BshRq8VP7MNZpump",
+          "symbol": "ANSEM",
+          "name": "The Black Bull",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "8rYhDyjgtwNTYbr5reaDANDUC2dZ1AziBQRgQEXhpump",
+          "symbol": "BULLPEN",
+          "name": "ANSEM\"S WALLET MADE A COIN ",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "nkV3bBbaEbNTqcpaskseMRJpmX8krz6GTWgLnqxpump",
+          "symbol": "PAIDANSEM",
+          "name": "PAID ANSEM",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "7PcvbHJq48SeuQK642tozus1yoXea9fzmz9vGVTbpump",
+          "symbol": "AnsemBot",
+          "name": "AnsemBot",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "DirAmXZhF4eUGdLxyjecv9CR37iXqzfTm4df4fQSpump",
+          "symbol": "ANSEM",
+          "name": "The Black Goat",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "8oXrJHudujNp1SuRfqweHyezCyMfrRGQd63CVWjKpump",
+          "symbol": "ANSEM",
+          "name": "Acceleration Ansem ",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "F7Xu898gQFX3HUU663fLMzkvESA4Rp5wqz5aHNnzod51",
+          "symbol": "ANSEM",
+          "name": "The Brown Goat",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "HRkdQqwsN7NK2qosxEG62WxQDay7EyoqWqndQzCLpump",
+          "symbol": "ANSEMACC",
+          "name": "ANSEM/ Accelerationism",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "8RUrp5HmsQHoXZCECRkWh1Ne1WrWVQNwYuTGWbFop4ab",
+          "symbol": "ANSEM",
+          "name": "ansem",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "FPN5CSCuPgeWK4JuEiCE4PVFQY271xT7936xbsHpump",
+          "symbol": "ANSEM",
+          "name": "The Black Goat",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        },
+        {
+          "mint": "3JdoL7ya815J4nvJtGurfiSW2RMZquESgL6jZk7DEtLU",
+          "symbol": "ANSELON",
+          "name": "Ansem Elon Musk",
+          "decimals": 6,
+          "source": "discovery",
+          "verified": false,
+          "confidence": "unknown"
+        }
+      ]
+    }
+  },
+  "intelligence_market": {
+    "args": {
+      "token": "SOL"
+    },
+    "is_error": false,
+    "data": {
+      "error": "Bitget market info request failed."
+    }
+  },
+  "get_whitelist": {
+    "args": {},
+    "is_error": false,
+    "data": []
+  }
+}

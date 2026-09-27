@@ -1,0 +1,19 @@
+{
+  "note": "Unrecorded 1 USDC->SOL swap from agent wallet, 55s before the recorded swap_test run; found via get_wallet_history. Origin unconfirmed.",
+  "signature": "4RSqNho6WXUdDMjVoj9yG6ERMYGfekJ8gc7PXMRryQSwkjuhoA5ezP4oZRaHzKxmKF6Yt41bBUHqV97Zr8UHKSRi",
+  "onchain": {
+    "slot": 451033295,
+    "block_time": 1790521842,
+    "err": null,
+    "fee_lamports": 105000,
+    "signers": [
+      "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY"
+    ],
+    "fee_payer_native_sol_delta_lamports": 8114635,
+    "token_balance_deltas_raw_units": {
+      "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY|EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": -1000000,
+      "2SixkjMjaLqXcEEJZfeth7qjH711R2uvp6TrUaHNMB65|EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": 1000000,
+      "2SixkjMjaLqXcEEJZfeth7qjH711R2uvp6TrUaHNMB65|So11111111111111111111111111111111111111112": -8219635
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "sig": "59Nh4B6icBSWznZkvd9cAYXuthx2oCRpbrtEtYL1XHRNmUZpHVAAJB1SsrgVfLrVwqMbHZjRaAenG9B4P59vYiK4",
+  "slot": 451040477,
+  "block_time": 1790523774,
+  "in_mint": "So11111111111111111111111111111111111111112",
+  "out_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  "in_raw": 16336402,
+  "out_raw": 1986874,
+  "fee_lamports": 17964,
+  "agent_paid_fee": true
+}

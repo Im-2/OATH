@@ -1,0 +1,226 @@
+{
+  "started_at": "2026-09-27T15:11:37.774680+00:00",
+  "request": {
+    "agent_id": "2b9abb41-60e1-4b62-b1ec-ce772445003e",
+    "input_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "output_mint": "So11111111111111111111111111111111111111112",
+    "amount": "1000000",
+    "slippage_bps": 100
+  },
+  "portfolio_before": {
+    "is_error": false,
+    "data": {
+      "agent_id": "2b9abb41-60e1-4b62-b1ec-ce772445003e",
+      "wallet_address": "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY",
+      "sol_balance": "0.014049888",
+      "usdc_balance": "1.000176",
+      "sol_price_usd": 121.66,
+      "total_value_usd": 2.71,
+      "tokens": [
+        {
+          "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+          "amount": 1.000176,
+          "decimals": 6,
+          "tokenProgram": "spl-token",
+          "priceUsd": 0.99988492,
+          "valueUsd": 1.00006089974592,
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      ],
+      "total_token_accounts": 1,
+      "recent_transactions": [
+        {
+          "signature": "4RSqNho6WXUdDMjVoj9yG6ERMYGfekJ8gc7PXMRryQSwkjuhoA5ezP4oZRaHzKxmKF6Yt41bBUHqV97Zr8UHKSRi",
+          "timestamp": 1790521842,
+          "date": "2026-09-27T15:10:42.000Z",
+          "status": "success",
+          "memo": null
+        },
+        {
+          "signature": "TdcMRQGHoguSeJDQZjHQbaUqzgXkWxpBmwskQB8c9doBcgiJ6S4KjcLZHA7vKrqYVFg4DXqaNgMFbCw7fbVPqrx",
+          "timestamp": 1790520152,
+          "date": "2026-09-27T14:42:32.000Z",
+          "status": "success",
+          "memo": null
+        },
+        {
+          "signature": "41Aq5MtCcpkBasgUASkWm6uvMTNVZBALFHXyed6PQrpRHyNH8ss5Q4vSfP92i4PbBwmbzFBDiXtzD1qnGkXCo5CL",
+          "timestamp": 1790520100,
+          "date": "2026-09-27T14:41:40.000Z",
+          "status": "success",
+          "memo": null
+        }
+      ]
+    }
+  },
+  "quote": {
+    "is_error": false,
+    "data": {
+      "status": "quoted",
+      "venue": "jupiter",
+      "swapMode": "ExactIn",
+      "input": {
+        "token": "USDC",
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "amount": "1",
+        "rawAmount": "1000000",
+        "decimals": 6
+      },
+      "output": {
+        "token": "SOL",
+        "mint": "So11111111111111111111111111111111111111112",
+        "amount": "0.008227159",
+        "rawAmount": "8227159",
+        "decimals": 9
+      },
+      "slippageBps": 100,
+      "priceImpactPct": "0",
+      "route": [
+        "Kipseli"
+      ],
+      "otherAmountThreshold": "0.008144888",
+      "platformFee": null
+    }
+  },
+  "swap_execute_latency_s": 2.12,
+  "swap_execute_response": {
+    "is_error": false,
+    "data": {
+      "status": "executed",
+      "venue": "jupiter",
+      "swapMode": "ExactIn",
+      "input": {
+        "token": "USDC",
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "amount": "1",
+        "rawAmount": "1000000",
+        "decimals": 6
+      },
+      "output": {
+        "token": "SOL",
+        "mint": "So11111111111111111111111111111111111111112",
+        "amount": "0.008227098",
+        "rawAmount": "8227098",
+        "decimals": 9
+      },
+      "slippageBps": 100,
+      "priceImpactPct": "0",
+      "route": [
+        "GoonFi V2"
+      ],
+      "otherAmountThreshold": "0.008144828",
+      "platformFee": null,
+      "txHash": "2yVvHjqByEtJEk6Xh8GQcLJ4Um6KBTJosFaxtQMfS7nTnYLTXVEasmWfQ9McNJUsEuuLkq3XK6wPNqFrvYLEHDDu",
+      "explorerUrl": "https://solscan.io/tx/2yVvHjqByEtJEk6Xh8GQcLJ4Um6KBTJosFaxtQMfS7nTnYLTXVEasmWfQ9McNJUsEuuLkq3XK6wPNqFrvYLEHDDu"
+    }
+  },
+  "portfolio_after": {
+    "is_error": false,
+    "data": {
+      "agent_id": "2b9abb41-60e1-4b62-b1ec-ce772445003e",
+      "wallet_address": "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY",
+      "sol_balance": "0.022271655",
+      "usdc_balance": "0.000176",
+      "sol_price_usd": 121.66,
+      "total_value_usd": 2.71,
+      "tokens": [
+        {
+          "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+          "amount": 0.000176,
+          "decimals": 6,
+          "tokenProgram": "spl-token",
+          "priceUsd": 0.99988548,
+          "valueUsd": 0.00017597984448,
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      ],
+      "total_token_accounts": 1,
+      "recent_transactions": [
+        {
+          "signature": "2yVvHjqByEtJEk6Xh8GQcLJ4Um6KBTJosFaxtQMfS7nTnYLTXVEasmWfQ9McNJUsEuuLkq3XK6wPNqFrvYLEHDDu",
+          "timestamp": 1790521904,
+          "date": "2026-09-27T15:11:44.000Z",
+          "status": "success",
+          "memo": null
+        },
+        {
+          "signature": "4RSqNho6WXUdDMjVoj9yG6ERMYGfekJ8gc7PXMRryQSwkjuhoA5ezP4oZRaHzKxmKF6Yt41bBUHqV97Zr8UHKSRi",
+          "timestamp": 1790521842,
+          "date": "2026-09-27T15:10:42.000Z",
+          "status": "success",
+          "memo": null
+        },
+        {
+          "signature": "TdcMRQGHoguSeJDQZjHQbaUqzgXkWxpBmwskQB8c9doBcgiJ6S4KjcLZHA7vKrqYVFg4DXqaNgMFbCw7fbVPqrx",
+          "timestamp": 1790520152,
+          "date": "2026-09-27T14:42:32.000Z",
+          "status": "success",
+          "memo": null
+        },
+        {
+          "signature": "41Aq5MtCcpkBasgUASkWm6uvMTNVZBALFHXyed6PQrpRHyNH8ss5Q4vSfP92i4PbBwmbzFBDiXtzD1qnGkXCo5CL",
+          "timestamp": 1790520100,
+          "date": "2026-09-27T14:41:40.000Z",
+          "status": "success",
+          "memo": null
+        }
+      ]
+    }
+  },
+  "wallet_history_after": {
+    "is_error": false,
+    "data": [
+      {
+        "signature": "2yVvHjqByEtJEk6Xh8GQcLJ4Um6KBTJosFaxtQMfS7nTnYLTXVEasmWfQ9McNJUsEuuLkq3XK6wPNqFrvYLEHDDu",
+        "timestamp": 1790521904,
+        "date": "2026-09-27T15:11:44.000Z",
+        "status": "success",
+        "memo": null
+      },
+      {
+        "signature": "4RSqNho6WXUdDMjVoj9yG6ERMYGfekJ8gc7PXMRryQSwkjuhoA5ezP4oZRaHzKxmKF6Yt41bBUHqV97Zr8UHKSRi",
+        "timestamp": 1790521842,
+        "date": "2026-09-27T15:10:42.000Z",
+        "status": "success",
+        "memo": null
+      },
+      {
+        "signature": "TdcMRQGHoguSeJDQZjHQbaUqzgXkWxpBmwskQB8c9doBcgiJ6S4KjcLZHA7vKrqYVFg4DXqaNgMFbCw7fbVPqrx",
+        "timestamp": 1790520152,
+        "date": "2026-09-27T14:42:32.000Z",
+        "status": "success",
+        "memo": null
+      },
+      {
+        "signature": "41Aq5MtCcpkBasgUASkWm6uvMTNVZBALFHXyed6PQrpRHyNH8ss5Q4vSfP92i4PbBwmbzFBDiXtzD1qnGkXCo5CL",
+        "timestamp": 1790520100,
+        "date": "2026-09-27T14:41:40.000Z",
+        "status": "success",
+        "memo": null
+      }
+    ]
+  },
+  "signature_candidates_in_response": [
+    {
+      "path": "$.data.txHash",
+      "sig": "2yVvHjqByEtJEk6Xh8GQcLJ4Um6KBTJosFaxtQMfS7nTnYLTXVEasmWfQ9McNJUsEuuLkq3XK6wPNqFrvYLEHDDu"
+    }
+  ],
+  "onchain": {
+    "slot": 451033522,
+    "block_time": 1790521904,
+    "err": null,
+    "fee_lamports": 5002,
+    "signers": [
+      "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY"
+    ],
+    "fee_payer_native_sol_delta_lamports": 8221767,
+    "token_balance_deltas_raw_units": {
+      "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY|EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": -1000000,
+      "GMCJvYGf5Ex2ARiMquaBDqU6iKM8uiEQkB8jCnoNfHpC|EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": 1000000,
+      "GMCJvYGf5Ex2ARiMquaBDqU6iKM8uiEQkB8jCnoNfHpC|So11111111111111111111111111111111111111112": -8226769
+    }
+  }
+}

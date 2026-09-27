@@ -1,0 +1,4749 @@
+{
+  "count": 132,
+  "tools": [
+    {
+      "name": "list_agents",
+      "description": "List all your agents with their status, skills, and wallet addresses. Each agent has an ID, name, status (running/stopped/error), enabled skills, wallet address, and can be managed via the dashboard at https://agents.clawpump.tech/dashboard",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_agent",
+      "description": "Get detailed information about a specific agent including config, skills, and wallet",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use your default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "create_agent",
+      "description": "Create a new AI agent with a name, persona, model, and skills. The agent will be accessible both here and at https://agents.clawpump.tech/dashboard",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Agent display name"
+          },
+          "persona": {
+            "description": "Agent persona/personality description",
+            "type": "string"
+          },
+          "model": {
+            "description": "LLM model ID (use get_model_catalog to see options). Default: moonshotai/kimi-k2.5",
+            "type": "string"
+          },
+          "system_prompt": {
+            "description": "Custom system prompt",
+            "type": "string"
+          },
+          "enabled_skills": {
+            "description": "Skill slugs to enable (use list_available_skills to see options)",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "is_public": {
+            "description": "Make agent publicly visible",
+            "type": "boolean"
+          },
+          "public_description": {
+            "description": "Public description for marketplace",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "update_agent",
+      "description": "Update an agent's configuration \u2014 name, persona, model, skills, or visibility. Changes sync to the web dashboard immediately.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use your default/only agent)",
+            "type": "string"
+          },
+          "name": {
+            "description": "New display name",
+            "type": "string"
+          },
+          "persona": {
+            "description": "New persona description",
+            "type": "string"
+          },
+          "model": {
+            "description": "New LLM model ID",
+            "type": "string"
+          },
+          "system_prompt": {
+            "description": "New system prompt",
+            "type": "string"
+          },
+          "temperature": {
+            "description": "Model temperature (0-2)",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "max_tokens": {
+            "description": "Max output tokens",
+            "type": "number"
+          },
+          "enabled_skills": {
+            "description": "Replace enabled skills list",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "is_public": {
+            "description": "Toggle public visibility",
+            "type": "boolean"
+          },
+          "public_description": {
+            "description": "Update public description",
+            "type": "string"
+          },
+          "accepting_bids": {
+            "description": "Toggle accepting marketplace bids",
+            "type": "boolean"
+          },
+          "allow_perps": {
+            "description": "Enable/disable perps trading capability",
+            "type": "boolean"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "delete_agent",
+      "description": "Permanently delete an agent. This action cannot be undone.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "The agent ID to delete \u2014 must be specified explicitly"
+          }
+        },
+        "required": [
+          "agent_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "upload_agent_avatar",
+      "description": "Upload an avatar image for an agent from a URL. The avatar will appear on both MCP and the web dashboard.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use your default/only agent)",
+            "type": "string"
+          },
+          "image_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the image to use as avatar"
+          }
+        },
+        "required": [
+          "image_url"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_agent_asset_url",
+      "description": "Get a signed URL for an agent's stored asset (avatar, sprite)",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "storage_path": {
+            "type": "string",
+            "description": "The storage path returned by upload_agent_avatar"
+          }
+        },
+        "required": [
+          "storage_path"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_available_skills",
+      "description": "List all platform-defined skills that can be enabled on agents",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "chat_with_agent",
+      "description": "Send a message to an agent and get a response. Automatically loads recent chat history for context. The same conversation is visible at https://agents.clawpump.tech/dashboard/chat",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use your default/only agent)",
+            "type": "string"
+          },
+          "message": {
+            "type": "string",
+            "description": "The message to send"
+          },
+          "model": {
+            "description": "Override the agent's default model",
+            "type": "string"
+          },
+          "temperature": {
+            "description": "Model temperature (0-2)",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "include_history": {
+            "description": "Include recent chat history for context (default: true)",
+            "type": "boolean"
+          },
+          "allow_paid_fallback": {
+            "description": "Allow paid model fallback if free quota is exceeded",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_chat_history",
+      "description": "Get recent chat messages for an agent. The same messages appear at https://agents.clawpump.tech/dashboard/chat",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use your default/only agent)",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Number of messages to return (default 20)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "before": {
+            "description": "Pagination cursor \u2014 message ID to fetch before",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_free_tier_status",
+      "description": "Check your free tier quota \u2014 how many free requests remain and when the quota resets",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_agent_runs",
+      "description": "List autonomous runs, optionally filtered by agent or status",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "Filter by agent ID (omit to use default/only agent, pass '*' for all)",
+            "type": "string"
+          },
+          "status": {
+            "description": "Filter by run status",
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "waiting",
+              "paused",
+              "completed",
+              "failed",
+              "cancelled"
+            ]
+          },
+          "limit": {
+            "description": "Max results (default 20)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "create_agent_run",
+      "description": "Create an autonomous objective for an agent to execute with budget and step limits",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent to run (omit to use default/only agent)",
+            "type": "string"
+          },
+          "objective": {
+            "type": "string",
+            "description": "What the agent should accomplish"
+          },
+          "mode": {
+            "description": "Run mode (default: objective)",
+            "type": "string",
+            "enum": [
+              "objective",
+              "deep_research",
+              "iteration",
+              "monitor",
+              "loop"
+            ]
+          },
+          "max_steps": {
+            "description": "Maximum execution steps (default: 10)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "budget_usd": {
+            "description": "Maximum budget in USD",
+            "type": "number",
+            "minimum": 0
+          },
+          "priority": {
+            "description": "Priority (0-10, higher = sooner)",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "run_now": {
+            "description": "Start immediately (default: true)",
+            "type": "boolean"
+          },
+          "input": {
+            "description": "Additional input data for the run",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "objective"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "update_agent_run",
+      "description": "Update an autonomous run's config or status",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "The run ID to update"
+          },
+          "objective": {
+            "description": "Updated objective",
+            "type": "string"
+          },
+          "mode": {
+            "description": "Updated mode",
+            "type": "string",
+            "enum": [
+              "objective",
+              "deep_research",
+              "iteration",
+              "monitor",
+              "loop"
+            ]
+          },
+          "max_steps": {
+            "description": "Updated max steps",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "budget_usd": {
+            "description": "Updated budget",
+            "type": "number",
+            "minimum": 0
+          },
+          "priority": {
+            "description": "Updated priority",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "status": {
+            "description": "Updated status (use cancel_agent_run to cancel)",
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "paused"
+            ]
+          },
+          "run_now": {
+            "description": "Trigger immediately",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "run_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "cancel_agent_run",
+      "description": "Cancel a running or queued autonomous run",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "The run ID to cancel"
+          }
+        },
+        "required": [
+          "run_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_agent_run_steps",
+      "description": "Get the execution steps of an autonomous run",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "The run ID"
+          },
+          "limit": {
+            "description": "Max steps to return (default 50)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "run_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_custom_skills",
+      "description": "List custom skills on an agent",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_custom_skill",
+      "description": "Get the full detail and content of a custom skill",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "skill_id": {
+            "type": "string",
+            "description": "The skill ID"
+          }
+        },
+        "required": [
+          "skill_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "create_custom_skill",
+      "description": "Create a new custom skill on an agent. Skills are also visible at https://agents.clawpump.tech/dashboard/skills",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Skill name"
+          },
+          "description": {
+            "type": "string",
+            "description": "What the skill does"
+          },
+          "content": {
+            "type": "string",
+            "description": "Skill implementation content (prompt instructions or code)"
+          },
+          "enabled": {
+            "description": "Enable immediately (default: true)",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "content"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "update_custom_skill",
+      "description": "Update a custom skill's content or settings",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "skill_id": {
+            "type": "string",
+            "description": "The skill ID"
+          },
+          "name": {
+            "description": "Updated name",
+            "type": "string"
+          },
+          "description": {
+            "description": "Updated description",
+            "type": "string"
+          },
+          "content": {
+            "description": "Updated content",
+            "type": "string"
+          },
+          "enabled": {
+            "description": "Enable/disable",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "skill_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "delete_custom_skill",
+      "description": "Delete a custom skill from an agent",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "skill_id": {
+            "type": "string",
+            "description": "The skill ID to delete"
+          }
+        },
+        "required": [
+          "skill_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_integrations",
+      "description": "List connected integrations for an agent (Twitter, Claude, ChatGPT, Moltbook). Manage integrations at https://agents.clawpump.tech/dashboard/settings",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "save_integration",
+      "description": "Connect an external platform to an agent by providing credentials. For Twitter OAuth, use connect_twitter instead.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "twitter",
+              "claude",
+              "chatgpt",
+              "moltbook"
+            ],
+            "description": "Platform to connect"
+          },
+          "credentials": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Platform-specific credentials (e.g., api_key, access_token)"
+          }
+        },
+        "required": [
+          "platform",
+          "credentials"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "remove_integration",
+      "description": "Disconnect a platform integration from an agent",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "twitter",
+              "claude",
+              "chatgpt",
+              "moltbook"
+            ],
+            "description": "Platform to disconnect"
+          }
+        },
+        "required": [
+          "platform"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_linked_accounts",
+      "description": "List your linked social accounts (Google, Twitter/X). Link accounts at https://agents.clawpump.tech/auth/login",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_automations",
+      "description": "List automations, optionally filtered by agent. Manage at https://agents.clawpump.tech/dashboard/automations",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "Filter by agent ID (omit to use default/only agent, pass '*' for all)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_automation",
+      "description": "Get detailed info about an automation including trigger/action config",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "automation_id": {
+            "type": "string",
+            "description": "The automation ID"
+          }
+        },
+        "required": [
+          "automation_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "create_automation",
+      "description": "Create a new automation with a trigger and action. Trigger types: price_threshold (fires when token hits price), scheduled_at (fires at a specific time). Action types: tool_call (call a specific tool), agent_prompt (send prompt to agent).",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Automation name"
+          },
+          "description": {
+            "description": "Description",
+            "type": "string"
+          },
+          "trigger_type": {
+            "type": "string",
+            "enum": [
+              "price_threshold",
+              "scheduled_at"
+            ],
+            "description": "When to fire"
+          },
+          "trigger_config": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {},
+            "description": "Trigger config. For price_threshold: { token, operator: 'lte'|'gte', priceUsd }. For scheduled_at: { runAt: ISO8601 }"
+          },
+          "action_type": {
+            "type": "string",
+            "enum": [
+              "tool_call",
+              "agent_prompt"
+            ],
+            "description": "What to do when triggered"
+          },
+          "action_config": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {},
+            "description": "Action config. For tool_call: { toolName, args: {} }. For agent_prompt: { prompt }"
+          },
+          "trigger_once": {
+            "description": "Fire only once then complete (default: false)",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "trigger_type",
+          "trigger_config",
+          "action_type",
+          "action_config"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "update_automation",
+      "description": "Update an automation's config, or arm/pause it",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "automation_id": {
+            "type": "string",
+            "description": "The automation ID"
+          },
+          "name": {
+            "description": "Updated name",
+            "type": "string"
+          },
+          "description": {
+            "description": "Updated description",
+            "type": "string"
+          },
+          "status": {
+            "description": "Set to 'armed' to activate or 'paused' to pause",
+            "type": "string",
+            "enum": [
+              "armed",
+              "paused"
+            ]
+          },
+          "trigger_config": {
+            "description": "Updated trigger config",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "action_config": {
+            "description": "Updated action config",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "automation_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "delete_automation",
+      "description": "Delete an automation permanently",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "automation_id": {
+            "type": "string",
+            "description": "The automation ID to delete"
+          }
+        },
+        "required": [
+          "automation_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "trigger_automation",
+      "description": "Manually trigger an automation right now, bypassing its normal trigger condition",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "automation_id": {
+            "type": "string",
+            "description": "The automation ID to trigger"
+          }
+        },
+        "required": [
+          "automation_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_balance",
+      "description": "Get the credit balance for an agent. Top up at https://agents.clawpump.tech/dashboard/credits",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_usage",
+      "description": "Get usage stats for an agent \u2014 requests, tokens, and cost over a period",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "days": {
+            "description": "Number of days to look back (default 30)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 365
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_transactions",
+      "description": "Get platform transaction history for an agent (deposits, withdrawals, charges)",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Max transactions (default 50)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 200
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_wallet_summaries",
+      "description": "Get wallet balances (SOL + USDC) for all your agents",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_wallet_history",
+      "description": "Get on-chain transaction history for an agent's wallet",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Max transactions (default 50)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 200
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "sync_billing",
+      "description": "Sync on-chain deposits to update your credit balance. Call this after depositing USDC.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_usage_history",
+      "description": "Get daily usage breakdown over time for an agent",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "days": {
+            "description": "Number of days (default 30)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 365
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_private_wallet_balance",
+      "description": "Get the agent's MagicBlock private balance (USDC by default). Private transfers only.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "token": {
+            "description": "Token to check (default: USDC)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_balance_history",
+      "description": "Get daily balance history for an agent over time \u2014 useful for tracking growth and P&L",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "days": {
+            "description": "Number of days to look back (default 30)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 365
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_budget",
+      "description": "Get the daily budget and token limits for an agent \u2014 max spend, max tokens per request, etc.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "wallet_transfer",
+      "description": "Send SOL or an SPL token (e.g. USDC) from the agent's on-chain wallet to a whitelisted address. Irreversible on-chain transfer: the destination must already be on the agent's whitelist (add_to_whitelist) and the user must explicitly approve the exact amount, token, and destination first. Requires confirm_transfer=true. Typical use: funding a small local spending wallet (e.g. a pay.sh/x402 allowance).",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "to": {
+            "type": "string",
+            "minLength": 32,
+            "maxLength": 44,
+            "description": "Destination Solana address \u2014 must be on the agent's whitelist"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            ],
+            "description": "Amount in UI units (e.g. 0.05 for SOL, 5 for USDC)"
+          },
+          "token": {
+            "description": "Token symbol or mint address (default SOL)",
+            "type": "string"
+          },
+          "confirm_transfer": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after the user explicitly approved this exact transfer (amount, token, destination)."
+          }
+        },
+        "required": [
+          "to",
+          "amount",
+          "confirm_transfer"
+        ]
+      },
+      "annotations": {
+        "title": "Wallet \u00b7 Transfer (whitelist-gated)",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "browse_marketplace",
+      "description": "Browse agent marketplace listings with optional filters. View at https://agents.clawpump.tech/marketplace",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "category": {
+            "description": "Filter by category",
+            "type": "string",
+            "enum": [
+              "defi",
+              "trading",
+              "social",
+              "analytics",
+              "utility",
+              "meme",
+              "other"
+            ]
+          },
+          "search": {
+            "description": "Search by name or description",
+            "type": "string"
+          },
+          "sort": {
+            "description": "Sort order (newest, price_low, price_high)",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Max results (default 20)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "create_marketplace_listing",
+      "description": "List one of your agents for sale on the marketplace",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID to list (omit to use default/only agent)",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Listing title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Listing description"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "defi",
+              "trading",
+              "social",
+              "analytics",
+              "utility",
+              "meme",
+              "other"
+            ],
+            "description": "Category"
+          },
+          "price_sol": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Asking price in SOL"
+          },
+          "tags": {
+            "description": "Tags for discoverability",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "category",
+          "price_sol"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "delist_marketplace_listing",
+      "description": "Remove a listing from the marketplace",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "listing_id": {
+            "type": "string",
+            "description": "The listing ID to remove"
+          }
+        },
+        "required": [
+          "listing_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "browse_public_agents",
+      "description": "Browse public agents available on the platform. View at https://agents.clawpump.tech/marketplace/agents",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "filter": {
+            "description": "Filter type",
+            "type": "string",
+            "enum": [
+              "all",
+              "for_sale",
+              "accepting_bids",
+              "public_only"
+            ]
+          },
+          "sort": {
+            "description": "Sort order",
+            "type": "string",
+            "enum": [
+              "newest",
+              "oldest",
+              "price_low",
+              "price_high",
+              "highest_bid",
+              "most_used"
+            ]
+          },
+          "search": {
+            "description": "Search by name",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Max results",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "place_bid",
+      "description": "Place a bid on a public agent that accepts bids",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "The public agent ID to bid on"
+          },
+          "amount_sol": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Bid amount in SOL"
+          },
+          "message": {
+            "description": "Message to the seller",
+            "type": "string"
+          }
+        },
+        "required": [
+          "agent_id",
+          "amount_sol"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_my_bids",
+      "description": "List all bids you have placed on agents. Manage at https://agents.clawpump.tech/dashboard/marketplace",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_received_bids",
+      "description": "List bids received on your agents",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "status": {
+            "description": "Filter by bid status (pending, accepted, etc.)",
+            "type": "string"
+          },
+          "agent_id": {
+            "description": "Filter by agent ID",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "accept_marketplace_bid",
+      "description": "Accept a bid on one of your agents. The buyer will be prompted to complete payment.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "bid_id": {
+            "type": "string",
+            "description": "The bid ID to accept"
+          }
+        },
+        "required": [
+          "bid_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "reject_marketplace_bid",
+      "description": "Reject a bid on one of your agents",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "bid_id": {
+            "type": "string",
+            "description": "The bid ID to reject"
+          }
+        },
+        "required": [
+          "bid_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "withdraw_marketplace_bid",
+      "description": "Withdraw a bid you placed on an agent",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "bid_id": {
+            "type": "string",
+            "description": "The bid ID to withdraw"
+          }
+        },
+        "required": [
+          "bid_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_marketplace_history",
+      "description": "Get the sales and transfer history for an agent on the marketplace",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_launch_status",
+      "description": "Check an agent's token launch readiness \u2014 metadata, funding options, and wallet balance. Manage at https://agents.clawpump.tech/dashboard/launch-token",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "launch_token_gasless",
+      "description": "Launch the agent's token on pump.fun via the platform's gasless launch (platform pays the network fees). Platform-enforced limits: one token per agent and at most 3 gasless launches per user \u2014 same rules as the dashboard UI. Requires confirm_launch=true because launching is irreversible.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "confirm_launch": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval of the irreversible token launch."
+          },
+          "symbol": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10,
+            "description": "Token ticker symbol (e.g., CLAW)"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 500,
+            "description": "Token description for pump.fun"
+          },
+          "image_url": {
+            "description": "Token image URL. Omit to use the agent launch image/avatar.",
+            "type": "string",
+            "format": "uri"
+          },
+          "twitter": {
+            "description": "Twitter/X handle for the token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "confirm_launch",
+          "symbol",
+          "description"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "launch_metaplex_genesis_token",
+      "description": "Launch an agent token and require the Metaplex Genesis result. Uses the authenticated agent launch endpoint with metaplexGenesis=true. Requires confirm_launch=true because launch/payment execution is irreversible.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "confirm_launch": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval of the irreversible token launch."
+          },
+          "symbol": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10,
+            "description": "Token ticker symbol (e.g., CLAW)"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 500,
+            "description": "Token description for the Genesis launch"
+          },
+          "image_url": {
+            "description": "Token image URL. Omit to use the agent launch image/avatar.",
+            "type": "string",
+            "format": "uri"
+          },
+          "twitter": {
+            "description": "Twitter/X handle for the token",
+            "type": "string"
+          },
+          "first_buy_amount_sol": {
+            "description": "Optional Metaplex Genesis first-buy amount in SOL, from 0 to 85.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 85
+          }
+        },
+        "required": [
+          "confirm_launch",
+          "symbol",
+          "description"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_whitelist",
+      "description": "Get the address whitelist for an agent \u2014 addresses the agent is allowed to interact with",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "add_to_whitelist",
+      "description": "Add a wallet address to an agent's whitelist",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "address": {
+            "type": "string",
+            "description": "Solana wallet address to whitelist"
+          },
+          "label": {
+            "description": "Human-readable label for the address",
+            "type": "string"
+          }
+        },
+        "required": [
+          "address"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "remove_from_whitelist",
+      "description": "Remove a wallet address from an agent's whitelist",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "address": {
+            "type": "string",
+            "description": "Wallet address to remove"
+          }
+        },
+        "required": [
+          "address"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_model_catalog",
+      "description": "List available LLM models with pricing, context windows, and capabilities",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_news_feed",
+      "description": "Get latest stock, crypto, and tech news with sentiment, tickers, prices, and trade ideas",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "category": {
+            "description": "News category filter (default: all)",
+            "type": "string",
+            "enum": [
+              "all",
+              "stock",
+              "crypto",
+              "tech"
+            ]
+          },
+          "query": {
+            "description": "Optional search query, sent to the backend as q",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Max articles (default 20)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 50
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_account_status",
+      "description": "Check your authentication state, linked accounts, and platform profile. Shows what's connected and what's missing.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "connect_twitter",
+      "description": "Start connecting a Twitter/X account to an agent for auto-posting. This initiates OAuth \u2014 follow the returned URL to authorize.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "configure_twitter_posting",
+      "description": "Configure automatic Twitter posting for an agent \u2014 enable/disable, set interval and prompt",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Enable or disable auto-posting"
+          },
+          "interval_minutes": {
+            "description": "Minutes between posts (default: 60, min: 5, max: 1440)",
+            "type": "number",
+            "minimum": 5,
+            "maximum": 1440
+          },
+          "prompt": {
+            "description": "Prompt template for generating tweets",
+            "type": "string"
+          }
+        },
+        "required": [
+          "enabled"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_dashboard_urls",
+      "description": "Get all dashboard URLs for an agent \u2014 chat, terminal, office, settings, and more. Use these to access your agent on the web.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "generate_link_code",
+      "description": "Generate a multi-device account link code. Use this to link your account across devices or share access.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "set_external_wallet",
+      "description": "Set or update your external wallet address. This is the wallet used for marketplace payments, withdrawals, and deposits.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "wallet_address": {
+            "type": "string",
+            "description": "Solana wallet address (base58)"
+          }
+        },
+        "required": [
+          "wallet_address"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "link_google_account",
+      "description": "Get instructions for linking a Google account to your ClawPump profile. Google auth enables sign-in from the web dashboard.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "swap_quote",
+      "description": "Get a swap quote \u2014 best price across Jupiter, Raydium, and other Solana DEXes. Returns route, price impact, and expected output.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID to use for wallet context (omit for quote-only route discovery)",
+            "type": "string"
+          },
+          "input_mint": {
+            "type": "string",
+            "description": "Input token: a mint address, or a common symbol (SOL, USDC, USDT, BONK, WIF, JUP, JTO, jitoSOL, mSOL, bSOL, CLAW)"
+          },
+          "output_mint": {
+            "type": "string",
+            "description": "Output token: mint address or common symbol (e.g. SOL, USDC)"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Amount in smallest unit (lamports for SOL, 1e6 for USDC)"
+          },
+          "slippage_bps": {
+            "description": "Slippage tolerance in basis points (default: 50 = 0.5%)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5000
+          }
+        },
+        "required": [
+          "input_mint",
+          "output_mint",
+          "amount"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "swap_execute",
+      "description": "Execute a token swap on-chain through the agent's wallet. Supports Jupiter and OKX routing. Always get a quote first with swap_quote.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "input_mint": {
+            "type": "string",
+            "description": "Input token: mint address or common symbol (e.g. SOL, USDC)"
+          },
+          "output_mint": {
+            "type": "string",
+            "description": "Output token: mint address or common symbol (e.g. SOL, USDC)"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Amount in smallest unit"
+          },
+          "slippage_bps": {
+            "description": "Slippage tolerance in basis points (default: 50)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5000
+          }
+        },
+        "required": [
+          "input_mint",
+          "output_mint",
+          "amount"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "token_search",
+      "description": "Search for Solana tokens by name, symbol, or mint address. Returns matching tokens with price, market cap, and liquidity data.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Token name, symbol, or partial mint address to search"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_portfolio",
+      "description": "Get an agent's token holdings, balances, and P&L. Shows SOL, USDC, and all token positions.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_price",
+      "description": "Get current spot price for one or more tokens or major coins such as SOL, BTC, and ETH. Auto uses the ClawPump price stack; provider='birdeye' calls Birdeye directly for Solana mints/common Solana symbols.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "tokens": {
+            "type": "string",
+            "description": "Comma-separated token mint addresses or symbols"
+          },
+          "provider": {
+            "description": "Price provider. auto uses the backend stack; birdeye requires BIRDEYE_API_KEY and mint addresses or common symbols.",
+            "type": "string",
+            "enum": [
+              "auto",
+              "birdeye"
+            ]
+          },
+          "chain": {
+            "description": "Birdeye chain header when provider is birdeye (default: solana)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "tokens"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_market_signals",
+      "description": "Get market signals \u2014 top movers, anomalies, macro indicators, or yield opportunities on Solana.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "top-movers",
+              "anomalies",
+              "macro",
+              "yield"
+            ],
+            "description": "Signal type: top-movers (biggest gains/losses), anomalies (unusual activity), macro (market-wide indicators), yield (farming opportunities)"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_indicators",
+      "description": "Get market-wide technical indicators \u2014 fear/greed index, volume trends, dominance metrics, and macro context.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "dca_create",
+      "description": "Create a recurring DCA (dollar-cost averaging) buy order. Automatically buys a token at regular intervals using Jupiter DCA.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "input_mint": {
+            "type": "string",
+            "description": "Input token: mint address or common symbol (e.g. USDC)"
+          },
+          "output_mint": {
+            "type": "string",
+            "description": "Output token to buy: mint address or common symbol"
+          },
+          "amount_per_cycle": {
+            "type": "string",
+            "description": "Amount to spend per cycle in smallest unit"
+          },
+          "cycle_seconds": {
+            "type": "number",
+            "minimum": 60,
+            "description": "Seconds between each buy (e.g. 3600 = hourly, 86400 = daily)"
+          },
+          "num_cycles": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1000,
+            "description": "Total number of buy cycles"
+          }
+        },
+        "required": [
+          "input_mint",
+          "output_mint",
+          "amount_per_cycle",
+          "cycle_seconds",
+          "num_cycles"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "dca_cancel",
+      "description": "Cancel an active DCA order. Remaining funds are returned to the agent's wallet.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "dca_id": {
+            "type": "string",
+            "description": "The DCA order ID to cancel"
+          }
+        },
+        "required": [
+          "dca_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "dca_list",
+      "description": "List all active and recent DCA orders for an agent.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "limit_order_create",
+      "description": "Create a limit order on Jupiter. The order executes automatically when the target price is reached.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "input_mint": {
+            "type": "string",
+            "description": "Token to sell: mint address or common symbol"
+          },
+          "output_mint": {
+            "type": "string",
+            "description": "Token to buy: mint address or common symbol"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount to sell in smallest unit"
+          },
+          "trigger_price": {
+            "type": "string",
+            "description": "Price at which the order triggers (output per input token)"
+          }
+        },
+        "required": [
+          "input_mint",
+          "output_mint",
+          "amount",
+          "trigger_price"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "limit_order_cancel",
+      "description": "Cancel an active limit order. Funds are returned to the agent's wallet.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "description": "The limit order ID to cancel"
+          }
+        },
+        "required": [
+          "order_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "limit_order_history",
+      "description": "View limit order history for an agent \u2014 filled, cancelled, and active orders.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "arbitrage_quote",
+      "description": "Get a cross-DEX arbitrage opportunity quote for a token pair. Compares prices across Jupiter, Raydium, Orca, and other Solana DEXes.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "input_mint": {
+            "type": "string",
+            "description": "Input token: mint address or common symbol (e.g. SOL, USDC)"
+          },
+          "output_mint": {
+            "type": "string",
+            "description": "Output token: mint address or common symbol (e.g. SOL, USDC)"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount in smallest unit"
+          }
+        },
+        "required": [
+          "input_mint",
+          "output_mint",
+          "amount"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "arbitrage_prices",
+      "description": "Compare prices across multiple DEXes for a token pair. Shows price differences and potential arbitrage spread.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "input_mint": {
+            "type": "string",
+            "description": "Input token: mint address or common symbol (e.g. SOL, USDC)"
+          },
+          "output_mint": {
+            "type": "string",
+            "description": "Output token: mint address or common symbol (e.g. SOL, USDC)"
+          }
+        },
+        "required": [
+          "input_mint",
+          "output_mint"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "perps_markets",
+      "description": "List Phoenix perpetual futures markets and risk/fee metadata. Read-only.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "description": "Optional market filter, for example SOL or SOL-PERP.",
+            "type": "string"
+          },
+          "includeInactive": {
+            "description": "Include inactive Phoenix markets.",
+            "type": "boolean"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "perps_market_data",
+      "description": "Fetch live Phoenix market data for one perp market, including mark price, candles, and optional orderbook.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Phoenix market code, for example SOL or SOL-PERP."
+          },
+          "timeframe": {
+            "description": "Candle timeframe. Defaults to 1h.",
+            "type": "string"
+          },
+          "candleLimit": {
+            "description": "Number of candles. Max 100.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "includeCandles": {
+            "description": "Include recent candles.",
+            "type": "boolean"
+          },
+          "includeOrderbook": {
+            "description": "Include top orderbook levels.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "symbol"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "perps_account",
+      "description": "Read Phoenix account state for the agent wallet: collateral, positions, orders, margin, and risk tier.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID. Omit to use the default/only agent.",
+            "type": "string"
+          },
+          "pdaIndex": {
+            "description": "Phoenix trader PDA index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "subaccountIndex": {
+            "description": "Optional Phoenix subaccount index.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "perps_account_prepare",
+      "description": "Initialize Phoenix access/accounts and optionally deposit wallet USDC into Phoenix parent collateral. Phoenix private-beta activation codes are backend-owned. Users and tool args cannot pass, override, or test Phoenix codes; do not claim you tried CLAWPUMP, lowercase variants, or no code.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID. Omit to use the default/only agent.",
+            "type": "string"
+          },
+          "amountUsdc": {
+            "description": "Optional USDC amount to deposit as collateral.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "amountQuoteLots": {
+            "description": "Optional USDC quote lots to deposit as collateral.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "pdaIndex": {
+            "description": "Phoenix trader PDA index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "isolatedSubaccountIndex": {
+            "description": "Isolated subaccount index. Defaults to 1.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "createIsolatedSubaccount": {
+            "description": "Create the isolated subaccount. Defaults to true.",
+            "type": "boolean"
+          },
+          "confirmRisk": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after explicit user approval of Phoenix perps/collateral risk."
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "description": "Client-generated idempotency key for this write action."
+          }
+        },
+        "required": [
+          "confirmRisk",
+          "idempotencyKey"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "perps_trader_register",
+      "description": "Register a Phoenix trader subaccount from the agent wallet. Prefer perps_account_prepare for first-time setup. Phoenix private-beta activation codes are backend-owned. Users and tool args cannot pass, override, or test Phoenix codes; do not claim you tried CLAWPUMP, lowercase variants, or no code.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID. Omit to use the default/only agent.",
+            "type": "string"
+          },
+          "marginType": {
+            "description": "Trader margin type. Defaults to cross unless subaccountIndex > 0.",
+            "type": "string",
+            "enum": [
+              "cross",
+              "isolated"
+            ]
+          },
+          "pdaIndex": {
+            "description": "Phoenix trader PDA index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "subaccountIndex": {
+            "description": "Cross uses 0; isolated must be greater than 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirmRisk": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after explicit user approval of Phoenix perps/collateral risk."
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "description": "Client-generated idempotency key for this write action."
+          }
+        },
+        "required": [
+          "confirmRisk",
+          "idempotencyKey"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "perps_collateral_deposit",
+      "description": "Deposit wallet USDC into Phoenix parent trader collateral. Signs and sends a Solana transaction. Phoenix private-beta activation codes are backend-owned. Users and tool args cannot pass, override, or test Phoenix codes; do not claim you tried CLAWPUMP, lowercase variants, or no code.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID. Omit to use the default/only agent.",
+            "type": "string"
+          },
+          "amountUsdc": {
+            "description": "USDC amount to deposit.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "amountQuoteLots": {
+            "description": "USDC quote lots to deposit.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "pdaIndex": {
+            "description": "Phoenix trader PDA index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirmRisk": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after explicit user approval of Phoenix perps/collateral risk."
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "description": "Client-generated idempotency key for this write action."
+          }
+        },
+        "required": [
+          "confirmRisk",
+          "idempotencyKey"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "perps_collateral_withdraw",
+      "description": "Withdraw USDC collateral from the Phoenix parent trader account (subaccount 0) back to the agent wallet. Signs and sends a Solana transaction. Only free collateral not backing an open position or order (effectiveCollateralForWithdrawals, shown by perps_account) can be withdrawn; an over-withdraw is rejected. Isolated-account collateral must be moved to the parent first. Phoenix private-beta activation codes are backend-owned. Users and tool args cannot pass, override, or test Phoenix codes; do not claim you tried CLAWPUMP, lowercase variants, or no code.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID. Omit to use the default/only agent.",
+            "type": "string"
+          },
+          "amountUsdc": {
+            "description": "USDC amount to withdraw. Use this or withdrawAll, not both.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "amountQuoteLots": {
+            "description": "USDC quote lots to withdraw.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "withdrawAll": {
+            "description": "Withdraw the entire free (withdrawable) collateral balance from parent subaccount 0.",
+            "type": "boolean"
+          },
+          "pdaIndex": {
+            "description": "Phoenix trader PDA index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirmRisk": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after explicit user approval of Phoenix perps/collateral risk."
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "description": "Client-generated idempotency key for this write action."
+          }
+        },
+        "required": [
+          "confirmRisk",
+          "idempotencyKey"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "perps_order_preview",
+      "description": "Preview a Phoenix isolated perp order before signing. Use live perps_market_data first for price and size math.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID. Omit to use the default/only agent.",
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Phoenix market code, for example SOL, BTC, ETH, or SOL-PERP."
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "bid",
+              "ask"
+            ],
+            "description": "bid opens/increases long or reduces short; ask opens/increases short or reduces long."
+          },
+          "orderType": {
+            "description": "Order type. Defaults to market.",
+            "type": "string",
+            "enum": [
+              "market",
+              "limit"
+            ]
+          },
+          "quantity": {
+            "description": "Base quantity. Use either quantity or numBaseLots.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "numBaseLots": {
+            "description": "Base lots. Use either quantity or numBaseLots.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "price": {
+            "description": "Limit price. Required for limit orders unless priceInTicks is supplied.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "priceInTicks": {
+            "description": "Phoenix limit price in ticks.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "maxPriceInTicks": {
+            "description": "Market order price guard in ticks.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "reduceOnly": {
+            "description": "Only reduce an existing position.",
+            "type": "boolean"
+          },
+          "postOnly": {
+            "description": "Limit order must post as maker.",
+            "type": "boolean"
+          },
+          "slide": {
+            "description": "Allow Phoenix to slide a post-only limit order.",
+            "type": "boolean"
+          },
+          "pdaIndex": {
+            "description": "Phoenix trader PDA index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "transferAmountUsdc": {
+            "description": "USDC to transfer from parent subaccount 0 into the isolated order account.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "transferAmountQuoteLots": {
+            "description": "USDC quote lots to transfer from parent subaccount 0.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "takeProfitTriggerPrice": {
+            "description": "Native Phoenix take-profit trigger price for this new order.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "takeProfitExecutionPrice": {
+            "description": "Native Phoenix take-profit execution price.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "takeProfitPnlUsd": {
+            "description": "Take-profit target expressed as positive USD PnL.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "stopLossTriggerPrice": {
+            "description": "Native Phoenix stop-loss trigger price for this new order.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "stopLossExecutionPrice": {
+            "description": "Native Phoenix stop-loss execution price.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "stopLossPnlUsd": {
+            "description": "Stop-loss target expressed as positive USD loss.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "tpSlOrderKind": {
+            "description": "Execution style for native TP/SL child orders.",
+            "type": "string",
+            "enum": [
+              "ioc",
+              "limit"
+            ]
+          },
+          "tpSlQuantity": {
+            "description": "Base quantity covered by TP/SL child orders.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "tpSlNumBaseLots": {
+            "description": "Base lots covered by TP/SL child orders.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "acknowledgeNoPriceGuard": {
+            "description": "Required for risk-increasing market orders without maxPriceInTicks.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "symbol",
+          "side"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "perps_order_execute",
+      "description": "Execute a Phoenix isolated perp order. Requires prior user approval, confirmRisk=true, idempotencyKey, and quantity or numBaseLots.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID. Omit to use the default/only agent.",
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Phoenix market code, for example SOL, BTC, ETH, or SOL-PERP."
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "bid",
+              "ask"
+            ],
+            "description": "bid opens/increases long or reduces short; ask opens/increases short or reduces long."
+          },
+          "orderType": {
+            "description": "Order type. Defaults to market.",
+            "type": "string",
+            "enum": [
+              "market",
+              "limit"
+            ]
+          },
+          "quantity": {
+            "description": "Base quantity. Use either quantity or numBaseLots.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "numBaseLots": {
+            "description": "Base lots. Use either quantity or numBaseLots.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "price": {
+            "description": "Limit price. Required for limit orders unless priceInTicks is supplied.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "priceInTicks": {
+            "description": "Phoenix limit price in ticks.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "maxPriceInTicks": {
+            "description": "Market order price guard in ticks.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "reduceOnly": {
+            "description": "Only reduce an existing position.",
+            "type": "boolean"
+          },
+          "postOnly": {
+            "description": "Limit order must post as maker.",
+            "type": "boolean"
+          },
+          "slide": {
+            "description": "Allow Phoenix to slide a post-only limit order.",
+            "type": "boolean"
+          },
+          "pdaIndex": {
+            "description": "Phoenix trader PDA index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "transferAmountUsdc": {
+            "description": "USDC to transfer from parent subaccount 0 into the isolated order account.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "transferAmountQuoteLots": {
+            "description": "USDC quote lots to transfer from parent subaccount 0.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "takeProfitTriggerPrice": {
+            "description": "Native Phoenix take-profit trigger price for this new order.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "takeProfitExecutionPrice": {
+            "description": "Native Phoenix take-profit execution price.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "takeProfitPnlUsd": {
+            "description": "Take-profit target expressed as positive USD PnL.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "stopLossTriggerPrice": {
+            "description": "Native Phoenix stop-loss trigger price for this new order.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "stopLossExecutionPrice": {
+            "description": "Native Phoenix stop-loss execution price.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "stopLossPnlUsd": {
+            "description": "Stop-loss target expressed as positive USD loss.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "tpSlOrderKind": {
+            "description": "Execution style for native TP/SL child orders.",
+            "type": "string",
+            "enum": [
+              "ioc",
+              "limit"
+            ]
+          },
+          "tpSlQuantity": {
+            "description": "Base quantity covered by TP/SL child orders.",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "tpSlNumBaseLots": {
+            "description": "Base lots covered by TP/SL child orders.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "acknowledgeNoPriceGuard": {
+            "description": "Required for risk-increasing market orders without maxPriceInTicks.",
+            "type": "boolean"
+          },
+          "confirmRisk": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after explicit user approval of Phoenix perps/collateral risk."
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "description": "Client-generated idempotency key for this write action."
+          }
+        },
+        "required": [
+          "symbol",
+          "side",
+          "confirmRisk",
+          "idempotencyKey"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "perps_order_cancel",
+      "description": "Cancel Phoenix open perp limit orders. Use orders when exact order ids are known; otherwise use cancelAll=true only when the user clearly wants every open order for the specified symbol/subaccount canceled.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID. Omit to use the default/only agent.",
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Phoenix market code, for example SOL, BTC, ETH, or SOL-PERP."
+          },
+          "pdaIndex": {
+            "description": "Phoenix trader PDA index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "subaccountIndex": {
+            "description": "Phoenix trader subaccount index. Defaults to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "cancelAll": {
+            "description": "Cancel all open orders for this symbol/subaccount when exact order ids are unknown or the user wants the whole scoped market canceled.",
+            "type": "boolean"
+          },
+          "orders": {
+            "description": "Specific Phoenix orders to cancel. Do not combine with cancelAll=true.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "price": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  ],
+                  "description": "Phoenix order price/tick value exactly as returned by Phoenix account state."
+                },
+                "orderSequenceNumber": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  ],
+                  "description": "Phoenix order sequence number exactly as returned by Phoenix account state."
+                }
+              },
+              "required": [
+                "price",
+                "orderSequenceNumber"
+              ]
+            }
+          },
+          "confirmRisk": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after explicit user approval of Phoenix perps/collateral risk."
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "description": "Client-generated idempotency key for this write action."
+          }
+        },
+        "required": [
+          "symbol",
+          "confirmRisk",
+          "idempotencyKey"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "predictions_events",
+      "description": "Browse active prediction market events. Returns markets from Polymarket, Kalshi, and other prediction platforms available via Jupiter.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "category": {
+            "description": "Filter by category (crypto, politics, sports, etc.)",
+            "type": "string"
+          },
+          "status": {
+            "description": "Event status filter (default: active)",
+            "type": "string",
+            "enum": [
+              "active",
+              "resolved",
+              "all"
+            ]
+          },
+          "limit": {
+            "description": "Max results (default 20)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "predictions_positions",
+      "description": "View current prediction market positions for an agent \u2014 open bets, P&L, and settlement status.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "predictions_open",
+      "description": "Open a position on a prediction market event. Places a bet on a specific outcome.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "event_id": {
+            "type": "string",
+            "description": "The prediction event ID"
+          },
+          "outcome": {
+            "type": "string",
+            "description": "The outcome to bet on (e.g. 'yes', 'no', or specific outcome name)"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount to bet in smallest unit (e.g. USDC lamports)"
+          }
+        },
+        "required": [
+          "event_id",
+          "outcome",
+          "amount"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "predictions_close",
+      "description": "Close an open prediction market position. Sells your position back to the market.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "position_id": {
+            "type": "string",
+            "description": "The position ID to close"
+          }
+        },
+        "required": [
+          "position_id"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "intelligence_capabilities",
+      "description": "List all available market intelligence endpoints and their descriptions. Powered by Trader Ralph.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "intelligence_market",
+      "description": "Get a market snapshot for a specific token \u2014 price, volume, liquidity, holder distribution, and trend analysis.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token mint address or symbol to analyze"
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "intelligence_signals",
+      "description": "Get on-chain trading signals for Solana \u2014 whale movements, unusual volume, smart money flows, and momentum indicators.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "intelligence_macro",
+      "description": "Get macro market indicators \u2014 BTC dominance, fear & greed index, sector rotation, stablecoin flows, and global market context.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "intelligence_perps",
+      "description": "Get perpetual futures data \u2014 funding rates, open interest, liquidation levels, and basis spreads across major perps platforms.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_mail_create",
+      "description": "Agent Mail (AgentMail): create a real email inbox for the agent (e.g. [EMAIL]). One-time payment of ~$2 USDC from the agent's own wallet via x402. Idempotent: if the agent already has an inbox, no payment is made. Requires confirm_provision=true because it spends from the wallet.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "confirm_provision": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval of the ~$2 USDC wallet payment."
+          },
+          "username": {
+            "description": "Optional desired local-part of the email (a-z, 0-9, dot, dash, underscore). Must be globally unique; omit to auto-generate.",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "confirm_provision"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Mail \u00b7 Create inbox",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "agent_mail_get_address",
+      "description": "Agent Mail (AgentMail): get the agent's email address & inbox status. Returns null if the agent has no inbox yet \u2014 use agent_mail_create to make one.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Mail \u00b7 Address & status",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_mail_send",
+      "description": "Agent Mail (AgentMail): send an email from the agent's own inbox over x402 \u2014 any per-send fee is paid in USDC from the agent's own wallet. Create an inbox first with agent_mail_create if the agent doesn't have one. Requires confirm_send=true because email is outward-facing and may spend from the wallet.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "confirm_send": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval of sending this email."
+          },
+          "to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email",
+                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "email",
+                  "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                }
+              }
+            ],
+            "description": "Recipient email address, or an array of addresses."
+          },
+          "subject": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "description": "Email subject."
+          },
+          "text": {
+            "description": "Plain-text body. Provide text and/or html.",
+            "type": "string",
+            "maxLength": 100000
+          },
+          "html": {
+            "description": "HTML body. Provide text and/or html.",
+            "type": "string",
+            "maxLength": 500000
+          },
+          "cc": {
+            "description": "Optional CC addresses.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "email",
+              "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+            }
+          },
+          "bcc": {
+            "description": "Optional BCC addresses.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "email",
+              "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+            }
+          },
+          "reply_to": {
+            "description": "Optional Reply-To email address for the outgoing message.",
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "confirm_send",
+          "to",
+          "subject"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Mail \u00b7 Send email",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "agent_mail_list",
+      "description": "Agent Mail (AgentMail): list the agent's emails (synced inbound + sent), newest first. Fast local read from the database.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "direction": {
+            "description": "Filter by direction. Omit for both received and sent.",
+            "type": "string",
+            "enum": [
+              "inbound",
+              "outbound"
+            ]
+          },
+          "limit": {
+            "description": "Max messages to return (default 50).",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Mail \u00b7 List emails",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_mail_read",
+      "description": "Agent Mail (AgentMail): read a single email (full body) by its message id, from the agent's inbox.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "message_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The message id (from agent_mail_list)."
+          }
+        },
+        "required": [
+          "message_id"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Mail \u00b7 Read email",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_status",
+      "description": "Agent Card (Laso Finance): get the agent wallet's Laso account status and recent card orders.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Account status",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_connect",
+      "description": "Agent Card (Laso Finance): connect/authenticate the agent wallet with Laso using Sign-In-With-X. No payment is made.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Connect wallet",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "agent_card_quote",
+      "description": "Agent Card (Laso Finance): preview the x402 payment amount and wallet readiness for creating a card. Does not pay. Use before agent_card_create.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "us_card",
+              "intl_card",
+              "gift_card",
+              "push_to_card"
+            ],
+            "description": "Card kind: US card, international card, gift card, or push-to-card."
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Face value or payout amount in UI units."
+          },
+          "laso_server_id": {
+            "description": "Required for gift_card; obtain from agent_card_search_gift_cards.",
+            "type": "string"
+          },
+          "country": {
+            "description": "Optional two-letter country code for gift cards.",
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "currency": {
+            "description": "Currency for push_to_card. Defaults to USD.",
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "amount"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Price quote",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_create",
+      "description": "Agent Card (Laso Finance): create/buy a card \u2014 a US virtual card, international card, gift card, or push-to-card \u2014 paying USDC from the agent wallet via x402. Always call agent_card_quote first. Requires confirm_spend=true and a stable client_order_id or correlation_id.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "us_card",
+              "intl_card",
+              "gift_card",
+              "push_to_card"
+            ],
+            "description": "Card kind: us_card, intl_card, gift_card, or push_to_card."
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Face value or payout amount in UI units."
+          },
+          "max_amount_atomic": {
+            "type": "string",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Maximum USDC atomic spend from agent_card_quote.quote.max_amount_atomic."
+          },
+          "client_order_id": {
+            "description": "Stable idempotency key for this logical card order.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "correlation_id": {
+            "description": "Stable retry/correlation id. Required unless client_order_id is supplied.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "laso_server_id": {
+            "description": "Required for gift_card orders; obtain from agent_card_search_gift_cards.",
+            "type": "string"
+          },
+          "country": {
+            "description": "Optional two-letter country code for gift cards.",
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "currency": {
+            "description": "Currency for push_to_card. Defaults to USD.",
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ]
+          },
+          "confirm_spend": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval of the card payment."
+          }
+        },
+        "required": [
+          "kind",
+          "amount",
+          "max_amount_atomic",
+          "confirm_spend"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Create card",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "agent_card_list",
+      "description": "Agent Card (Laso Finance): list the agent's cards/orders. Results are redacted; use agent_card_reveal only after explicit approval.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "kind": {
+            "description": "Optional card kind filter.",
+            "type": "string",
+            "enum": [
+              "us_card",
+              "intl_card",
+              "gift_card",
+              "push_to_card"
+            ]
+          },
+          "status": {
+            "description": "Optional order status filter.",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Max cards/orders to return. Default 50.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 List cards",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_get",
+      "description": "Agent Card (Laso Finance): get one card/order by local order id. Redacted result only.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "order_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Local card/order id (from agent_card_list)."
+          }
+        },
+        "required": [
+          "order_id"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Get card",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_reveal",
+      "description": "Agent Card (Laso Finance): reveal the encrypted card number / gift-card redemption secret for one order. Use only when the user explicitly asks for the card/redemption details.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "order_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Local card/order id."
+          },
+          "confirm_reveal": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval to reveal sensitive card/redemption data."
+          }
+        },
+        "required": [
+          "order_id",
+          "confirm_reveal"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Reveal card secret",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_search_gift_cards",
+      "description": "Agent Card (Laso Finance): search available gift-card brands/products (returns Laso server ids). Use before a gift-card quote/create.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "q": {
+            "description": "Search query.",
+            "type": "string"
+          },
+          "country": {
+            "description": "Optional two-letter country code.",
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "currency": {
+            "description": "Optional currency code.",
+            "type": "string"
+          },
+          "category": {
+            "description": "Optional category.",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Search gift cards",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_search_merchants",
+      "description": "Agent Card (Laso Finance): search supported card merchants.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "q": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Merchant search query."
+          },
+          "card_type": {
+            "description": "Optional Laso card type.",
+            "type": "string",
+            "enum": [
+              "Non-Reloadable U.S.",
+              "Non-Reloadable International"
+            ]
+          }
+        },
+        "required": [
+          "q"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Search merchants",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_data",
+      "description": "Agent Card (Laso Finance): poll live card data (balance, status) and update the local order. Returns redacted data only.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "card_id": {
+            "description": "Optional Laso card id.",
+            "type": "string"
+          },
+          "card_type": {
+            "description": "Optional Laso card type.",
+            "type": "string",
+            "enum": [
+              "Non-Reloadable U.S.",
+              "Non-Reloadable International"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Card data",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_refresh",
+      "description": "Agent Card (Laso Finance): request a refresh of one card's data from Laso. Returns redacted response.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "card_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Laso card id."
+          },
+          "card_type": {
+            "description": "Optional Laso card type.",
+            "type": "string",
+            "enum": [
+              "Non-Reloadable U.S.",
+              "Non-Reloadable International"
+            ]
+          }
+        },
+        "required": [
+          "card_id"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Refresh card",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "agent_card_cancel",
+      "description": "Agent Card (Laso Finance): cancel a queued international card/order. Requires confirm_cancel=true.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "card_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Laso card id to cancel."
+          },
+          "confirm_cancel": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval to cancel."
+          }
+        },
+        "required": [
+          "card_id",
+          "confirm_cancel"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Cancel intl card",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "agent_card_balance",
+      "description": "Agent Card (Laso Finance): get the agent wallet's Laso spendable account balance.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Balance",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "agent_card_connect_link",
+      "description": "Agent Card (Laso Finance): create a Laso auth/dashboard link for the agent. Requires confirm=true because it returns an actionable external auth URL.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "confirm": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval to create the link."
+          }
+        },
+        "required": [
+          "confirm"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Connect link",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "agent_card_withdraw",
+      "description": "Agent Card (Laso Finance): request a withdrawal of the Laso account balance. Requires confirm_withdraw=true.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Withdrawal amount."
+          },
+          "confirm_withdraw": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true after explicit user approval to withdraw."
+          }
+        },
+        "required": [
+          "amount",
+          "confirm_withdraw"
+        ]
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Withdraw",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "agent_card_withdrawals",
+      "description": "Agent Card (Laso Finance): get Laso withdrawal status/history.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "withdrawal_id": {
+            "description": "Optional Laso withdrawal id.",
+            "type": "string"
+          }
+        }
+      },
+      "annotations": {
+        "title": "Agent Card \u00b7 Withdrawals",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "pay_sh_search",
+      "description": "Pay.sh: search the public catalog of x402 pay-per-call APIs (data, email, voice, images, domains, shopping\u2026) that the agent can pay with its own ClawPump wallet. Free. Follow up with pay_sh_provider_details, then pay_sh_prepare_call.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "query": {
+            "description": "Search query, e.g. 'image generation', 'weather', 'email'",
+            "type": "string"
+          },
+          "category": {
+            "description": "Optional category filter such as shopping, ai_ml, data, maps, messaging, finance, or search",
+            "type": "string"
+          },
+          "top": {
+            "description": "Max results (default 8)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 25
+          }
+        }
+      },
+      "annotations": {
+        "title": "Pay.sh \u00b7 Search catalog",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "pay_sh_provider_details",
+      "description": "Pay.sh: full details for one provider by fqn \u2014 endpoints with per-call pricing, and (when method+path are given) that endpoint's input schema. Free. Quote the price to the user before preparing a paid call.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "fqn": {
+            "type": "string",
+            "description": "Provider fqn from pay_sh_search, e.g. 'agentmail/email'"
+          },
+          "method": {
+            "description": "HTTP method of one endpoint to inspect (with path)",
+            "type": "string"
+          },
+          "path": {
+            "description": "Endpoint path to inspect (with method)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fqn"
+        ]
+      },
+      "annotations": {
+        "title": "Pay.sh \u00b7 Provider details",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "pay_sh_prepare_call",
+      "description": "Pay.sh: prepare a paid x402 call \u2014 runs a wallet balance preflight and returns a payment preview plus an approval code that expires in 10 minutes. Pays NOTHING yet. Requires the agent to have the 'x402' skill (enable via update_agent). Show the user the exact endpoint and price, get their explicit approval, then call pay_sh_execute_approved with the approval code.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "fqn": {
+            "type": "string",
+            "description": "Provider fqn from the catalog"
+          },
+          "method": {
+            "type": "string",
+            "description": "HTTP method of the endpoint"
+          },
+          "path": {
+            "type": "string",
+            "description": "Endpoint path, e.g. '/fal-ai/flux/schnell'"
+          },
+          "body": {
+            "description": "JSON request body for the endpoint"
+          },
+          "query": {
+            "description": "Query parameters",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "headers": {
+            "description": "Extra request headers",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "path_params": {
+            "description": "Path template parameters",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "max_amount_usd": {
+            "description": "Spend cap for this call in USD (default $1)",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000
+          },
+          "expected_total_usd": {
+            "description": "Expected total cost in USD, from the provider's pricing",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "approval_summary": {
+            "description": "One-line summary of what is being bought, shown in the approval",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fqn",
+          "method",
+          "path"
+        ]
+      },
+      "annotations": {
+        "title": "Pay.sh \u00b7 Prepare paid call",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "pay_sh_execute_approved",
+      "description": "Pay.sh: execute a prepared call, PAYING from the agent's ClawPump wallet via x402 (USDC, on-chain, irreversible). Requires the approval_code from pay_sh_prepare_call (codes expire in 10 minutes) and confirm_payment=true \u2014 set it only after the user explicitly approved the quoted endpoint and price in this conversation. Duplicate payments are blocked by idempotency. Report the cost and result back to the user.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "approval_code": {
+            "type": "string",
+            "minLength": 4,
+            "description": "Approval code returned by pay_sh_prepare_call"
+          },
+          "confirm_payment": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after the user explicitly approved this exact paid call (endpoint + price)."
+          }
+        },
+        "required": [
+          "approval_code",
+          "confirm_payment"
+        ]
+      },
+      "annotations": {
+        "title": "Pay.sh \u00b7 Execute paid call",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "usepod_deposit",
+      "description": "UsePod: top up the user's own UsePod pod from the agent's ClawPump wallet, to pay for Hermes/agent inference usage. Sends USDC from the agent's custodial wallet into the pod identified by deposit_code (the 16-hex code from UsePod /v1/register) via an on-chain transfer. IRREVERSIBLE and the FULL amount goes to the pod (no fee). Get the user's explicit approval of the exact amount and deposit_code first, then call with confirm_deposit=true. The agent wallet must already hold enough USDC.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID whose wallet pays (omit to use default/only agent).",
+            "type": "string"
+          },
+          "deposit_code": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{16}$",
+            "description": "The user's UsePod pod deposit_code (16 hex chars) from /v1/register. Funds go to THIS pod \u2014 double-check it."
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            ],
+            "description": "USDC amount to deposit, in UI units (e.g. 5 for $5 USDC)."
+          },
+          "confirm_deposit": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after the user explicitly approved this exact amount + deposit_code. Irreversible."
+          }
+        },
+        "required": [
+          "deposit_code",
+          "amount",
+          "confirm_deposit"
+        ]
+      },
+      "annotations": {
+        "title": "UsePod \u00b7 Deposit (wallet \u2192 pod)",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "usepod_provision",
+      "description": "UsePod: create a brand-new UsePod pod for the user (no signup, no human step) and \u2014 if `amount` is given \u2014 fund it from the agent's ClawPump wallet in the same call. Use this to set someone up on Pod: ask them how much USDC to deposit and which agent wallet (agent_id) funds it, then call this. Returns the pod's api_token + deposit_code: the Hermes CLI auto-applies api_token as USEPOD_API_KEY and switches the session onto Pod (no paste, no restart) \u2014 treat api_token as a secret and do NOT print it. If `amount` is given you MUST pass confirm_deposit=true (it spends from the wallet). Without `amount` it just registers an empty pod.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent whose wallet funds the pod (omit to use default/only agent).",
+            "type": "string"
+          },
+          "amount": {
+            "description": "USDC to deposit into the new pod, in UI units (e.g. 5). Omit to register an empty pod.",
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            ]
+          },
+          "confirm_deposit": {
+            "description": "Required to be true when `amount` is set \u2014 it spends that amount from the wallet. Set only after the user approved the amount.",
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "annotations": {
+        "title": "UsePod \u00b7 Provision (register + fund)",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "dexter_search",
+      "description": "Search the x402 marketplace for paid APIs (data, images, AI, finance, weather\u2026) by capability. Free, no payment. Aggregates the Dexter catalog (semantic, Base-heavy) AND the PayAI facilitator registry (Solana-rich), deduped. Each result has the payable resourceUrl, HTTP method, per-call price (USDC), payment network(s), and input schema. By default only resources payable on SOLANA are returned, because the ClawPump wallet settles x402 in USDC on Solana \u2014 pass network:'all' to see every chain. To use a result, call its resourceUrl with the ClawPump wallet x402 rail (auto-pays the 402 from the agent's custodial wallet, capped by the spend limit). Quote the price to the user before paying.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Capability to search for, e.g. 'image generation', 'ETH spot price', 'weather forecast'"
+          },
+          "network": {
+            "description": "Payment chain filter. 'solana' (default) = APIs the ClawPump wallet can actually pay (USDC on Solana). 'base' = Base/EVM. 'all' = every chain.",
+            "type": "string",
+            "enum": [
+              "solana",
+              "base",
+              "all"
+            ]
+          },
+          "top": {
+            "description": "Max results to return (default 12)",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 40
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "annotations": {
+        "title": "x402 \u00b7 Search marketplace",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "x402_pay_check",
+      "description": "x402: preview ANY x402 endpoint URL \u2014 fetches its HTTP 402 payment challenge and returns the price + input schema. Free, pays NOTHING. Use this before x402_pay (e.g. on a resourceUrl from dexter_search) to quote the exact price to the user.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The x402 endpoint URL to inspect"
+          },
+          "method": {
+            "description": "HTTP method (defaults to GET, or POST if a body is later sent)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "annotations": {
+        "title": "x402 \u00b7 Check URL",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "x402_pay",
+      "description": "x402: call ANY x402 endpoint URL and PAY for it from the agent's ClawPump wallet (USDC, on-chain, irreversible). Works for any x402 URL, not just the Pay.sh catalog. Spends the agent's public on-chain USDC. Requires confirm_payment=true and max_amount_usd \u2014 set confirm_payment only after the user explicitly approved this exact URL and price (quote it with x402_pay_check first). The wallet signs server-side; the spend is hard-capped at max_amount_usd. Requires the agent to have the 'x402' skill (enable via update_agent). Report the cost and result back to the user.",
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "description": "The agent ID (omit to use default/only agent)",
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The x402 endpoint URL to pay and call"
+          },
+          "method": {
+            "description": "HTTP method (defaults to POST when a body is given, else GET)",
+            "type": "string"
+          },
+          "body": {
+            "description": "JSON request body for the endpoint"
+          },
+          "query": {
+            "description": "Query parameters",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "headers": {
+            "description": "Extra request headers",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "max_amount_usd": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000,
+            "description": "Hard spend cap for this call in USD \u2014 the most the user authorised. The payment fails if the endpoint asks for more."
+          },
+          "confirm_payment": {
+            "type": "boolean",
+            "const": true,
+            "description": "Must be true only after the user explicitly approved this exact paid call (URL + price)."
+          }
+        },
+        "required": [
+          "url",
+          "max_amount_usd",
+          "confirm_payment"
+        ]
+      },
+      "annotations": {
+        "title": "x402 \u00b7 Pay URL",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": null,
+        "openWorldHint": true
+      }
+    }
+  ]
+}
