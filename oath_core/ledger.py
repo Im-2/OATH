@@ -178,10 +178,11 @@ class Ledger:
                                "('prepared','committed','open','closed')").fetchone()["n"]
 
     def record_decision(self, kind: str, mkt: str, reason_code: str, why: str, evidence: dict,
-                        session_id: str | None = None) -> int:
+                        session_id: str | None = None, ts: str | None = None) -> int:
+        """ts defaults to now; an explicit ts is only for backfilling a decision from its source record."""
         cur = self.db.execute(
             "INSERT INTO decisions (ts, kind, mkt, reason_code, why, evidence_json, session_id) VALUES (?,?,?,?,?,?,?)",
-            (now_iso(), kind, mkt, reason_code, why, json.dumps(evidence, sort_keys=True, default=str), session_id))
+            (ts or now_iso(), kind, mkt, reason_code, why, json.dumps(evidence, sort_keys=True, default=str), session_id))
         return cur.lastrowid
 
     def decisions(self, limit: int = 20) -> list[dict]:

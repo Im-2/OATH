@@ -117,13 +117,14 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
             entry = exit_fill = None
             swap_tx = None
             if o:
-                row.update(open_sig=o["sig"], swap_sig=o["swap_sig"])
+                row.update(open_sig=o["sig"], open_time=o["block_time"], swap_sig=o["swap_sig"])
                 swap_sigs.add(o["swap_sig"])
                 swap_tx = rpc.get_transaction(o["swap_sig"])
                 if not swap_tx:
                     p.append("entry swap tx not found")
                 else:
                     row["swap_slot"] = swap_tx["slot"]
+                    row["swap_time"] = swap_tx.get("blockTime")
                     if not swap_tx["slot"] > c["slot"]:
                         p.append(f"entry swap (slot {swap_tx['slot']}) did not land after commit (slot {c['slot']})")
                     if not o["slot"] > c["slot"]:
@@ -145,7 +146,7 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
                 continue
 
             # salt is public once revealed (it is in the reveal memo); kept so anyone can recompute the digest
-            row.update(reveal_sig=r["sig"], reveal_slot=r["slot"], exit_sig=r["exit_sig"],
+            row.update(reveal_sig=r["sig"], reveal_slot=r["slot"], reveal_time=r["block_time"], exit_sig=r["exit_sig"],
                        exit_reason=r["exit_reason"], salt_hex=r["salt_hex"], canonical=r["thesis_raw"])
             try:
                 thesis = parse_canonical(r["thesis_raw"] or "")

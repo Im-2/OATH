@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-09-28T15:18:50.801456+00:00",
+  "as_of": "2026-09-28T16:02:20.155868+00:00",
   "source": "chain (notary memos + on-chain txs), via oath_server.snapshot",
   "notary": "FhpJ6i5oaBiCpNJasksf2qBgFmTv6ikgSUuqDzSBiUod",
   "verify_pass": true,

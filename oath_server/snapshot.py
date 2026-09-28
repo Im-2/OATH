@@ -8,7 +8,6 @@ rebuild (the same data `python -m oath_core.verify` checks), never from a guess.
 """
 from __future__ import annotations
 
-import datetime as dt
 import json
 import logging
 from decimal import Decimal
@@ -21,6 +20,41 @@ from oath_core.solana_rpc import Rpc
 from .indexer import build_index
 
 OUT = Path(__file__).resolve().parent.parent / "web" / "data" / "stats-snapshot.json"
+API_OUT = OUT.with_name("api-snapshot.json")
+
+
+class _FixedIndexer:
+    def __init__(self, idx):
+        self.idx, self.last_error = idx, None
+
+    def get(self):
+        return self.idx
+
+
+def api_snapshot(idx: dict, cfg, notary: str) -> dict:
+    """The real API's own responses (same code path), frozen for when the live API is unreachable."""
+    from fastapi.testclient import TestClient
+
+    from oath_core.config import LEDGER_PATH
+    from oath_core.ledger import Ledger
+    from oath_core.policy import load_policy
+
+    from .app import RateLimiter, create_app
+
+    app = create_app(_FixedIndexer(idx), Ledger(LEDGER_PATH), cfg, notary, load_policy,
+                     rate_limiter=RateLimiter(limit=10_000))
+    c = TestClient(app)
+    get = lambda path: c.get(path).raise_for_status().json()  # noqa: E731
+    return {
+        "generated_at": idx["indexed_at"],
+        "source": "snapshot of the OATH API (chain index + ledger decisions), via oath_server.snapshot",
+        "health": get("/v1/health"),
+        "agent": get("/v1/agent"),
+        "stats": get("/v1/stats"),
+        "feed": get("/v1/feed?limit=500"),
+        "positions": get("/v1/positions?limit=500"),
+        "decisions": get("/v1/decisions?limit=500"),
+    }
 
 
 FEATURE_KEYS = ("seq", "status", "digest", "digest_ok", "salt_hex", "canonical", "thesis", "commit_sig",
@@ -72,6 +106,8 @@ def main() -> int:
     OUT.write_text(json.dumps(snap, indent=2) + "\n", encoding="utf-8")
     print(f"wrote {OUT}: revealed={snap['revealed']} completeness={snap['completeness']} "
           f"volume=${Decimal(snap['volume_usd']):.2f}")
+    API_OUT.write_text(json.dumps(api_snapshot(idx, cfg, notary), indent=1) + "\n", encoding="utf-8")
+    print(f"wrote {API_OUT}")
     return 0
 
 

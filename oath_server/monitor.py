@@ -29,6 +29,16 @@ log = logging.getLogger("oath.monitor")
 INTERVAL_S = 20
 
 
+def write_heartbeat(actions: list[dict]) -> None:
+    """Liveness for /v1/health: the API can only say "monitor online" if the monitor proves it."""
+    from oath_core.config import OATH_HOME
+
+    hb = {"ts": time.time(), "actions": len(actions), "interval_s": INTERVAL_S}
+    tmp = OATH_HOME / "monitor_heartbeat.json.tmp"
+    tmp.write_text(json.dumps(hb), encoding="utf-8")
+    tmp.replace(OATH_HOME / "monitor_heartbeat.json")
+
+
 def _iso_to_ts(s: str | None) -> float | None:
     if not s:
         return None
@@ -159,6 +169,8 @@ def main(argv=None) -> int:
             except Exception as e:  # noqa: BLE001 - keep the loop alive; fail closed per position
                 log.exception("tick failed: %r", e)
                 actions = []
+            if not a.dry_run:
+                write_heartbeat(actions)
             for act in actions:
                 log.info(json.dumps(act, default=str))
             if not actions:

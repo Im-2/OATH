@@ -146,3 +146,16 @@ def test_rate_limit_and_no_index(world):
 def test_only_get_allowed(world):
     c, *_ = world
     assert c.post("/v1/stats").status_code == 405
+
+
+def test_health_reports_monitor_only_from_a_fresh_heartbeat(world, tmp_path):
+    import json as _json
+    import time as _time
+    _, ledger, cfg, idx = world
+    hb = tmp_path / "hb.json"
+    mk = lambda: TestClient(create_app(StubIndexer(idx), ledger, cfg, NOTARY, lambda: Policy(), heartbeat_path=hb))  # noqa: E731
+    assert mk().get("/v1/health").json()["monitor"] == {"online": False, "last_tick_age_s": None}  # no file
+    hb.write_text(_json.dumps({"ts": _time.time() - 5}))
+    assert mk().get("/v1/health").json()["monitor"]["online"] is True
+    hb.write_text(_json.dumps({"ts": _time.time() - 600}))
+    assert mk().get("/v1/health").json()["monitor"]["online"] is False  # stale = not running

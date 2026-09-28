@@ -56,8 +56,22 @@ class RateLimiter:
             return True
 
 
+MONITOR_STALE_S = 90  # monitor ticks every 20s; 90s without a heartbeat = not running
+
+
+def monitor_status(path) -> dict:
+    """From the heartbeat the monitor writes each tick (oath_server.monitor.write_heartbeat)."""
+    try:
+        hb = json.loads(path.read_text(encoding="utf-8"))
+        age = time.time() - float(hb["ts"])
+        return {"online": age < MONITOR_STALE_S, "last_tick_age_s": round(age, 1)}
+    except (OSError, ValueError, KeyError, TypeError):
+        return {"online": False, "last_tick_age_s": None}
+
+
 def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_policy,
-               *, token_mint: str | None = None, rate_limiter: RateLimiter | None = None) -> FastAPI:
+               *, token_mint: str | None = None, rate_limiter: RateLimiter | None = None,
+               heartbeat_path=None) -> FastAPI:
     app = FastAPI(title="OATH (Proof-of-Thesis) public API", version="1",
                   description="Read-only record of an AI trading agent that commits every thesis on Solana "
                               "before trading and reveals it after. Verify it yourself: "
@@ -97,21 +111,24 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
         return {"thesis": thesis, "salt_hex": pos["salt_hex"], "digest_matches_chain": ok} if ok else None
 
     def position_view(row: dict) -> dict:
-        v = {k: row.get(k) for k in ("seq", "status", "digest", "digest_ok", "commit_sig", "commit_slot",
-                                     "open_sig", "swap_sig", "swap_slot", "exit_sig", "exit_slot", "exit_reason",
-                                     "reveal_sig", "reveal_deadline", "blocked_sig", "reason_code", "problems")}
+        v = {k: row.get(k) for k in ("seq", "status", "digest", "digest_ok", "commit_sig", "commit_slot", "commit_time",
+                                     "open_sig", "open_time", "swap_sig", "swap_slot", "swap_time", "exit_sig",
+                                     "exit_slot", "exit_reason", "reveal_sig", "reveal_slot", "reveal_time",
+                                     "reveal_deadline", "blocked_sig", "reason_code", "problems")}
         v = {k: x for k, x in v.items() if x is not None}
-        if row.get("thesis"):  # revealed on-chain
+        if row.get("thesis"):  # revealed on-chain: thesis, salt and canonical bytes are public
             v["thesis"] = row["thesis"]
             v["levels"] = present_levels(row["thesis"])
+            v["canonical"] = row.get("canonical")
+            v["salt_hex"] = row.get("salt_hex")
         if row.get("entry_fill"):
-            v["entry"] = present_fill(row["entry_fill"])
+            v["entry"] = {**present_fill(row["entry_fill"]), "block_time": row["entry_fill"].get("block_time")}
         if row.get("exit_fill"):
-            v["exit"] = present_fill(row["exit_fill"])
+            v["exit"] = {**present_fill(row["exit_fill"]), "block_time": row["exit_fill"].get("block_time")}
         if row.get("grade"):
             g = row["grade"]
             v["result"] = {k: g.get(k) for k in ("pnl_usd", "gross_pnl_usd", "fees_usd", "r_multiple", "entry_px",
-                                                 "exit_px", "qty_match", "adherence", "volume_usd")}
+                                                 "exit_px", "qty_match", "size_ok", "adherence", "volume_usd")}
         if row.get("status") == "blocked":
             b = blocked_reveal(row["seq"], row.get("digest", ""))
             if b:
@@ -121,7 +138,8 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
 
     def decision_view(d: dict) -> dict:
         return {"id": d["id"], "ts": d["ts"], "kind": d["kind"], "mkt": d["mkt"], "reason_code": d["reason_code"],
-                "why": d["why"], "evidence": d["evidence"], "source": "ledger (off-chain by design)"}
+                "why": d["why"], "evidence": d["evidence"], "backfilled": bool(d["evidence"].get("backfilled")),
+                "source": "ledger (off-chain by design)"}
 
     # --- endpoints ---------------------------------------------------------------------------
 
@@ -129,8 +147,11 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
     def health():
         idx = indexer.get()
         age = (time.time() - dt.datetime.fromisoformat(idx["indexed_at"]).timestamp()) if idx else None
-        return {"ok": idx is not None, "notary": notary_pubkey, "indexed_at": idx and idx["indexed_at"],
-                "index_age_s": round(age, 1) if age is not None else None, "last_error": indexer.last_error}
+        out = {"ok": idx is not None, "notary": notary_pubkey, "indexed_at": idx and idx["indexed_at"],
+               "index_age_s": round(age, 1) if age is not None else None, "last_error": indexer.last_error}
+        if heartbeat_path is not None:
+            out["monitor"] = monitor_status(heartbeat_path)
+        return out
 
     @app.get("/v1/agent")
     def agent():
@@ -198,8 +219,9 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
     def feed(limit: int = Query(50, ge=1, le=500)):
         items = [{**e, "source": "chain"} for e in index()["events"]]
         for d in ledger.decisions(limit=limit):
-            items.append({"kind": "stand_aside", "block_time": _ts(d["ts"]), "ts": d["ts"],
-                          "reason_code": d["reason_code"], "why": d["why"], "source": "ledger (off-chain)"})
+            items.append({"kind": "stand_aside", "id": d["id"], "block_time": _ts(d["ts"]), "ts": d["ts"],
+                          "reason_code": d["reason_code"], "why": d["why"], "evidence": d["evidence"],
+                          "backfilled": bool(d["evidence"].get("backfilled")), "source": "ledger (off-chain)"})
         items.sort(key=lambda e: e.get("block_time") or 0, reverse=True)
         return {"items": items[:limit]}
 
@@ -228,7 +250,10 @@ def main(argv=None) -> int:
     notary = str(load_keypair(NOTARY_PATH).pubkey())
     ix = Indexer(Rpc(cfg.effective_rpc_url), notary, refresh_s=a.refresh)
     ix.start()
-    app = create_app(ix, Ledger(LEDGER_PATH), cfg, notary, load_policy, token_mint=a.token_mint)
+    from oath_core.config import OATH_HOME
+
+    app = create_app(ix, Ledger(LEDGER_PATH), cfg, notary, load_policy, token_mint=a.token_mint,
+                     heartbeat_path=OATH_HOME / "monitor_heartbeat.json")
     uvicorn.run(app, host=a.host, port=a.port, log_level="info")
     return 0
 
