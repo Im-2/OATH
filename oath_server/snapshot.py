@@ -54,6 +54,7 @@ def api_snapshot(idx: dict, cfg, notary: str) -> dict:
         "feed": get("/v1/feed?limit=500"),
         "positions": get("/v1/positions?limit=500"),
         "decisions": get("/v1/decisions?limit=500"),
+        "verify": get("/v1/verify"),
     }
 
 

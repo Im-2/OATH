@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-09-28T16:02:20.155868+00:00",
+ "generated_at": "2026-09-28T17:02:15.540769+00:00",
  "source": "snapshot of the OATH API (chain index + ledger decisions), via oath_server.snapshot",
  "health": {
   "ok": true,
   "notary": "FhpJ6i5oaBiCpNJasksf2qBgFmTv6ikgSUuqDzSBiUod",
-  "indexed_at": "2026-09-28T16:02:20.155868+00:00",
-  "index_age_s": 0.6,
+  "indexed_at": "2026-09-28T17:02:15.540769+00:00",
+  "index_age_s": 2.5,
   "last_error": null
  },
  "agent": {
@@ -51,7 +51,7 @@
   "uncommitted_trades": 0,
   "disclosed_operator_actions": 1,
   "stand_asides": 1,
-  "indexed_at": "2026-09-28T16:02:20.155868+00:00",
+  "indexed_at": "2026-09-28T17:02:15.540769+00:00",
   "source": {
    "stats": "chain",
    "stand_asides": "ledger"
@@ -416,5 +416,225 @@
     "source": "ledger (off-chain by design)"
    }
   ]
+ },
+ "verify": {
+  "notary": "FhpJ6i5oaBiCpNJasksf2qBgFmTv6ikgSUuqDzSBiUod",
+  "checked_at": "2026-09-28T17:01:35.677047+00:00",
+  "indexed_at": "2026-09-28T17:02:15.540769+00:00",
+  "pass": true,
+  "issues": [],
+  "notary_txs_with_oath1_memos": 7,
+  "agents": {
+   "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY": {
+    "positions": [
+     {
+      "seq": 1,
+      "problems": [],
+      "commit_sig": "2SvrPsYgAsxd7j2ReDXr2R5LEhhYWXQx3Li8EMLoj2RgxYv3JoLZKWUjyZH4NvVVpmCMQfvq18H5QBdjXmgapUVa",
+      "commit_slot": 451042990,
+      "commit_time": 1790524445,
+      "digest": "3521654f00bb48c89d51e7fdbc39d3098abe55db1dab90e73700f98e11318aea",
+      "open_sig": "4JgizB91GBYESGAzzESR3Nr8UeuwxGcxggaMxqL43hVjwcE4phREw5nNccD9JR1ptKovNCV3XZZ4TjmNLiq3Wgvb",
+      "open_time": 1790524451,
+      "swap_sig": "64bkWuoQvgtJkoX277JWQBzZBU8PLFPVBAHybhWEbGfJwfE3Pe3W5TorcMwC2XQitHtQZu76CSH2gNnzytNiJdyn",
+      "swap_slot": 451043006,
+      "swap_time": 1790524450,
+      "reveal_sig": "5DE7tDbeErioA4R3AmHxTYUjvDStMmDQfNZAV4iMmw8ajG7W4tZj8dDrLrpvFQsM5WPxdAWeSfT9KkvyzJpwa6S4",
+      "reveal_slot": 451043353,
+      "reveal_time": 1790524542,
+      "exit_sig": "3NxW74i2HFQkcfpyNcvmbKaAc8sW4vc1UdsmGYZsjhzXkkZvbJh3YsCTkEajXw3pgWEeG32dSWAmXW8YroMMULe3",
+      "exit_reason": "manual",
+      "salt_hex": "b292e39780935041a5100149d61fe13c781668cc1b2e268c5d6faeefdfa8986a",
+      "canonical": "{\"agent\":\"9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY\",\"conf\":\"0.55\",\"entry\":\"121.619702\",\"horizon_min\":\"60\",\"in_mint\":\"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v\",\"mkt\":\"SOL/USDC\",\"out_mint\":\"So11111111111111111111111111111111111111112\",\"seq\":\"1\",\"side\":\"long\",\"size_usd\":\"1.00\",\"stop\":\"117.971111\",\"strat\":\"manual_test\",\"tp\":\"127.700687\",\"ts\":\"2026-09-27T15:54:05Z\",\"v\":\"1\",\"why\":\"PHASE1_ROUNDTRIP: manual commit-swap-reveal verification\"}",
+      "digest_ok": true,
+      "thesis": {
+       "agent": "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY",
+       "conf": "0.55",
+       "entry": "121.619702",
+       "horizon_min": "60",
+       "in_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+       "mkt": "SOL/USDC",
+       "out_mint": "So11111111111111111111111111111111111111112",
+       "seq": "1",
+       "side": "long",
+       "size_usd": "1.00",
+       "stop": "117.971111",
+       "strat": "manual_test",
+       "tp": "127.700687",
+       "ts": "2026-09-27T15:54:05Z",
+       "v": "1",
+       "why": "PHASE1_ROUNDTRIP: manual commit-swap-reveal verification"
+      },
+      "exit_slot": 451043348,
+      "entry_fill": {
+       "sig": "64bkWuoQvgtJkoX277JWQBzZBU8PLFPVBAHybhWEbGfJwfE3Pe3W5TorcMwC2XQitHtQZu76CSH2gNnzytNiJdyn",
+       "slot": 451043006,
+       "block_time": 1790524450,
+       "in_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+       "out_mint": "So11111111111111111111111111111111111111112",
+       "in_raw": 1000000,
+       "out_raw": 8221741,
+       "fee_lamports": 56334,
+       "agent_paid_fee": true
+      },
+      "exit_fill": {
+       "sig": "3NxW74i2HFQkcfpyNcvmbKaAc8sW4vc1UdsmGYZsjhzXkkZvbJh3YsCTkEajXw3pgWEeG32dSWAmXW8YroMMULe3",
+       "slot": 451043348,
+       "block_time": 1790524541,
+       "in_mint": "So11111111111111111111111111111111111111112",
+       "out_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+       "in_raw": 8221741,
+       "out_raw": 1000948,
+       "fee_lamports": 5000,
+       "agent_paid_fee": true
+      },
+      "grade": {
+       "seq": 1,
+       "entry_usdc": "1.000000",
+       "qty": "0.008221741",
+       "entry_px": "121.628740",
+       "committed_entry": "121.619702",
+       "committed_stop": "117.971111",
+       "committed_tp": "127.700687",
+       "size_ok": true,
+       "exit_reason": "manual",
+       "closed": true,
+       "exit_usdc": "1.000948",
+       "sold_qty": "0.008221741",
+       "exit_px": "121.744044",
+       "qty_match": true,
+       "fees_lamports": 61334,
+       "fees_usd": "0.007467",
+       "gross_pnl_usd": "0.000948",
+       "pnl_usd": "-0.006519",
+       "r_multiple": "-0.22",
+       "volume_usd": "2.000948",
+       "adherence": {
+        "ok": true,
+        "checks": {}
+       }
+      },
+      "status": "revealed"
+     },
+     {
+      "seq": 2,
+      "problems": [],
+      "commit_sig": "5etvhtz2aC7XgxnTUv8VxyKFrV2ajWexnRvv1uCboKXfCy6cLtvALXjCKDBXLi5RucxiQMotaYKJUGj8fVQB72gY",
+      "commit_slot": 451088313,
+      "commit_time": 1790536607,
+      "digest": "2d88fbe85b444aaa81c7e71024dbb3dafe1beef98ad154cffaa9ef73c7c41d6b",
+      "open_sig": "3UsV4FDFJNFqsXb6g2iFRXA1p5f6QJdXxgZwYv8HRkwGijWteyaKBcYj5esAtvcojsdN7BB8nEV9gnUsNiLqQkpQ",
+      "open_time": 1790536614,
+      "swap_sig": "39D21wHHH3TpSN8ktkfHyLXjrF6KL87K6PKTDdE5F5drFDJdrTRPDDfb3UGKfYFdAos1xdExAKUjohNChc5TDqsr",
+      "swap_slot": 451088333,
+      "swap_time": 1790536612,
+      "reveal_sig": "2zsUxmwANsmzUe5doagut2cVMzHgBHYfg3ajYCuBEqpaC7Bit142EgGYbj2u77DhK7bG4r3SbFVABLfqn4Krva7x",
+      "reveal_slot": 451091870,
+      "reveal_time": 1790537563,
+      "exit_sig": "vkE8nU5HqLfgftLPQShVUgiVF88agEFhTEPHSpaq2q4LQ1p6WbPTS1f5ugwP2bADqZ7RJrH12Lbe64nKjw2daim",
+      "exit_reason": "expiry",
+      "salt_hex": "5270cdaf826cefb078d02d229ec0cf1180ca24fccda44cc96b1d48feff11c7aa",
+      "canonical": "{\"agent\":\"9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY\",\"conf\":\"0.50\",\"entry\":\"123.243260\",\"horizon_min\":\"15\",\"in_mint\":\"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v\",\"mkt\":\"SOL/USDC\",\"out_mint\":\"So11111111111111111111111111111111111111112\",\"seq\":\"2\",\"side\":\"long\",\"size_usd\":\"1.00\",\"stop\":\"119.545962\",\"strat\":\"acceptance_test\",\"tp\":\"129.405423\",\"ts\":\"2026-09-27T19:16:44Z\",\"v\":\"1\",\"why\":\"OPERATOR_TEST: acceptance test, 3/4 signals\"}",
+      "digest_ok": true,
+      "thesis": {
+       "agent": "9jxuhhv7pe3iL8tFfDvS1TuRRC18LCyT7g6c5wR332bY",
+       "conf": "0.50",
+       "entry": "123.243260",
+       "horizon_min": "15",
+       "in_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+       "mkt": "SOL/USDC",
+       "out_mint": "So11111111111111111111111111111111111111112",
+       "seq": "2",
+       "side": "long",
+       "size_usd": "1.00",
+       "stop": "119.545962",
+       "strat": "acceptance_test",
+       "tp": "129.405423",
+       "ts": "2026-09-27T19:16:44Z",
+       "v": "1",
+       "why": "OPERATOR_TEST: acceptance test, 3/4 signals"
+      },
+      "exit_slot": 451091850,
+      "entry_fill": {
+       "sig": "39D21wHHH3TpSN8ktkfHyLXjrF6KL87K6PKTDdE5F5drFDJdrTRPDDfb3UGKfYFdAos1xdExAKUjohNChc5TDqsr",
+       "slot": 451088333,
+       "block_time": 1790536612,
+       "in_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+       "out_mint": "So11111111111111111111111111111111111111112",
+       "in_raw": 1000000,
+       "out_raw": 8113454,
+       "fee_lamports": 5000,
+       "agent_paid_fee": true
+      },
+      "exit_fill": {
+       "sig": "vkE8nU5HqLfgftLPQShVUgiVF88agEFhTEPHSpaq2q4LQ1p6WbPTS1f5ugwP2bADqZ7RJrH12Lbe64nKjw2daim",
+       "slot": 451091850,
+       "block_time": 1790537557,
+       "in_mint": "So11111111111111111111111111111111111111112",
+       "out_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+       "in_raw": 8113454,
+       "out_raw": 998162,
+       "fee_lamports": 5000,
+       "agent_paid_fee": true
+      },
+      "grade": {
+       "seq": 2,
+       "entry_usdc": "1.000000",
+       "qty": "0.008113454",
+       "entry_px": "123.252070",
+       "committed_entry": "123.243260",
+       "committed_stop": "119.545962",
+       "committed_tp": "129.405423",
+       "size_ok": true,
+       "exit_reason": "expiry",
+       "closed": true,
+       "exit_usdc": "0.998162",
+       "sold_qty": "0.008113454",
+       "exit_px": "123.025533",
+       "qty_match": true,
+       "fees_lamports": 10000,
+       "fees_usd": "0.001230",
+       "gross_pnl_usd": "-0.001838",
+       "pnl_usd": "-0.003068",
+       "r_multiple": "-0.10",
+       "volume_usd": "1.998162",
+       "adherence": {
+        "ok": true,
+        "checks": {
+         "expiry_honoured": true
+        }
+       }
+      },
+      "status": "revealed"
+     }
+    ],
+    "gaps": [],
+    "stats": {
+     "committed": 2,
+     "open": 0,
+     "closed": 2,
+     "revealed": 2,
+     "unrevealed": 0,
+     "completeness": "1",
+     "realised_pnl_usd": "-0.009587",
+     "win_rate": "0",
+     "volume_usd": "3.999110",
+     "blocked": 0,
+     "blocked_by_reason": {},
+     "adherence_violations": 0
+    },
+    "uncommitted_trades": [],
+    "disclosed_operator_actions": [
+     {
+      "sig": "41WM1uYZjLYr2ywMWUfXA1Jyvo2RABmSDibmHdgr2L2G5urxRkZpGDy1NNeAQmF7ABY8HaHLuEdng1Z69a9mgGg3",
+      "slot": 451279095,
+      "usdc_delta_raw": -1200000,
+      "reason": "fund_token_launch",
+      "memo_sig": "q1xZFg4JuF1HLNoiAXnmwnMg1icu3DU6NQEZ8m8VJvcaC6c5bUqHo6gkTNT5TmrwuBPy2uv6rTE5krF42YtW6eX",
+      "memo_slot": 451279118
+     }
+    ]
+   }
+  }
  }
 }

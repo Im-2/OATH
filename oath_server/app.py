@@ -1,4 +1,5 @@
-"""oath-server public API (SPEC §8): read-only, CORS open, lightly rate-limited.
+"""oath-server public API (SPEC §8): read-only record (GET), CORS open, lightly rate-limited, plus the
+thesis-only Ask OATH sandbox (POST /v1/sandbox, oath_server.sandbox), which cannot trade or write.
 
     uv run python -m oath_server.app [--host 127.0.0.1] [--port 8787] [--refresh 60]
 
@@ -22,6 +23,7 @@ from collections import defaultdict, deque
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
 
 from oath_core.config import Config
 from oath_core.ledger import Ledger
@@ -31,6 +33,8 @@ from oath_core.thesis import ThesisError, canonical_json, digest
 ANSEM_MINT = "9cRCn9rGT8V2imeM2BaKs13yhMEais3ruM3rPvTGpump"  # user-confirmed 2026-09-27
 RATE_LIMIT = 120        # requests
 RATE_WINDOW_S = 60.0    # per rolling minute, per client IP
+SANDBOX_PER_IP = (3, 600.0)       # Ask OATH: 3 questions per 10 minutes per IP
+SANDBOX_GLOBAL = (40, 3600.0)     # and 40 per hour overall, to stay inside the free model's quota
 log = logging.getLogger("oath.api")
 
 
@@ -56,6 +60,10 @@ class RateLimiter:
             return True
 
 
+class SandboxIn(BaseModel):
+    idea: str = Field(..., min_length=1, max_length=2000)
+
+
 MONITOR_STALE_S = 90  # monitor ticks every 20s; 90s without a heartbeat = not running
 
 
@@ -71,13 +79,16 @@ def monitor_status(path) -> dict:
 
 def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_policy,
                *, token_mint: str | None = None, rate_limiter: RateLimiter | None = None,
-               heartbeat_path=None) -> FastAPI:
+               heartbeat_path=None, sandbox=None, sandbox_limits=(SANDBOX_PER_IP, SANDBOX_GLOBAL)) -> FastAPI:
+    """`sandbox`: optional callable(idea) -> dict (oath_server.sandbox.make_runner). It is the only
+    non-GET route, and it can only evaluate; it has no path to the notary, executor or ledger writes."""
     app = FastAPI(title="OATH (Proof-of-Thesis) public API", version="1",
                   description="Read-only record of an AI trading agent that commits every thesis on Solana "
                               "before trading and reveals it after. Verify it yourself: "
                               f"python -m oath_core.verify --notary {notary_pubkey}")
-    app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET"], allow_headers=["*"])
+    app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "POST"], allow_headers=["*"])
     limiter = rate_limiter or RateLimiter()
+    sb_ip, sb_all = RateLimiter(*sandbox_limits[0]), RateLimiter(*sandbox_limits[1])
 
     @app.middleware("http")
     async def rate_limit(request: Request, call_next):
@@ -225,6 +236,33 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
         items.sort(key=lambda e: e.get("block_time") or 0, reverse=True)
         return {"items": items[:limit]}
 
+    resting = {"error": "resting", "message": "OATH is resting. Try Break it instead."}
+
+    @app.post("/v1/sandbox")
+    def ask_sandbox(body: SandboxIn, request: Request):
+        from .sandbox import SandboxBadIdea, SandboxRefused, SandboxResting
+
+        if sandbox is None:
+            return JSONResponse(resting, status_code=503)
+        ip = request.client.host if request.client else "unknown"
+        if not sb_ip.allow(ip):
+            return JSONResponse({"error": "rate_limited", "message": "3 questions per 10 minutes. Try Break it meanwhile."},
+                                status_code=429, headers={"Retry-After": "600"})
+        if not sb_all.allow("all"):
+            return JSONResponse({**resting, "detail": "hourly sandbox budget used"}, status_code=503)
+        try:
+            return sandbox(body.idea)
+        except SandboxBadIdea as e:
+            raise HTTPException(422, str(e)) from e
+        except SandboxRefused:
+            log.warning("sandbox refused an out-of-box call")
+            return JSONResponse(resting, status_code=503)
+        except SandboxResting as e:
+            return JSONResponse({**resting, "detail": str(e)}, status_code=503)
+        except Exception:  # noqa: BLE001 - never leak internals to visitors
+            log.exception("sandbox failed")
+            return JSONResponse(resting, status_code=503)
+
     return app
 
 
@@ -243,6 +281,7 @@ def main(argv=None) -> int:
     ap.add_argument("--port", type=int, default=8787)
     ap.add_argument("--refresh", type=int, default=60, help="seconds between chain re-index runs")
     ap.add_argument("--token-mint", default=None, help="$OATH mint once launched")
+    ap.add_argument("--no-sandbox", action="store_true", help="disable POST /v1/sandbox (Ask OATH)")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -252,8 +291,11 @@ def main(argv=None) -> int:
     ix.start()
     from oath_core.config import OATH_HOME
 
+    from .sandbox import make_runner
+
+    sandbox = None if a.no_sandbox else make_runner(cfg, LEDGER_PATH, cfg.effective_rpc_url, load_policy)
     app = create_app(ix, Ledger(LEDGER_PATH), cfg, notary, load_policy, token_mint=a.token_mint,
-                     heartbeat_path=OATH_HOME / "monitor_heartbeat.json")
+                     heartbeat_path=OATH_HOME / "monitor_heartbeat.json", sandbox=sandbox)
     uvicorn.run(app, host=a.host, port=a.port, log_level="info")
     return 0
 
