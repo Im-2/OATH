@@ -21,7 +21,7 @@ export function CircleArrow({ className = "" }: { className?: string }) {
   );
 }
 
-export function Nav() {
+export function Nav({ active }: { active?: string }) {
   return (
     <header className="relative z-30 flex h-[60px] items-center justify-between px-5 sm:h-[68px] sm:px-10 lg:px-[68px]">
       <div className="flex items-center gap-10 lg:gap-[52px]">
@@ -33,9 +33,15 @@ export function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-[15px] text-white/60 transition-colors duration-200 hover:text-white"
+              aria-current={active === l.href ? "page" : undefined}
+              className={`relative text-[15px] transition-colors duration-200 hover:text-white ${
+                active === l.href ? "text-white" : "text-white/60"
+              }`}
             >
               {l.label}
+              {active === l.href && (
+                <span aria-hidden="true" className="absolute -bottom-[7px] left-1/2 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-[#A8D86E] shadow-[0_0_8px_#3DFF6E]" />
+              )}
             </Link>
           ))}
         </nav>

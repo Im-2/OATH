@@ -125,3 +125,31 @@ body {
     opacity: 0;
   }
 }
+
+/* ---------- /live + /oath ---------- */
+.subpage {
+  background:
+    radial-gradient(900px 380px at 50% -140px, rgba(61, 255, 110, 0.09), transparent 70%),
+    radial-gradient(600px 300px at 100% 0, rgba(168, 216, 110, 0.04), transparent 70%),
+    #0b0b0c;
+}
+@keyframes scan {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(400%); }
+}
+.scan-line {
+  left: 0;
+  background: linear-gradient(90deg, transparent, rgba(61, 255, 110, 0.07), transparent);
+  animation: scan 4.2s linear infinite;
+}
+@keyframes radar {
+  to { transform: rotate(360deg); }
+}
+.radar-sweep {
+  background: conic-gradient(from 0deg, rgba(61, 255, 110, 0.35), transparent 28%);
+  animation: radar 2.6s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scan-line, .radar-sweep { animation: none; }
+  .scan-line { display: none; }
+}
