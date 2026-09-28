@@ -48,7 +48,8 @@ OPEN_SCHEMA = {
         "Open a spot LONG position under OATH. Commits a salted hash of your thesis on Solana, "
         "passes the firewall, then executes the entry swap. The thesis is revealed on-chain when the "
         "position is closed by the monitor at stop, take-profit or horizon. Returns the commitment, "
-        "the swap signature and the on-chain fill, or {blocked: true, reason} if the firewall refused."
+        "the swap signature and the on-chain fill (amounts labelled in SOL / USDC; use fill.summary verbatim), "
+        "or {blocked: true, reason} if the firewall refused."
     ),
     "parameters": {
         "type": "object",
@@ -143,6 +144,7 @@ def _json(obj) -> str:
 def _make_open(ctx):
     def handler(params: dict, **kwargs) -> str:
         from oath_core.flow import FlowError, open_position
+        from oath_core.present import present_open_result
 
         p = dict(params or {})
         try:
@@ -152,7 +154,7 @@ def _make_open(ctx):
                     entry=p.get("entry"), stop=p.get("stop"), tp=p.get("tp"), stop_pct=p.get("stop_pct"),
                     tp_pct=p.get("tp_pct"), horizon_min=p.get("horizon_min"), conf=p.get("conf"),
                     strat=p.get("strat"), why=p.get("why"))
-            return _json(res)
+            return _json(present_open_result(res))  # labelled amounts: never raw lamports to the model
         except FlowError as e:
             return _json({"ok": False, "refused": str(e)})
         except Exception as e:  # noqa: BLE001 - report, never crash the agent loop

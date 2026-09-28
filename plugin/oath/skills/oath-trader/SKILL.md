@@ -78,8 +78,9 @@ pretend it is armed. Use this section **only if** `oath_status` shows `"test_mod
 - If test mode is not armed, follow the normal playbook (and stand aside if signals are insufficient).
 
 ## After calling oath_open_position
-- `ok: true`: report the seq, entry fill (from the chain), stop, tp and horizon to the user, plus
-  the commit and swap signatures. Say that the monitor will exit and reveal automatically.
+- `ok: true`: report the seq, then quote `fill.summary` **verbatim** (amounts are already in SOL /
+  USDC; never convert or reformat them), the `levels` (entry, stop, tp, horizon), and the commit and
+  swap signatures. Say that the monitor will exit and reveal automatically.
 - `blocked: true`: report the reason code. It is on-chain and counts in your record. **Do not**
   resubmit a tweaked thesis just to pass the firewall. Only resubmit if the facts changed.
 - `refused`: something was malformed, test mode isn't armed, or a position needs operator
