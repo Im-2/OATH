@@ -111,7 +111,7 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
                 continue
             committed += 1
             c = k["c"][0]
-            row.update(commit_sig=c["sig"], commit_slot=c["slot"], digest=c["digest"])
+            row.update(commit_sig=c["sig"], commit_slot=c["slot"], commit_time=c["block_time"], digest=c["digest"])
             o = k.get("o", [None])[0]
             r = k.get("r", [None])[0]
             entry = exit_fill = None
@@ -144,7 +144,9 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
                 rows.append(row)
                 continue
 
-            row.update(reveal_sig=r["sig"], exit_sig=r["exit_sig"], exit_reason=r["exit_reason"])
+            # salt is public once revealed (it is in the reveal memo); kept so anyone can recompute the digest
+            row.update(reveal_sig=r["sig"], reveal_slot=r["slot"], exit_sig=r["exit_sig"],
+                       exit_reason=r["exit_reason"], salt_hex=r["salt_hex"], canonical=r["thesis_raw"])
             try:
                 thesis = parse_canonical(r["thesis_raw"] or "")
             except ThesisError as e:

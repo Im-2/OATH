@@ -1,0 +1,893 @@
+[
+ {
+  "size": "1440",
+  "down": [
+   {
+    "i": 1,
+    "pinnedTop": 0,
+    "active": 1,
+    "title": "Step 1: Thesis",
+    "bars": [
+     0.5,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0.5,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 3,
+    "pinnedTop": 0,
+    "active": 3,
+    "title": "Step 3: Trade",
+    "bars": [
+     1,
+     1,
+     0.5,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0.5,
+     0
+    ]
+   },
+   {
+    "i": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0.5
+    ]
+   }
+  ],
+  "up": [
+   {
+    "i": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0.5
+    ]
+   },
+   {
+    "i": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0.5,
+     0
+    ]
+   },
+   {
+    "i": 3,
+    "pinnedTop": 0,
+    "active": 3,
+    "title": "Step 3: Trade",
+    "bars": [
+     1,
+     1,
+     0.5,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0.5,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 1,
+    "pinnedTop": 0,
+    "active": 1,
+    "title": "Step 1: Thesis",
+    "bars": [
+     0.5,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "boundaries": [
+   {
+    "edge": 1,
+    "before": {
+     "active": 1,
+     "bars": [
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 2,
+     "bars": [
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 2,
+    "before": {
+     "active": 2,
+     "bars": [
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 3,
+     "bars": [
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 3,
+    "before": {
+     "active": 3,
+     "bars": [
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 4,
+     "bars": [
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 4,
+    "before": {
+     "active": 4,
+     "bars": [
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "after": {
+     "active": 5,
+     "bars": [
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    }
+   }
+  ],
+  "after": {
+   "pinnedTop": 0,
+   "active": 5,
+   "title": "Step 5: Verified",
+   "bars": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "reentry": {
+   "pinnedTop": 0,
+   "active": 5,
+   "title": "Step 5: Verified",
+   "bars": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "clicks": [
+   {
+    "clicked": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0,
+     0
+    ]
+   },
+   {
+    "clicked": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "clicked": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "size": "390",
+  "down": [
+   {
+    "i": 1,
+    "pinnedTop": 0,
+    "active": 1,
+    "title": "Step 1: Thesis",
+    "bars": [
+     0.5,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0.5,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 3,
+    "pinnedTop": 0,
+    "active": 3,
+    "title": "Step 3: Trade",
+    "bars": [
+     1,
+     1,
+     0.5,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0.5,
+     0
+    ]
+   },
+   {
+    "i": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0.5
+    ]
+   }
+  ],
+  "up": [
+   {
+    "i": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0.5
+    ]
+   },
+   {
+    "i": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0.5,
+     0
+    ]
+   },
+   {
+    "i": 3,
+    "pinnedTop": 0,
+    "active": 3,
+    "title": "Step 3: Trade",
+    "bars": [
+     1,
+     1,
+     0.5,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0.5,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 1,
+    "pinnedTop": 0,
+    "active": 1,
+    "title": "Step 1: Thesis",
+    "bars": [
+     0.5,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "boundaries": [
+   {
+    "edge": 1,
+    "before": {
+     "active": 1,
+     "bars": [
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 2,
+     "bars": [
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 2,
+    "before": {
+     "active": 2,
+     "bars": [
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 3,
+     "bars": [
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 3,
+    "before": {
+     "active": 3,
+     "bars": [
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 4,
+     "bars": [
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 4,
+    "before": {
+     "active": 4,
+     "bars": [
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "after": {
+     "active": 5,
+     "bars": [
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    }
+   }
+  ],
+  "after": {
+   "pinnedTop": 0,
+   "active": 5,
+   "title": "Step 5: Verified",
+   "bars": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "reentry": {
+   "pinnedTop": 0,
+   "active": 5,
+   "title": "Step 5: Verified",
+   "bars": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "clicks": [
+   {
+    "clicked": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0,
+     0
+    ]
+   },
+   {
+    "clicked": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "clicked": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "size": "1440-rm",
+  "down": [
+   {
+    "i": 1,
+    "pinnedTop": 0,
+    "active": 1,
+    "title": "Step 1: Thesis",
+    "bars": [
+     0.5,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0.5,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 3,
+    "pinnedTop": 0,
+    "active": 3,
+    "title": "Step 3: Trade",
+    "bars": [
+     1,
+     1,
+     0.5,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0.5,
+     0
+    ]
+   },
+   {
+    "i": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0.5
+    ]
+   }
+  ],
+  "up": [
+   {
+    "i": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0.5
+    ]
+   },
+   {
+    "i": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0.5,
+     0
+    ]
+   },
+   {
+    "i": 3,
+    "pinnedTop": 0,
+    "active": 3,
+    "title": "Step 3: Trade",
+    "bars": [
+     1,
+     1,
+     0.5,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0.5,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "i": 1,
+    "pinnedTop": 0,
+    "active": 1,
+    "title": "Step 1: Thesis",
+    "bars": [
+     0.5,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "boundaries": [
+   {
+    "edge": 1,
+    "before": {
+     "active": 1,
+     "bars": [
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 2,
+     "bars": [
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 2,
+    "before": {
+     "active": 2,
+     "bars": [
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 3,
+     "bars": [
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 3,
+    "before": {
+     "active": 3,
+     "bars": [
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    },
+    "after": {
+     "active": 4,
+     "bars": [
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "edge": 4,
+    "before": {
+     "active": 4,
+     "bars": [
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "after": {
+     "active": 5,
+     "bars": [
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    }
+   }
+  ],
+  "after": {
+   "pinnedTop": 0,
+   "active": 5,
+   "title": "Step 5: Verified",
+   "bars": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "reentry": {
+   "pinnedTop": 0,
+   "active": 5,
+   "title": "Step 5: Verified",
+   "bars": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "clicks": [
+   {
+    "clicked": 4,
+    "pinnedTop": 0,
+    "active": 4,
+    "title": "Step 4: Reveal",
+    "bars": [
+     1,
+     1,
+     1,
+     0,
+     0
+    ]
+   },
+   {
+    "clicked": 2,
+    "pinnedTop": 0,
+    "active": 2,
+    "title": "Step 2: Commit",
+    "bars": [
+     1,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "clicked": 5,
+    "pinnedTop": 0,
+    "active": 5,
+    "title": "Step 5: Verified",
+    "bars": [
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   }
+  ],
+  "instantSwap": [
+   "1"
+  ]
+ }
+]

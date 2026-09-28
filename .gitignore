@@ -29,3 +29,9 @@ build/
 web-reference/shots/node_modules/
 web-reference/shots/package.json
 web-reference/shots/package-lock.json
+# individual step captures (the contact sheets + test results are committed instead)
+web-reference/shots/how-*-step*.png
+web-reference/shots/how-1440-transition.png
+web-reference/shots/how-scroll-*-down-*.png
+web-reference/shots/how-scroll-*-up-*.png
+web-reference/how-it-works-frames/scene_*.png

@@ -23,6 +23,22 @@ from .indexer import build_index
 OUT = Path(__file__).resolve().parent.parent / "web" / "data" / "stats-snapshot.json"
 
 
+FEATURE_KEYS = ("seq", "status", "digest", "digest_ok", "salt_hex", "canonical", "thesis", "commit_sig",
+                "commit_slot", "commit_time", "open_sig", "swap_sig", "swap_slot", "exit_sig", "exit_slot",
+                "exit_reason", "reveal_sig", "reveal_slot", "entry_fill", "exit_fill")
+
+
+def featured(ag: dict) -> dict | None:
+    """The latest fully revealed position, with everything the site needs to show and re-verify it."""
+    revealed = [p for p in ag["positions"] if p.get("status") == "revealed" and p.get("canonical")]
+    if not revealed:
+        return None
+    p = max(revealed, key=lambda r: r["seq"])
+    g = p.get("grade") or {}
+    return {**{k: p.get(k) for k in FEATURE_KEYS},
+            "result": {k: g.get(k) for k in ("pnl_usd", "gross_pnl_usd", "fees_usd", "entry_px", "exit_px", "adherence")}}
+
+
 def snapshot(index: dict, agent: str) -> dict:
     ag = index["agents"].get(agent) or {"stats": {}, "positions": []}
     st = ag["stats"]
@@ -37,6 +53,8 @@ def snapshot(index: dict, agent: str) -> dict:
         "volume_usd": st.get("volume_usd", "0"),
         "realised_pnl_usd": st.get("realised_pnl_usd", "0"),
         "blocked": st.get("blocked", 0),
+        "agent": agent,
+        "featured": featured(ag),
         "seqs": [{"seq": p["seq"], "status": p.get("status"), "reveal_sig": p.get("reveal_sig"),
                   "pnl_usd": (p.get("grade") or {}).get("pnl_usd")} for p in ag["positions"]],
     }

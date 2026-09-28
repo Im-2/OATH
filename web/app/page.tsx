@@ -1,8 +1,10 @@
 import { Hero } from "@/components/Hero";
+import { HowItWorks } from "@/components/how/HowItWorks";
 import { Nav } from "@/components/Nav";
 
 export default function Home() {
   return (
+    <>
     <main className="page-glow min-h-svh px-2 pb-4 sm:px-4 sm:pb-[22px]">
       {/* Dark card flush with the top of the browser (no top margin, border, corners or edge);
           rounded only at the bottom, where the green light bleeds up from behind it. */}
@@ -17,5 +19,7 @@ export default function Home() {
         <Hero />
       </div>
     </main>
+    <HowItWorks />
+    </>
   );
 }

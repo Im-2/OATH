@@ -18,7 +18,9 @@ html,
 body {
   background: var(--color-bg);
   color: var(--color-ink);
-  overflow-x: hidden;
+  /* clip, not hidden: `hidden` turns body into a scroll container, which breaks position: sticky
+     (the pinned "How it works" section). clip hides horizontal overflow without that side effect. */
+  overflow-x: clip;
 }
 
 body {
@@ -88,7 +90,36 @@ body {
   mask-composite: intersect;
 }
 
+/* How it works: step text sits under its column on desktop (last step right-aligned under col 5). */
+@media (min-width: 640px) {
+  .step-text {
+    grid-column: var(--col) / span 2;
+  }
+  .step-text-last {
+    justify-self: end;
+    text-align: right;
+  }
+  .step-text-last p {
+    margin-left: auto;
+  }
+}
+
+/* Silk ribbon: slow sway, like fabric drifting. */
+@keyframes silk-sway {
+  0%, 100% { transform: translate3d(0, 0, 0) scaleY(1); }
+  50% { transform: translate3d(-18px, 8px, 0) scaleY(1.04); }
+}
+/* Animated on the <svg> element itself: a composited layer, so the ribbon's blur isn't re-rendered each frame. */
+.silk-sway.silk-animate {
+  animation: silk-sway 11s ease-in-out infinite;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .silk-sway.silk-animate {
+    animation: none;
+  }
   .streak-dash {
     animation: none;
     opacity: 0;
