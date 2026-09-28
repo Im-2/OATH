@@ -283,20 +283,22 @@ Rules, fail closed, config at `~/.oath/policy.json`:
 ---
 
 ## 8. Public API (oath-server, read-only, CORS open)
+*Implemented (Phase 3, 2026-09-28):* `uv run python -m oath_server.app [--port 8787] [--refresh 60] [--token-mint <mint>]`.
+GET only, `Access-Control-Allow-Origin: *`, 120 requests/min per client IP. Every response says its source.
 ```
-GET /v1/health
-GET /v1/agent                 → agent pubkey, notary pubkey, policy (public fields), token mint
-GET /v1/stats                 → aggregates from §5.4
+GET /v1/health                → index freshness + last indexer error
+GET /v1/agent                 → agent wallet, notary, policy (public fields), token mint, $ANSEM mint, bond {enabled:false}, verify command
+GET /v1/stats                 → §5.4 aggregates (chain) + stand_asides (ledger) + verify_pass, gaps, disclosed operator actions
 GET /v1/positions?status=&limit=&offset=
-GET /v1/positions/{seq}       → full record, tx links; thesis+salt only if revealed/blocked
-GET /v1/theses/{seq}          → canonical thesis JSON (post-reveal only) + digest + verify result
-GET /v1/verify                → latest independent verification report
-GET /v1/feed                  → recent events (for the live "trade #127" stream demo)
-GET /v1/fees                  → phase 3: creator fees earned + allocation buckets
+GET /v1/positions/{seq}       → full record, labelled fills (SOL/USDC), result + adherence; thesis only if revealed, or blocked+hash-checked
+GET /v1/theses/{seq}          → canonical thesis + digest + digest_ok (post-reveal only; 404 before)
+GET /v1/verify                → latest independent verification report (identical to `python -m oath_core.verify`)
+GET /v1/feed?limit=           → chain memo events (commit/blocked/open/reveal/slash/operator_disclosure) + off-chain stand-asides, newest first
+GET /v1/decisions?limit=      → stand-aside decisions (off-chain by design, from the ledger)
+GET /v1/fees                  → later (fee routing, §7)
 ```
-Never expose salts for open positions. Rate-limit lightly.
-
----
+Sources: positions/stats/verify/feed/theses come from `oath_server/indexer.py`, which rebuilds everything from notary memos + on-chain txs alone (no ledger input) and keeps serving the last good index if a refresh fails. Blocked-thesis salts come from the ledger but are served only after `sha256(thesis || salt)` matches the on-chain `oath1:b` digest. Never expose salts or theses for committed/open positions.
+Operator housekeeping in the agent wallet (e.g. funding the token launch) is disclosed on-chain with `oath1:h:<agent>:<tx_sig>:<reason>` and listed as `disclosed_operator_actions`, not as an uncommitted trade.
 
 ## 9. Phase 4 (stretch): Firewall-as-a-service over x402
 Hosted ClawPump agents can't load plugins (Redline's own caveat) — but they can pay x402 services. Expose `POST /v1/check` taking a proposed trade + agent wallet, returning `approve|block` + reasons + a notary-signed verdict. Priced per call in USDC via x402. **VERIFY** a Python x402 server library with Solana support before starting; if none is quick to integrate, skip this phase and mention it on the roadmap.

@@ -61,7 +61,16 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
     issues: list[str] = []
     by_agent: dict[str, dict[int, dict]] = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     disclosed: dict[str, dict[str, dict]] = defaultdict(dict)  # agent -> tx_sig -> disclosure
+    events: list[dict] = []  # every notary memo, oldest first (the chain-sourced feed)
+    feed_fields = ("digest", "swap_sig", "exit_sig", "exit_reason", "reason_code", "reason", "tx_sig", "bond_amt")
     for t in txs:
+        for m in t["memos"]:
+            if m.kind != "t":
+                events.append({"kind": {"c": "commit", "b": "blocked", "o": "open", "r": "reveal", "s": "slash",
+                                        "h": "operator_disclosure"}[m.kind],
+                               "agent": m.agent, "seq": m.seq or None, "sig": t["sig"], "slot": t["slot"],
+                               "block_time": t["block_time"],
+                               **{k: v for k, v in m.fields.items() if k in feed_fields}})
         theses = {m.seq: m.fields["thesis"] for m in t["memos"] if m.kind == "t"}
         for m in t["memos"]:
             if m.kind == "t":
@@ -227,6 +236,7 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
         "notary": notary,
         "checked_at": dt.datetime.fromtimestamp(now, dt.timezone.utc).isoformat(),
         "notary_txs_with_oath1_memos": len(txs),
+        "events": events,
         "agents": report_agents,
         "issues": issues,
         "pass": not issues and bool(txs),
