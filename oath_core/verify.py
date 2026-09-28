@@ -60,10 +60,15 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
     txs = collect(rpc, notary)
     issues: list[str] = []
     by_agent: dict[str, dict[int, dict]] = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    disclosed: dict[str, dict[str, dict]] = defaultdict(dict)  # agent -> tx_sig -> disclosure
     for t in txs:
         theses = {m.seq: m.fields["thesis"] for m in t["memos"] if m.kind == "t"}
         for m in t["memos"]:
             if m.kind == "t":
+                continue
+            if m.kind == "h":
+                disclosed[m.agent][m.fields["tx_sig"]] = {"reason": m.fields["reason"], "memo_sig": t["sig"],
+                                                          "memo_slot": t["slot"]}
                 continue
             rec = {"sig": t["sig"], "slot": t["slot"], "block_time": t["block_time"], **m.fields}
             if m.kind == "r":
@@ -201,10 +206,12 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
         for row in rows:
             issues.extend(f"{agent} seq {row['seq']}: {msg}" for msg in row["problems"])
 
-        uncommitted = []
+        uncommitted, operator_actions = [], []
         if scan_agent and txs:
             first_commit_time = min((t["block_time"] or 0) for t in txs)
-            uncommitted = scan_uncommitted(rpc, agent, swap_sigs, first_commit_time)
+            for u in scan_uncommitted(rpc, agent, swap_sigs, first_commit_time):
+                d = disclosed[agent].get(u["sig"])
+                (operator_actions if d else uncommitted).append({**u, **(d or {})})
             issues.extend(f"{agent}: uncommitted trade {u['sig']}" for u in uncommitted)
 
         report_agents[agent] = {
@@ -212,6 +219,8 @@ def verify(rpc, notary: str, *, now: float | None = None, scan_agent: bool = Tru
             "stats": aggregate(trades, committed=committed, open_count=open_count, unrevealed=unrevealed,
                                blocked_reasons=[r["reason_code"] for r in rows if r.get("status") == "blocked"]),
             "uncommitted_trades": uncommitted,
+            # Agent-wallet txs the operator disclosed on-chain (oath1:h) as not being agent trades.
+            "disclosed_operator_actions": operator_actions,
         }
 
     return {

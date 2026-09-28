@@ -6,6 +6,9 @@
   r  oath1:r:<agent>:<seq>:<salt_hex>:<exit_sig>:<exit_reason>
   s  oath1:s:<agent>:<seq>:<reason>
   t  oath1:t:<seq>:<canonical thesis JSON>   (rides in the reveal tx, so verify needs no API)
+  h  oath1:h:<agent>:<tx_sig>:<reason>        operator housekeeping disclosure (no seq): an agent-wallet
+                                              tx that is NOT an agent trade (e.g. funding a token launch).
+                                              Verify lists it as disclosed instead of "uncommitted trade".
 """
 from __future__ import annotations
 
@@ -61,6 +64,10 @@ def slash(agent: str, seq: int, reason: str) -> str:
     return _check(f"{PREFIX}:s:{agent}:{seq}:{reason}")
 
 
+def housekeeping(agent: str, tx_sig: str, reason: str) -> str:
+    return _check(f"{PREFIX}:h:{agent}:{tx_sig}:{reason}")
+
+
 def thesis(seq: int, canonical: bytes) -> str:
     return _check(f"{PREFIX}:t:{seq}:" + canonical.decode("utf-8"))
 
@@ -86,6 +93,10 @@ def parse(s: str) -> Memo:
     agent = parts[2]
     if not is_pubkey(agent):
         raise MemoError("bad agent pubkey")
+    if kind == "h":
+        if len(parts) != 5 or not is_signature(parts[3]) or not _CODE.match(parts[4]):
+            raise MemoError("bad housekeeping memo")
+        return Memo("h", agent, 0, {"tx_sig": parts[3], "reason": parts[4]})
     arity = {"c": 6, "b": 6, "o": 5, "r": 7, "s": 5}
     if kind not in arity:
         raise MemoError(f"unknown kind {kind!r}")

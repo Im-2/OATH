@@ -122,6 +122,9 @@ class Notary:
     def blocked(self, agent: str, seq: int, digest: str, reason_code: str) -> Posted:
         return self.post([memos.blocked(agent, seq, digest, reason_code)])
 
+    def housekeeping(self, agent: str, tx_sig: str, reason: str) -> Posted:
+        return self.post([memos.housekeeping(agent, tx_sig, reason)])
+
     def slash(self, agent: str, seq: int, reason: str) -> Posted:
         return self.post([memos.slash(agent, seq, reason)])
 

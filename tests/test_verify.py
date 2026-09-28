@@ -222,3 +222,36 @@ def test_late_reveal_is_flagged():
                                                          "oath1:t:1:" + canon.decode()]))  # T0 + 100 min
     r = verify(rpc, NOTARY, now=T0 + 7200)
     assert any("late reveal" in i for i in r["issues"])
+
+
+def test_housekeeping_memo_roundtrip_and_validation():
+    h = m.parse(m.housekeeping(AGENT, sig(8), "fund_launch"))
+    assert (h.kind, h.agent, h.fields) == ("h", AGENT, {"tx_sig": sig(8), "reason": "fund_launch"})
+    import pytest
+    with pytest.raises(m.MemoError):
+        m.parse(f"oath1:h:{AGENT}:notasig:fund_launch")
+    with pytest.raises(m.MemoError):
+        m.parse(f"oath1:h:{AGENT}:{sig(8)}:Bad Reason")
+
+
+def test_disclosed_operator_swap_is_listed_not_flagged():
+    rpc = FakeRpc()
+    round_trip(rpc)
+    rpc.add(sig(8), exit_tx(sig(8), ENTRY_SLOT + 8000, 1_000_000, 120_000))  # operator swap in agent wallet
+    assert not run(rpc)["pass"]                                             # undisclosed: flagged
+    rpc.add(sig(9), memo_tx(sig(9), ENTRY_SLOT + 8010, [m.housekeeping(AGENT, sig(8), "fund_launch")]))
+    r = run(rpc)
+    assert r["pass"], r["issues"]
+    ag = r["agents"][AGENT]
+    assert ag["uncommitted_trades"] == []
+    assert ag["disclosed_operator_actions"][0]["sig"] == sig(8)
+    assert ag["disclosed_operator_actions"][0]["reason"] == "fund_launch"
+
+
+def test_disclosure_not_signed_by_notary_is_ignored():
+    rpc = FakeRpc()
+    round_trip(rpc)
+    rpc.add(sig(8), exit_tx(sig(8), ENTRY_SLOT + 8000, 1_000_000, 120_000))
+    rpc.add(sig(9), memo_tx(sig(9), ENTRY_SLOT + 8010, [m.housekeeping(AGENT, sig(8), "fund_launch")],
+                            signer=ATTACKER, extra_keys=[NOTARY]))
+    assert not run(rpc)["pass"]
