@@ -1,0 +1,15 @@
+{
+  "fill": {
+    "sig": "41WM1uYZjLYr2ywMWUfXA1Jyvo2RABmSDibmHdgr2L2G5urxRkZpGDy1NNeAQmF7ABY8HaHLuEdng1Z69a9mgGg3",
+    "slot": 451279095,
+    "block_time": 1790587811,
+    "in_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "out_mint": "So11111111111111111111111111111111111111112",
+    "in_raw": 1200000,
+    "out_raw": 10155654,
+    "fee_lamports": 5000,
+    "agent_paid_fee": true
+  },
+  "agent_lamports_after": 15294369,
+  "agent_usdc_after": 786160
+}

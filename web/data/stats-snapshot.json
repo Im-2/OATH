@@ -1,0 +1,26 @@
+{
+  "as_of": "2026-09-28T10:59:52.520970+00:00",
+  "source": "chain (notary memos + on-chain txs), via oath_server.snapshot",
+  "notary": "FhpJ6i5oaBiCpNJasksf2qBgFmTv6ikgSUuqDzSBiUod",
+  "verify_pass": true,
+  "revealed": 2,
+  "committed": 2,
+  "completeness": "1",
+  "volume_usd": "3.999110",
+  "realised_pnl_usd": "-0.009587",
+  "blocked": 0,
+  "seqs": [
+    {
+      "seq": 1,
+      "status": "revealed",
+      "reveal_sig": "5DE7tDbeErioA4R3AmHxTYUjvDStMmDQfNZAV4iMmw8ajG7W4tZj8dDrLrpvFQsM5WPxdAWeSfT9KkvyzJpwa6S4",
+      "pnl_usd": "-0.006519"
+    },
+    {
+      "seq": 2,
+      "status": "revealed",
+      "reveal_sig": "2zsUxmwANsmzUe5doagut2cVMzHgBHYfg3ajYCuBEqpaC7Bit142EgGYbj2u77DhK7bG4r3SbFVABLfqn4Krva7x",
+      "pnl_usd": "-0.003068"
+    }
+  ]
+}

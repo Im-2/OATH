@@ -1,0 +1,30 @@
+{
+  "response": {
+    "status": "executed",
+    "venue": "jupiter",
+    "swapMode": "ExactIn",
+    "input": {
+      "token": "USDC",
+      "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "amount": "1.2",
+      "rawAmount": "1200000",
+      "decimals": 6
+    },
+    "output": {
+      "token": "SOL",
+      "mint": "So11111111111111111111111111111111111111112",
+      "amount": "0.010155654",
+      "rawAmount": "10155654",
+      "decimals": 9
+    },
+    "slippageBps": 100,
+    "priceImpactPct": "0",
+    "route": [
+      "1DEX"
+    ],
+    "otherAmountThreshold": "0.010054098",
+    "platformFee": null,
+    "txHash": "41WM1uYZjLYr2ywMWUfXA1Jyvo2RABmSDibmHdgr2L2G5urxRkZpGDy1NNeAQmF7ABY8HaHLuEdng1Z69a9mgGg3",
+    "explorerUrl": "https://solscan.io/tx/41WM1uYZjLYr2ywMWUfXA1Jyvo2RABmSDibmHdgr2L2G5urxRkZpGDy1NNeAQmF7ABY8HaHLuEdng1Z69a9mgGg3"
+  }
+}

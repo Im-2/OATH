@@ -24,3 +24,8 @@ build/
 *.db
 *.sqlite
 *.sqlite3
+
+# design screenshot tooling (web-reference/shots)
+web-reference/shots/node_modules/
+web-reference/shots/package.json
+web-reference/shots/package-lock.json
