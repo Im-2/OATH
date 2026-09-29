@@ -348,7 +348,9 @@ export async function askSandbox(idea: string, timeoutMs = 120_000): Promise<San
   const t = setTimeout(() => ctl.abort(), timeoutMs);
   try {
     const r = await fetch(`${API_ORIGIN}/v1/sandbox`, {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ idea }), signal: ctl.signal,
+      // the skip header is ignored by Tailscale/Cloudflare and stops ngrok's free-plan warning page
+      method: "POST", headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "1" },
+      body: JSON.stringify({ idea }), signal: ctl.signal,
     });
     const j = await r.json().catch(() => ({}));
     if (r.ok && j.sandbox === true) return { kind: "ok", result: j as SandboxResult };

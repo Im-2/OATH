@@ -35,7 +35,7 @@ export async function GET(req: NextRequest, ctx: RouteContext<"/api/oath/[...pat
   const url = `${ORIGIN}/${p}${q.size ? `?${q}` : ""}`;
   const t0 = Date.now();
   try {
-    const r = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(25_000), headers: { Accept: "application/json" } });
+    const r = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(25_000), headers: { Accept: "application/json", "ngrok-skip-browser-warning": "1" } });
     const body = await r.text();
     const ok = r.ok;
     return new Response(body, {

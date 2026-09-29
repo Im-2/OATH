@@ -154,6 +154,29 @@ def build_ctx():
     return cp, Ctx(cfg, rpc, Notary(load_keypair(NOTARY_PATH), rpc), Ledger(LEDGER_PATH), cp, ExecTokens())
 
 
+class AlreadyRunning(RuntimeError):
+    pass
+
+
+def single_instance(path):
+    """Hold an exclusive OS lock for the life of the process: two monitors would both execute the same
+    exit or reveal. The OS releases the lock if the process dies, so a crash never leaves it stuck."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    f = open(path, "a+")  # noqa: SIM115 - kept open on purpose (the lock lives with the handle)
+    try:
+        f.seek(0)
+        try:
+            import msvcrt
+            msvcrt.locking(f.fileno(), msvcrt.LK_NBLCK, 1)
+        except ImportError:
+            import fcntl
+            fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError as e:
+        f.close()
+        raise AlreadyRunning(f"another monitor holds {path}") from e
+    return f
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="OATH monitor: stop/TP/expiry exits, reveals, deadline sweeper")
     ap.add_argument("--once", action="store_true")
@@ -161,6 +184,14 @@ def main(argv=None) -> int:
     ap.add_argument("--interval", type=int, default=INTERVAL_S)
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    _lock = None  # held (not used) for the life of the process
+    if not a.dry_run:
+        from oath_core.config import OATH_HOME
+        try:
+            _lock = single_instance(OATH_HOME / "monitor.lock")
+        except AlreadyRunning as e:
+            log.error("%s; not starting a second one", e)
+            return 3
     cp, ctx = build_ctx()
     with cp:
         while True:

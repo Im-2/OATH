@@ -180,3 +180,12 @@ def test_trade_size_is_configurable(tmp_path):
     assert open_position(ctx2, **OPEN_ARGS)["firewall"]["reason"] == "size_cap"
 
 
+
+
+def test_monitor_is_single_instance(tmp_path):
+    from oath_server.monitor import AlreadyRunning, single_instance
+    first = single_instance(tmp_path / "monitor.lock")
+    with pytest.raises(AlreadyRunning):
+        single_instance(tmp_path / "monitor.lock")
+    first.close()  # the holder exits -> the lock is free again
+    single_instance(tmp_path / "monitor.lock").close()

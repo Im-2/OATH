@@ -6,14 +6,13 @@
 import { canonicalJson, isCanonical, oathDigest, type Thesis } from "./canonical";
 
 /**
- * Public RPCs to read from, in order. api.mainnet-beta.solana.com answers 403 "Access forbidden" to any
- * request carrying a browser Origin (checked 2026-09-29), so a CORS-friendly public RPC goes first.
- * NEXT_PUBLIC_SOLANA_RPC, when set, is tried before both.
+ * RPCs to read from, in order: NEXT_PUBLIC_SOLANA_RPC (a full-history RPC the operator configures), then a
+ * CORS-friendly public RPC. api.mainnet-beta.solana.com is not listed: it answers 403 "Access forbidden" to
+ * any request carrying a browser Origin (checked 2026-09-29).
  */
 export const RPC_URLS = [
   ...(process.env.NEXT_PUBLIC_SOLANA_RPC ? [process.env.NEXT_PUBLIC_SOLANA_RPC.replace(/\/+$/, "")] : []),
   "https://solana-rpc.publicnode.com",
-  "https://api.mainnet-beta.solana.com",
 ];
 // Free browser-friendly RPCs keep only ~2 days of history (minimumLedgerSlot). Oaths older than every
 // source's horizon are reported as out of reach, never as missing; a full-history RPC sees them all.
