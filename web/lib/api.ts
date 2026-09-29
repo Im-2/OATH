@@ -236,6 +236,135 @@ export function useLiveData(intervalMs = 10_000) {
   return { data, ready, lastAttempt };
 }
 
+/* ---------- /v1/verify ---------- */
+
+export type VerifyRow = Position & { entry_fill?: unknown; exit_fill?: unknown; grade?: Grade };
+export type VerifyAgent = {
+  positions: VerifyRow[];
+  gaps: number[];
+  stats: Stats;
+  uncommitted_trades: { sig: string; slot: number; usdc_delta_raw: number }[];
+  disclosed_operator_actions: { sig: string; slot: number; reason: string; memo_sig: string }[];
+};
+export type VerifyReport = {
+  notary: string;
+  checked_at: string;
+  indexed_at: string;
+  pass: boolean;
+  issues: string[];
+  notary_txs_with_oath1_memos: number;
+  agents: Record<string, VerifyAgent>;
+  source: "live" | "snapshot";
+};
+
+export const SNAPSHOT_VERIFY: VerifyReport = { ...(snap as unknown as { verify: VerifyReport }).verify, source: "snapshot" };
+
+export async function fetchVerify(timeoutMs = 8000): Promise<VerifyReport | null> {
+  if (!API_BASE) return null;
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), timeoutMs);
+  try {
+    const v = await getJson<VerifyReport>("/v1/verify", ctl.signal);
+    return v && typeof v.pass === "boolean" && v.agents ? { ...v, source: "live" } : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+/** Poll a fetcher every intervalMs while visible; first read happens even in a background tab. */
+export function usePolled<T>(fetcher: () => Promise<T | null>, fallback: T, intervalMs = 30_000) {
+  const [data, setData] = useState<T>(fallback);
+  const [live, setLive] = useState(false);
+  const [ready, setReady] = useState(false);
+  const tick = useCallback(async () => {
+    const v = await fetcher();
+    if (v) setData(v);
+    setLive(!!v);
+    setReady(true);
+  }, [fetcher]);
+  useEffect(() => {
+    let timer: ReturnType<typeof setInterval> | null = null;
+    const t0 = setTimeout(() => void tick(), 0);
+    const start = () => {
+      if (!timer) timer = setInterval(() => void tick(), intervalMs);
+    };
+    const stop = () => {
+      if (timer) clearInterval(timer);
+      timer = null;
+    };
+    const onVis = () => {
+      if (document.visibilityState === "visible") {
+        void tick();
+        start();
+      } else stop();
+    };
+    if (document.visibilityState === "visible") start();
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      clearTimeout(t0);
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [tick, intervalMs]);
+  return { data, live, ready };
+}
+
+/* ---------- /v1/sandbox (Ask OATH) ---------- */
+
+export type SandboxSignal = Signal & { against: boolean };
+export type SandboxResult = {
+  sandbox: true;
+  notice: string;
+  idea: string;
+  topic: string;
+  market: string;
+  evidence: Record<string, string | number | null>;
+  signals: SandboxSignal[];
+  agreeing: number;
+  against: number;
+  needs: number;
+  decision: "open" | "stand_aside";
+  reason_code: string;
+  reasons: string[];
+  reply: string;
+  model: string | null;
+  model_note: string | null;
+  generated_at: string;
+  thesis?: Record<string, string>;
+  canonical?: string;
+  firewall?: { approve: boolean; reason: string; detail: string };
+  would_commit?: { digest: string; salt_hex: string; memo: string; sent: false };
+};
+
+export type SandboxOutcome =
+  | { kind: "ok"; result: SandboxResult }
+  | { kind: "resting"; message: string }
+  | { kind: "rate_limited"; message: string }
+  | { kind: "invalid"; message: string };
+
+export async function askSandbox(idea: string, timeoutMs = 120_000): Promise<SandboxOutcome> {
+  const resting = { kind: "resting" as const, message: "OATH is resting. Try Break it instead." };
+  if (!API_BASE) return resting;
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), timeoutMs);
+  try {
+    const r = await fetch(`${API_BASE}/v1/sandbox`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ idea }), signal: ctl.signal,
+    });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.sandbox === true) return { kind: "ok", result: j as SandboxResult };
+    if (r.status === 429) return { kind: "rate_limited", message: j.message ?? "Too many questions. Try again in a few minutes." };
+    if (r.status === 422) return { kind: "invalid", message: typeof j.detail === "string" ? j.detail : "Keep it to one short trade idea (under 280 characters)." };
+    return resting;
+  } catch {
+    return resting;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 /* ---------- formatting ---------- */
 
 export const SOLSCAN_ACCOUNT = (a: string) => `https://solscan.io/account/${a}`;

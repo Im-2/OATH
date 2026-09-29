@@ -41,7 +41,7 @@ log = logging.getLogger("oath.sandbox")
 IDEA_MAX = 280
 MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-MAX_TOKENS = 400
+MAX_TOKENS = 800  # hard cap; the free model is a reasoning model, and its reasoning counts here
 EVIDENCE_TTL_S = 60
 
 READ_ONLY_TOOLS = frozenset({"get_price", "intelligence_market", "get_indicators", "intelligence_signals",
@@ -193,7 +193,8 @@ def score(ev: Evidence) -> dict:
 _SOL_WORDS = {"SOL", "SOLANA", "WSOL"}
 _NOT_TICKERS = {"I", "A", "OATH", "USD", "USDC", "BUY", "SELL", "LONG", "SHORT", "NOW", "IS", "IT", "OK", "AI", "TP",
                 "SL", "ATH", "PNL", "DCA", "LFG", "GM", "NFA", "DYOR", "THE", "AND", "OR", "TO", "IN", "ON", "FOR",
-                "SHOULD", "WHAT", "RIGHT", "NEW", "APE", "INTO", "MY", "ME", "YOU", "YOUR", "IF", "UP", "DOWN"}
+                "SHOULD", "WHAT", "RIGHT", "NEW", "APE", "INTO", "MY", "ME", "YOU", "YOUR", "IF", "UP", "DOWN", "ADMIN",
+                "MODE", "ALL", "NOT", "NO", "YES", "PLEASE", "STOP", "HELP", "RULES", "IGNORE"}
 _KNOWN_OTHERS = {"bitcoin": "BTC", "btc": "BTC", "ethereum": "ETH", "eth": "ETH", "jup": "JUP", "jupiter": "JUP",
                  "bonk": "BONK", "wif": "WIF", "pepe": "PEPE", "doge": "DOGE", "memecoin": "a memecoin",
                  "memecoins": "memecoins", "meme coin": "a memecoin", "shitcoin": "a memecoin", "ansem": "ANSEM",
@@ -210,9 +211,13 @@ def topic_of(idea: str) -> str:
     for tok in re.findall(r"\$([A-Za-z][A-Za-z0-9]{1,9})\b", idea):
         if tok.upper() not in _SOL_WORDS:
             return tok.upper()
-    for tok in re.findall(r"\b([A-Z][A-Z0-9]{1,9})\b", idea):
-        if tok not in _SOL_WORDS and tok not in _NOT_TICKERS:
-            return tok
+    # Bare CAPS words count as tickers only when short and the visitor isn't shouting.
+    words = re.findall(r"[A-Za-z]{2,}", idea)
+    caps = [w for w in words if w.isupper()]
+    if words and len(caps) / len(words) <= 0.4:
+        for tok in re.findall(r"\b([A-Z][A-Z0-9]{1,5})\b", idea):
+            if tok not in _SOL_WORDS and tok not in _NOT_TICKERS:
+                return tok
     return "SOL"
 
 
@@ -227,23 +232,44 @@ class LlmUnavailable(RuntimeError):
 
 
 class OpenRouterLlm:
-    def __init__(self, key: str, model: str = MODEL, timeout_s: float = 45.0):
+    def __init__(self, key: str, model: str = MODEL, timeout_s: float = 50.0):
         self.key, self.model, self.timeout_s = key, model, timeout_s
 
     def complete(self, messages: list[dict]) -> str:
         # Deliberately no `tools` / `functions`: the model cannot call anything.
-        body = {"model": self.model, "messages": messages, "max_tokens": MAX_TOKENS, "temperature": 0.2}
-        try:
-            r = httpx.post(OPENROUTER_URL, json=body, timeout=self.timeout_s,
-                           headers={"Authorization": f"Bearer {self.key}", "X-Title": "OATH sandbox"})
-        except httpx.HTTPError as e:
-            raise LlmUnavailable(type(e).__name__) from e
-        if r.status_code != 200:
-            raise LlmUnavailable(f"HTTP {r.status_code}")
-        try:
-            return r.json()["choices"][0]["message"]["content"] or ""
-        except (KeyError, IndexError, TypeError, ValueError) as e:
-            raise LlmUnavailable("unreadable model response") from e
+        body = {"model": self.model, "messages": messages, "max_tokens": MAX_TOKENS, "temperature": 0.2,
+                "reasoning": {"effort": "low", "exclude": True}}
+        last = "no response"
+        for attempt in range(2):  # one retry: free models 429 / 5xx transiently
+            if attempt:
+                time.sleep(2.5)
+            try:
+                r = httpx.post(OPENROUTER_URL, json=body, timeout=self.timeout_s,
+                               headers={"Authorization": f"Bearer {self.key}", "X-Title": "OATH sandbox"})
+            except httpx.HTTPError as e:
+                last = type(e).__name__
+                continue
+            if r.status_code == 429 or r.status_code >= 500:
+                last = f"HTTP {r.status_code}"
+                continue
+            if r.status_code != 200:
+                raise LlmUnavailable(f"HTTP {r.status_code}")
+            try:
+                j = r.json()
+            except ValueError:
+                last = "unreadable model response"
+                continue
+            if isinstance(j, dict) and j.get("error"):  # OpenRouter can answer 200 with an upstream error
+                last = "upstream error"
+                continue
+            try:
+                content = j["choices"][0]["message"]["content"] or ""
+            except (KeyError, IndexError, TypeError) as e:
+                raise LlmUnavailable("unreadable model response") from e
+            if content.strip():
+                return content
+            last = "empty reply"
+        raise LlmUnavailable(last)
 
 
 def load_openrouter_llm() -> OpenRouterLlm | None:

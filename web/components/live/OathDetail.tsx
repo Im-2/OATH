@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { EXIT_LABEL, SNAPSHOT_DATA, fetchPosition, fmtPnl, fmtTime, trimAmount, type Position } from "@/lib/api";
-import { oathDigest, slot } from "@/lib/featured";
+import { thesisDigest } from "@/lib/canonical";
+import { slot } from "@/lib/featured";
 import { useNow } from "@/lib/useNow";
 import { CheckIcon, CopyHash, CrossIcon, LockIcon, Panel, Tag, TxLink, VerifiedCheck } from "./ui";
 
@@ -198,8 +199,9 @@ function VerifyButton({ p }: { p: Position }) {
   const [state, setState] = useState<{ status: "idle" | "busy" | "ok" | "bad"; hash?: string }>({ status: "idle" });
   const run = async () => {
     setState({ status: "busy" });
-    const h = await oathDigest(p.canonical!, p.salt_hex!);
-    setState({ status: h === p.digest ? "ok" : "bad", hash: h });
+    // Re-encode the thesis fields ourselves (shared with /try) instead of trusting served bytes.
+    const { canonical, digest: h } = await thesisDigest(p.thesis!, p.salt_hex!);
+    setState({ status: h === p.digest && (!p.canonical || canonical === p.canonical) ? "ok" : "bad", hash: h });
   };
   return (
     <div className="rounded-2xl border border-white/[0.08] bg-black/30 p-4">
@@ -223,7 +225,7 @@ function VerifyButton({ p }: { p: Position }) {
         )}
       </div>
       <p className="mt-3 text-[12px] leading-[18px] text-white/45">
-        Computes <span className="font-mono text-white/65">sha256(thesis ‖ salt)</span> right here with Web Crypto and compares it with the hash committed at slot {slot(p.commit_slot)}.
+        Encodes the thesis canonically and computes <span className="font-mono text-white/65">sha256(thesis ‖ salt)</span> right here with Web Crypto and compares it with the hash committed at slot {slot(p.commit_slot)}.
       </p>
       <div className="mt-3 space-y-1.5 font-mono text-[11.5px] leading-[17px]">
         <div className="break-all text-white/55"><span className="text-white/35">committed </span>{p.digest}</div>

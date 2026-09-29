@@ -3,6 +3,7 @@ import { OathWordmark } from "./Logo";
 
 const LINKS = [
   { href: "/live", label: "Live" },
+  { href: "/try", label: "Try" },
   { href: "/verify", label: "Verify" },
   { href: "/performance", label: "Performance" },
   { href: "/build", label: "Build" },

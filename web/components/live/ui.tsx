@@ -155,3 +155,25 @@ export function Ring({ value, size = 64, stroke = 5, color = "#A8D86E", track = 
     </div>
   );
 }
+
+export function CopyButton({ value, label = "copy", className = "" }: { value: string; label?: string; className?: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={async (e) => {
+        e.stopPropagation();
+        try {
+          await navigator.clipboard.writeText(value);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1400);
+        } catch {
+          /* clipboard blocked */
+        }
+      }}
+      className={`rounded-md border border-white/10 bg-white/[0.05] px-2 py-1 text-[11.5px] transition-colors hover:border-white/20 ${copied ? "text-[#A8D86E]" : "text-white/60"} ${className}`}
+    >
+      {copied ? "copied" : label}
+    </button>
+  );
+}
