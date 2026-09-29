@@ -60,6 +60,21 @@ class RateLimiter:
             return True
 
 
+LOOPBACK = {"127.0.0.1", "::1", "localhost"}
+
+
+def client_ip(request: Request) -> str:
+    """The visitor's IP for rate limiting. Behind a Cloudflare Tunnel every request reaches us from
+    cloudflared on loopback, so there (and only there) the CF-Connecting-IP header is the visitor.
+    A direct, non-loopback client can't claim another IP with the header."""
+    host = request.client.host if request.client else "unknown"
+    if host in LOOPBACK:
+        cf = (request.headers.get("cf-connecting-ip") or "").strip()
+        if cf and len(cf) <= 45:
+            return cf
+    return host
+
+
 class SandboxIn(BaseModel):
     idea: str = Field(..., min_length=1, max_length=2000)
 
@@ -92,7 +107,7 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
 
     @app.middleware("http")
     async def rate_limit(request: Request, call_next):
-        if not limiter.allow(request.client.host if request.client else "unknown"):
+        if not limiter.allow(client_ip(request)):
             return JSONResponse({"error": "rate limited"}, status_code=429, headers={"Retry-After": "60"})
         return await call_next(request)
 
@@ -244,7 +259,7 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
 
         if sandbox is None:
             return JSONResponse(resting, status_code=503)
-        ip = request.client.host if request.client else "unknown"
+        ip = client_ip(request)
         if not sb_ip.allow(ip):
             return JSONResponse({"error": "rate_limited", "message": "3 questions per 10 minutes. Try Break it meanwhile."},
                                 status_code=429, headers={"Retry-After": "600"})

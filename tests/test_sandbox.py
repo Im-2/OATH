@@ -305,3 +305,24 @@ def test_openrouter_client_sends_no_tools_and_retries_once(monkeypatch):
     answers[:] = [(429, {}), (429, {})]
     with pytest.raises(sb.LlmUnavailable):
         sb.OpenRouterLlm("k").complete([])
+
+
+def test_rate_limit_is_per_visitor_behind_the_tunnel(tmp_path, ledger_path):
+    """Via cloudflared all requests come from loopback: limits must key on CF-Connecting-IP."""
+    from oath_server.app import client_ip
+
+    class Req:
+        def __init__(self, host, hdr=None):
+            self.client = type("C", (), {"host": host})()
+            self.headers = hdr or {}
+
+    assert client_ip(Req("127.0.0.1", {"cf-connecting-ip": "203.0.113.7"})) == "203.0.113.7"
+    assert client_ip(Req("127.0.0.1")) == "127.0.0.1"
+    assert client_ip(Req("198.51.100.2", {"cf-connecting-ip": "203.0.113.7"})) == "198.51.100.2"  # no spoofing
+
+    app = create_app(StubIndexer(None), Ledger(tmp_path / "t.db"), Config(agent_id="x", agent_wallet=AGENT), NOTARY,
+                     lambda: Policy(), sandbox=lambda idea: sb.run_sandbox(idea, deps(ledger_path, FakeCp(), FakeLlm({"reply": "ok"}))))
+    c = TestClient(app, client=("127.0.0.1", 5000))
+    post = lambda ip: c.post("/v1/sandbox", json={"idea": "SOL?"}, headers={"CF-Connecting-IP": ip}).status_code  # noqa: E731
+    assert [post("203.0.113.1") for _ in range(4)] == [200, 200, 200, 429]
+    assert post("203.0.113.2") == 200  # another visitor is unaffected
