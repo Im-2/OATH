@@ -35,3 +35,6 @@ web-reference/shots/how-1440-transition.png
 web-reference/shots/how-scroll-*-down-*.png
 web-reference/shots/how-scroll-*-up-*.png
 web-reference/how-it-works-frames/scene_*.png
+
+# vercel link (project id; .env.local pulled by the CLI is already covered by .env.*)
+.vercel
