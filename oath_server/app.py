@@ -14,6 +14,8 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hmac
+import ipaddress
 import json
 import logging
 import threading
@@ -63,11 +65,19 @@ class RateLimiter:
 LOOPBACK = {"127.0.0.1", "::1", "localhost"}
 
 
-def client_ip(request: Request) -> str:
-    """The visitor's IP for rate limiting. Behind a Cloudflare Tunnel every request reaches us from
-    cloudflared on loopback, so there (and only there) the CF-Connecting-IP header is the visitor.
-    A direct, non-loopback client can't claim another IP with the header."""
+def client_ip(request: Request, proxy_secret: str | None = None) -> str:
+    """The visitor's IP for rate limiting.
+    * The website's own proxy (Vercel) forwards the visitor's IP in X-Oath-Visitor-IP together with a
+      shared secret (X-Oath-Proxy-Key); the header is trusted only when that secret matches.
+    * Behind a Cloudflare Tunnel every request reaches us from loopback, so there (and only there)
+      CF-Connecting-IP is the visitor. A direct, non-loopback client can't claim another IP."""
     host = request.client.host if request.client else "unknown"
+    key = request.headers.get("x-oath-proxy-key") or ""
+    if proxy_secret and key and hmac.compare_digest(key.encode(), proxy_secret.encode()):
+        try:
+            return str(ipaddress.ip_address((request.headers.get("x-oath-visitor-ip") or "").strip()))
+        except ValueError:
+            return host
     if host in LOOPBACK:
         cf = (request.headers.get("cf-connecting-ip") or "").strip()
         if cf and len(cf) <= 45:
@@ -94,7 +104,8 @@ def monitor_status(path) -> dict:
 
 def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_policy,
                *, token_mint: str | None = None, rate_limiter: RateLimiter | None = None,
-               heartbeat_path=None, sandbox=None, sandbox_limits=(SANDBOX_PER_IP, SANDBOX_GLOBAL)) -> FastAPI:
+               heartbeat_path=None, sandbox=None, sandbox_limits=(SANDBOX_PER_IP, SANDBOX_GLOBAL),
+               proxy_secret: str | None = None) -> FastAPI:
     """`sandbox`: optional callable(idea) -> dict (oath_server.sandbox.make_runner). It is the only
     non-GET route, and it can only evaluate; it has no path to the notary, executor or ledger writes."""
     app = FastAPI(title="OATH (Proof-of-Thesis) public API", version="1",
@@ -107,7 +118,7 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
 
     @app.middleware("http")
     async def rate_limit(request: Request, call_next):
-        if not limiter.allow(client_ip(request)):
+        if not limiter.allow(client_ip(request, proxy_secret)):
             return JSONResponse({"error": "rate limited"}, status_code=429, headers={"Retry-After": "60"})
         return await call_next(request)
 
@@ -265,7 +276,7 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
 
         if sandbox is None:
             return JSONResponse(resting, status_code=503)
-        ip = client_ip(request)
+        ip = client_ip(request, proxy_secret)
         if not sb_ip.allow(ip):
             return JSONResponse({"error": "rate_limited", "message": "3 questions per 10 minutes. Try Break it meanwhile."},
                                 status_code=429, headers={"Retry-After": "600"})
@@ -315,8 +326,16 @@ def main(argv=None) -> int:
     from .sandbox import make_runner
 
     sandbox = None if a.no_sandbox else make_runner(cfg, LEDGER_PATH, cfg.effective_rpc_url, load_policy)
+    import os
+
+    from oath_core.config import ENV_FILES, _read_env_file
+
+    # shared with the website's proxy (Vercel env OATH_PROXY_SECRET) so it can pass on visitors' IPs
+    proxy_secret = os.environ.get("OATH_PROXY_SECRET") or next(
+        (v for f in ENV_FILES if (v := _read_env_file(f, "OATH_PROXY_SECRET"))), None)
     app = create_app(ix, Ledger(LEDGER_PATH), cfg, notary, load_policy, token_mint=a.token_mint,
-                     heartbeat_path=OATH_HOME / "monitor_heartbeat.json", sandbox=sandbox)
+                     heartbeat_path=OATH_HOME / "monitor_heartbeat.json", sandbox=sandbox,
+                     proxy_secret=proxy_secret)
     uvicorn.run(app, host=a.host, port=a.port, log_level="info")
     return 0
 

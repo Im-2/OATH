@@ -326,3 +326,27 @@ def test_rate_limit_is_per_visitor_behind_the_tunnel(tmp_path, ledger_path):
     post = lambda ip: c.post("/v1/sandbox", json={"idea": "SOL?"}, headers={"CF-Connecting-IP": ip}).status_code  # noqa: E731
     assert [post("203.0.113.1") for _ in range(4)] == [200, 200, 200, 429]
     assert post("203.0.113.2") == 200  # another visitor is unaffected
+
+
+def test_visitor_ip_from_the_site_proxy_needs_the_shared_secret(tmp_path, ledger_path):
+    from oath_server.app import client_ip
+
+    class Req:
+        def __init__(self, host, hdr=None):
+            self.client = type("C", (), {"host": host})()
+            self.headers = hdr or {}
+
+    good = {"x-oath-proxy-key": "s3cret", "x-oath-visitor-ip": "203.0.113.9"}
+    assert client_ip(Req("76.76.21.21", good), "s3cret") == "203.0.113.9"
+    assert client_ip(Req("76.76.21.21", {**good, "x-oath-proxy-key": "guess"}), "s3cret") == "76.76.21.21"
+    assert client_ip(Req("76.76.21.21", good), None) == "76.76.21.21"            # no secret configured
+    assert client_ip(Req("76.76.21.21", {**good, "x-oath-visitor-ip": "not-an-ip"}), "s3cret") == "76.76.21.21"
+
+    app = create_app(StubIndexer(None), Ledger(tmp_path / "p.db"), Config(agent_id="x", agent_wallet=AGENT), NOTARY,
+                     lambda: Policy(), proxy_secret="s3cret",
+                     sandbox=lambda idea: sb.run_sandbox(idea, deps(ledger_path, FakeCp(), FakeLlm({"reply": "ok"}))))
+    c = TestClient(app, client=("76.76.21.21", 443))  # every request arrives from the site's proxy
+    post = lambda ip: c.post("/v1/sandbox", json={"idea": "SOL?"},  # noqa: E731
+                             headers={"X-Oath-Proxy-Key": "s3cret", "X-Oath-Visitor-IP": ip}).status_code
+    assert [post("203.0.113.1") for _ in range(4)] == [200, 200, 200, 429]
+    assert post("203.0.113.2") == 200  # a different visitor behind the same proxy is unaffected

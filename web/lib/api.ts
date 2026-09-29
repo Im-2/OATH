@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import snap from "@/data/api-snapshot.json";
-import { API_BASE, API_ORIGIN } from "./stats";
+import { API_BASE } from "./stats";
 
 /** Shapes of the OATH API responses (oath_server/app.py). Every value is real chain/ledger data. */
 export type Fill = {
@@ -343,13 +343,13 @@ export type SandboxOutcome =
 
 export async function askSandbox(idea: string, timeoutMs = 120_000): Promise<SandboxOutcome> {
   const resting = { kind: "resting" as const, message: "OATH is resting. Try Break it instead." };
-  if (!API_ORIGIN) return resting;
+  if (!API_BASE) return resting;
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), timeoutMs);
   try {
-    const r = await fetch(`${API_ORIGIN}/v1/sandbox`, {
-      // the skip header is ignored by Tailscale/Cloudflare and stops ngrok's free-plan warning page
-      method: "POST", headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "1" },
+    // through this site's proxy (it passes the visitor's IP on, so the rate limit stays per visitor)
+    const r = await fetch(`${API_BASE}/v1/sandbox`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idea }), signal: ctl.signal,
     });
     const j = await r.json().catch(() => ({}));
