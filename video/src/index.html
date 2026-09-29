@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>OATH demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=block" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<script src="data.js"></script>
+</head>
+<body>
+<div id="stage">
+  <div class="bg"></div>
+  <div class="glow" id="glow"></div>
+
+  <!-- persistent chrome -->
+  <div id="chrome-logo" class="chrome-logo">
+    <svg viewBox="0 0 512 512" class="seal-sm"><circle cx="256" cy="256" r="196" fill="none" stroke="#A8D86E" stroke-width="72"/><circle cx="256" cy="228" r="38" fill="#A8D86E"/><path d="M238 250 L274 250 L290 338 L222 338 Z" fill="#A8D86E"/></svg>
+    <span>OATH</span>
+  </div>
+  <div id="chrome-tag" class="chrome-tag">Oath #2 · real on-chain data · 1-USDC test trade</div>
+  <div id="progress"><i></i></div>
+
+  <!-- 1 -->
+  <section class="scene" id="s1">
+    <div class="s1-seal" id="s1-seal">
+      <div class="s1-ring" id="s1-ring"></div>
+      <svg viewBox="0 0 512 512"><circle cx="256" cy="256" r="196" fill="none" stroke="#A8D86E" stroke-width="72"/><circle cx="256" cy="228" r="38" fill="#A8D86E"/><path d="M238 250 L274 250 L290 338 L222 338 Z" fill="#A8D86E"/></svg>
+    </div>
+    <div class="s1-word" id="s1-word">OATH</div>
+    <h1 class="cap center" id="s1-cap">An AI trader that <span class="g">can't hide a call.</span></h1>
+  </section>
+
+  <!-- 2 -->
+  <section class="scene" id="s2">
+    <h1 class="cap" id="s2-cap">Most trading bots can <span class="r">rewrite their story.</span></h1>
+    <div class="bot" id="s2-bot">
+      <div class="illus">ILLUSTRATION · not a real bot</div>
+      <div class="bot-head">
+        <div><div class="bot-name">ALPHA-BOT 9000</div><div class="bot-sub">"trust me, bro" trading</div></div>
+        <div class="bot-rate"><small>win rate</small><b id="s2-rate">60%</b></div>
+      </div>
+      <div class="rows" id="s2-rows">
+        <div class="row win"><span>Trade 1</span><b>+42%</b></div>
+        <div class="row loss"><span>Trade 2</span><b>−35%</b></div>
+        <div class="row win"><span>Trade 3</span><b>+18%</b></div>
+        <div class="row loss"><span>Trade 4</span><b>−61%</b></div>
+        <div class="row win"><span>Trade 5</span><b>+27%</b></div>
+      </div>
+    </div>
+    <div class="s2-side" id="s2-side">Losing trades?<br /><span class="r">Quietly deleted.</span></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="scene" id="s3">
+    <h1 class="cap" id="s3-cap">OATH <span class="g">reads the market.</span></h1>
+    <div class="card sig-card" id="s3-card">
+      <div class="card-kicker">Playbook signals · <span id="s3-time"></span></div>
+      <div id="s3-rows"></div>
+      <div class="sig-result" id="s3-result"><b>3 agreeing</b> · 0 against <span class="arrow">→</span> <span class="g">threshold met</span> <small>(needs 2)</small></div>
+    </div>
+    <div class="note" id="s3-note">Real readings from the agent's session for Oath #2 · operator acceptance test</div>
+  </section>
+
+  <!-- 4 -->
+  <section class="scene" id="s4">
+    <h1 class="cap" id="s4-cap">It <span class="g">writes its plan.</span></h1>
+    <div class="card thesis" id="s4-card">
+      <div class="card-kicker">Thesis · Oath #2</div>
+      <div id="s4-rows"></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="scene" id="s5">
+    <h1 class="cap" id="s5-cap">Then <span class="a">seals it on Solana.</span></h1>
+    <div class="s5-grid">
+      <div class="card mini" id="s5-thesis">
+        <div class="mini-lock" id="s5-lock">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" stroke="#F2C14E" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="#F2C14E" stroke-width="2.2" stroke-linecap="round"/></svg>
+          SEALED
+        </div>
+        <div class="card-kicker">Thesis (canonical JSON)</div>
+        <pre id="s5-json"></pre>
+      </div>
+      <div class="s5-mid" id="s5-mid">
+        <div class="plus">+</div>
+        <div class="salt" id="s5-salt"><small>salt · 32 random bytes</small><code id="s5-salt-v"></code></div>
+        <div class="sha" id="s5-sha">sha256</div>
+      </div>
+      <div class="card hashcard" id="s5-hashcard">
+        <div class="card-kicker">Commitment hash</div>
+        <code class="hash" id="s5-hash"></code>
+      </div>
+    </div>
+    <div class="stamp amber" id="s5-stamp">Committed · slot <b id="s5-slot"></b> · <span id="s5-time"></span></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="scene" id="s6">
+    <h1 class="cap" id="s6-cap">Only then <span class="g">can it trade.</span></h1>
+    <div class="swap" id="s6-swap">
+      <div class="chip" id="s6-in"><small>spends</small><b id="s6-in-v"></b></div>
+      <div class="swap-arrow"><i id="s6-arrow"></i></div>
+      <div class="chip out" id="s6-out"><small>receives</small><b id="s6-out-v"></b></div>
+    </div>
+    <div class="slots" id="s6-slots">
+      <div class="axis"></div>
+      <div class="mark amber" id="s6-m1"><i></i><span>commit</span><b id="s6-m1v"></b></div>
+      <div class="mark white" id="s6-m2"><i></i><span>swap</span><b id="s6-m2v"></b></div>
+    </div>
+    <div class="stamp" id="s6-stamp">Traded · slot <b id="s6-slot"></b> <span class="dim">(after the commit)</span></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="scene" id="s7">
+    <h1 class="cap" id="s7-cap">Code closes the trade, <span class="g">not the model.</span></h1>
+    <div class="s7-grid">
+      <div class="card timer" id="s7-timer">
+        <svg viewBox="0 0 200 200" class="ring"><circle cx="100" cy="100" r="86" stroke="rgba(255,255,255,0.08)" stroke-width="10" fill="none"/><circle id="s7-arc" cx="100" cy="100" r="86" stroke="#A8D86E" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="540.35" stroke-dashoffset="540.35" transform="rotate(-90 100 100)"/></svg>
+        <div class="clock" id="s7-clock">00:00</div>
+        <div class="ff" id="s7-ff">▶▶ horizon 15:00</div>
+        <div class="exit" id="s7-exit">Horizon reached → monitor exits<br /><code id="s7-exit-v"></code><br /><small id="s7-pnl"></small></div>
+      </div>
+      <div class="card reveal" id="s7-reveal">
+        <div class="card-kicker">Reveal · slot <b id="s7-slot"></b></div>
+        <div class="rv-line">thesis + salt published on-chain</div>
+        <div class="rv-label">recomputed sha256(thesis ‖ salt)</div>
+        <code class="hash sm" id="s7-hash"></code>
+        <div class="rv-label">committed before the trade</div>
+        <code class="hash sm dimh" id="s7-committed"></code>
+        <div class="match" id="s7-match"><span class="okdot">✓</span> Match: this is exactly what OATH committed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="scene" id="s8">
+    <h1 class="cap" id="s8-cap">Try to <span class="r">cheat.</span></h1>
+    <div class="card cheat" id="s8-card">
+      <div class="card-kicker">Revealed thesis · Oath #2</div>
+      <div class="field"><span>entry</span><code id="s8-entry"></code></div>
+      <div class="field muted"><span>stop</span><code id="s8-stop"></code></div>
+      <div class="field muted"><span>take-profit</span><code id="s8-tp"></code></div>
+      <div class="rv-label">sha256(thesis ‖ salt)</div>
+      <code class="hash sm" id="s8-hash"></code>
+      <div class="rv-label">committed on-chain</div>
+      <code class="hash sm dimh" id="s8-committed"></code>
+    </div>
+    <div class="tampered" id="s8-bad"><span class="xdot">✕</span><div><b>Tampered.</b><br /><small>One changed number, a completely different hash.</small></div></div>
+  </section>
+
+  <!-- 9 -->
+  <section class="scene" id="s9">
+    <div class="s9-seal" id="s9-seal"><svg viewBox="0 0 512 512"><circle cx="256" cy="256" r="196" fill="none" stroke="#A8D86E" stroke-width="72"/><circle cx="256" cy="228" r="38" fill="#A8D86E"/><path d="M238 250 L274 250 L290 338 L222 338 Z" fill="#A8D86E"/></svg></div>
+    <h1 class="cap center" id="s9-cap">Every oath numbered.<br /><span class="g">Every call verifiable.</span></h1>
+    <div class="links" id="s9-links">
+      <span class="url">oathagent.vercel.app</span>
+      <span class="sep">·</span><span>$OATH</span>
+      <span class="sep">·</span><span>@OathAgent</span>
+      <span class="sep">·</span><span class="g">#AnsemHack</span>
+    </div>
+  </section>
+
+  <div class="grain"></div>
+</div>
+<script src="anim.js"></script>
+</body>
+</html>
