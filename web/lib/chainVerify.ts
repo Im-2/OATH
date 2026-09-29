@@ -13,7 +13,6 @@ import { canonicalJson, isCanonical, oathDigest, type Thesis } from "./canonical
 export const RPC_URLS = [
   ...(process.env.NEXT_PUBLIC_SOLANA_RPC ? [process.env.NEXT_PUBLIC_SOLANA_RPC.replace(/\/+$/, "")] : []),
   "https://solana-rpc.publicnode.com",
-  "https://solana.api.pocket.network",
   "https://api.mainnet-beta.solana.com",
 ];
 // Free browser-friendly RPCs keep only ~2 days of history (minimumLedgerSlot). Oaths older than every

@@ -65,7 +65,7 @@ async function run(label, ctxOpts) {
   if (w >= 768) {
     await p.getByRole("tab", { name: /Ask OATH/ }).click();
     await p.getByRole("button", { name: "Is SOL a buy right now?" }).click();
-    await p.waitForSelector("text=/Stands aside|Would open a SOL\\/USDC long|OATH is resting|questions per 10 minutes/", { timeout: 150000 });
+    await p.waitForSelector("text=/Stands aside|Would open a SOL\\/USDC long|OATH is resting|Try Break it meanwhile/", { timeout: 150000 });
     const t = await p.innerText("main");
     ok(`${label} Ask OATH answered via tunnel`, /Stands aside|Would open/.test(t), t.match(/(Stands aside|Would open a SOL\/USDC long)[^\n]*/)?.[0]);
     await p.screenshot({ path: `prod-${w}-ask.png`, fullPage: true });
