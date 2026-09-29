@@ -176,18 +176,18 @@ def mix(placed: list[tuple[float, Path]], bed: Path) -> None:
     ins, flt = ["-i", str(VIDEO)], []
     for k, (start, p) in enumerate(placed):
         ins += ["-i", str(p)]
-        flt.append(f"[{k + 1}:a]aresample=44100,adelay={int(start * 1000)}:all=1[v{k}]")
+        flt.append(f"[{k + 1}:a]aresample=44100,aformat=channel_layouts=stereo,adelay={int(start * 1000)}:all=1[v{k}]")
     nv = len(placed)
     flt.append("".join(f"[v{k}]" for k in range(nv)) + f"amix=inputs={nv}:normalize=0,apad=whole_dur=60[voice]")
     ins += ["-i", str(bed)]
     b = nv + 1
     # music quietly under everything, ducked further while the narrator speaks
     flt.append("[voice]asplit=2[vmix][vkey]")
-    flt.append(f"[{b}:a]aresample=44100,atrim=0:60,volume=0.30,afade=t=in:d=1.5,afade=t=out:st=57.5:d=2.5[bed]")
+    flt.append(f"[{b}:a]aresample=44100,aformat=channel_layouts=stereo,atrim=0:60,volume=0.30,afade=t=in:d=1.5,afade=t=out:st=57.5:d=2.5[bed]")
     flt.append("[bed][vkey]sidechaincompress=threshold=0.03:ratio=6:attack=20:release=450[ducked]")
     flt.append("[vmix][ducked]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=9,atrim=0:60[aout]")
     subprocess.run(["ffmpeg", "-y", "-v", "error", *ins, "-filter_complex", ";".join(flt),
-                    "-map", "0:v", "-map", "[aout]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-ar", "44100",
+                    "-map", "0:v", "-map", "[aout]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-ar", "44100", "-ac", "2",
                     "-movflags", "+faststart", "-shortest", str(FINAL)], check=True)
     print(f"wrote {FINAL}: {FINAL.stat().st_size / 1e6:.2f} MB, {dur(FINAL):.2f}s")
 
@@ -204,6 +204,10 @@ if __name__ == "__main__":
     AUD.mkdir(parents=True, exist_ok=True)
     if sys.argv[1:] == ["voices"]:
         voices()
+        sys.exit()
+    if sys.argv[1:] == ["mix"]:  # remix from the already generated lines + music (no new TTS)
+        placed = [(start, AUD / f"line{i}.mp3") for i, (start, _, _) in enumerate(LINES)]
+        mix(placed, AUD / "music.wav")
         sys.exit()
     if sys.argv[1:] == ["music"]:
         print(music())
