@@ -23,7 +23,7 @@ if %errorlevel%==0 (
   echo [ok] API already running on port %PORT%
 ) else (
   echo [..] starting API on port %PORT% ^(window "OATH API"^)
-  start "OATH API" /min cmd /k ""%PY%" -m oath_server.app --port %PORT%"
+  start "OATH API" /min cmd /k ""%PY%" -m oath_server.app --port %PORT% --token-mint 9p6ZaMhABhGdgEmFpFBTRVwWcgMkWkiqD6hzAyoYKTvf"
 )
 
 rem --- 2. Monitor ---------------------------------------------------------------------

@@ -1,6 +1,7 @@
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/how/HowItWorks";
 import { Nav } from "@/components/Nav";
+import { TokenSection } from "@/components/TokenSection";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       </div>
     </main>
     <HowItWorks />
+    <TokenSection />
     </>
   );
 }
