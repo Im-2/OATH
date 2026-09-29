@@ -23,8 +23,8 @@ AUD = OUT / "audio"
 VIDEO = OUT / "oath-demo.mp4"
 FINAL = OUT / "oath-demo-voiced.mp4"
 API = "https://api.elevenlabs.io/v1"
-MODEL = "eleven_multilingual_v2"   # the most natural-sounding long-form model
-VOICE = os.environ.get("OATH_VOICE_ID", "cjVigY5qzO86Huf0OWal")  # "Eric": smooth, trustworthy, conversational (alt: Brian nPczCjzI2devNBz1zQrb, George JBFqnCBsd6RMkjVDRZzb)
+MODEL = os.environ.get("OATH_TTS_MODEL", "eleven_v3")  # v3: most human intonation (v2 fallback: eleven_multilingual_v2)
+VOICE = os.environ.get("OATH_VOICE_ID", "JBFqnCBsd6RMkjVDRZzb")  # "George": warm, captivating storyteller (alt: Brian nPczCjzI2devNBz1zQrb, Eric cjVigY5qzO86Huf0OWal)
 SETTINGS = {"stability": 0.5, "similarity_boost": 0.8, "style": 0.15, "use_speaker_boost": True, "speed": 1.0}
 
 # (start s, end s, line) aligned with the scenes in video/src/anim.js
@@ -65,11 +65,15 @@ def dur(p: Path) -> float:
 
 def tts(i: int, text: str, prev: str | None, nxt: str | None, speed: float) -> Path:
     out = AUD / f"line{i}.mp3"
-    body = {"text": text, "model_id": MODEL, "voice_settings": {**SETTINGS, "speed": speed}}
-    if prev:
-        body["previous_text"] = prev
-    if nxt:
-        body["next_text"] = nxt
+    if MODEL == "eleven_v3":
+        # v3: stability is Creative 0.0 / Natural 0.5 / Robust 1.0; no context stitching or speed control
+        body = {"text": text, "model_id": MODEL, "voice_settings": {"stability": 0.5, "similarity_boost": 0.8}}
+    else:
+        body = {"text": text, "model_id": MODEL, "voice_settings": {**SETTINGS, "speed": speed}}
+        if prev:
+            body["previous_text"] = prev
+        if nxt:
+            body["next_text"] = nxt
     r = httpx.post(f"{API}/text-to-speech/{VOICE}?output_format=mp3_44100_128", json=body,
                    headers={"xi-api-key": key()}, timeout=120)
     if r.status_code != 200:
@@ -87,8 +91,14 @@ def narrate() -> list[tuple[float, Path]]:
         speed = 1.0
         p = tts(i, text, prev, nxt, speed)
         d = dur(p)
-        # too long for its scene? re-read a touch faster (ElevenLabs speed, natural up to ~1.15)
-        while d > window and speed < 1.15:
+        # too long for its scene? v3: take another read (delivery varies take to take);
+        # v2: re-read a touch faster (ElevenLabs speed, natural up to ~1.15)
+        takes = 1
+        while d > window and MODEL == "eleven_v3" and takes < 4:
+            p = tts(i, text, prev, nxt, speed)
+            d = dur(p)
+            takes += 1
+        while d > window and MODEL != "eleven_v3" and speed < 1.15:
             speed = round(min(1.15, speed * d / window + 0.02), 2)
             p = tts(i, text, prev, nxt, speed)
             d = dur(p)
