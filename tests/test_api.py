@@ -159,3 +159,15 @@ def test_health_reports_monitor_only_from_a_fresh_heartbeat(world, tmp_path):
     assert mk().get("/v1/health").json()["monitor"]["online"] is True
     hb.write_text(_json.dumps({"ts": _time.time() - 600}))
     assert mk().get("/v1/health").json()["monitor"]["online"] is False  # stale = not running
+
+
+def test_live_bundles_the_five_reads(world):
+    c, *_ = world
+    live = c.get("/v1/live").json()
+    assert set(live) == {"health", "stats", "feed", "positions", "decisions"}
+    assert live["stats"] == c.get("/v1/stats").json()
+    assert live["positions"] == c.get("/v1/positions?limit=200").json()
+    assert live["feed"] == c.get("/v1/feed?limit=200").json()
+    assert live["decisions"] == c.get("/v1/decisions?limit=50").json()
+    assert live["health"]["ok"] and live["health"]["notary"] == NOTARY
+    assert "ee" * 32 not in str(live)  # open-position salt never leaks through the bundle either

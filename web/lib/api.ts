@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import snap from "@/data/api-snapshot.json";
-import { API_BASE } from "./stats";
+import { API_BASE, API_ORIGIN } from "./stats";
 
 /** Shapes of the OATH API responses (oath_server/app.py). Every value is real chain/ledger data. */
 export type Fill = {
@@ -149,18 +149,15 @@ async function getJson<T>(path: string, signal: AbortSignal): Promise<T> {
 }
 
 /** One consistent read of the live API, or null (unreachable / not configured). */
-export async function fetchLive(timeoutMs = 6000): Promise<LiveData | null> {
+export async function fetchLive(timeoutMs = 20000): Promise<LiveData | null> {
   if (!API_BASE) return null;
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), timeoutMs);
   try {
-    const [health, stats, feed, positions, decisions] = await Promise.all([
-      getJson<Health>("/v1/health", ctl.signal),
-      getJson<Stats>("/v1/stats", ctl.signal),
-      getJson<{ items: FeedItem[] }>("/v1/feed?limit=200", ctl.signal),
-      getJson<{ items: Position[] }>("/v1/positions?limit=200", ctl.signal),
-      getJson<{ items: Decision[] }>("/v1/decisions?limit=50", ctl.signal),
-    ]);
+    // one request for all five (GET /v1/live): the API sits behind a slow tunnel
+    const { health, stats, feed, positions, decisions } = await getJson<{
+      health: Health; stats: Stats; feed: { items: FeedItem[] }; positions: { items: Position[] }; decisions: { items: Decision[] };
+    }>("/v1/live", ctl.signal);
     if (!health.ok || typeof stats.committed !== "number") return null;
     return { health, stats, feed: feed.items, positions: positions.items, decisions: decisions.items,
              source: "live", asOf: new Date().toISOString() };
@@ -171,7 +168,7 @@ export async function fetchLive(timeoutMs = 6000): Promise<LiveData | null> {
   }
 }
 
-export async function fetchPosition(seq: number, timeoutMs = 6000): Promise<Position | null | "missing"> {
+export async function fetchPosition(seq: number, timeoutMs = 20000): Promise<Position | null | "missing"> {
   if (!API_BASE) return null;
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), timeoutMs);
@@ -259,7 +256,7 @@ export type VerifyReport = {
 
 export const SNAPSHOT_VERIFY: VerifyReport = { ...(snap as unknown as { verify: VerifyReport }).verify, source: "snapshot" };
 
-export async function fetchVerify(timeoutMs = 8000): Promise<VerifyReport | null> {
+export async function fetchVerify(timeoutMs = 20000): Promise<VerifyReport | null> {
   if (!API_BASE) return null;
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), timeoutMs);
@@ -346,11 +343,11 @@ export type SandboxOutcome =
 
 export async function askSandbox(idea: string, timeoutMs = 120_000): Promise<SandboxOutcome> {
   const resting = { kind: "resting" as const, message: "OATH is resting. Try Break it instead." };
-  if (!API_BASE) return resting;
+  if (!API_ORIGIN) return resting;
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), timeoutMs);
   try {
-    const r = await fetch(`${API_BASE}/v1/sandbox`, {
+    const r = await fetch(`${API_ORIGIN}/v1/sandbox`, {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ idea }), signal: ctl.signal,
     });
     const j = await r.json().catch(() => ({}));

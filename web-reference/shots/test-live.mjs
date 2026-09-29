@@ -63,7 +63,7 @@ for (const [w, h] of [[1440, 900], [390, 844]]) {
 // API down -> offline + snapshot
 {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  await page.route("**/127.0.0.1:8788/**", (r) => r.abort());
+  await page.route("**/api/oath/**", (r) => r.abort());
   await page.goto(`${BASE}/live`, { waitUntil: "networkidle" });
   await page.waitForFunction(() => !document.body.innerText.includes("Connecting…"), null, { timeout: 15000 });
   const b = await page.innerText("body");
@@ -75,10 +75,10 @@ for (const [w, h] of [[1440, 900], [390, 844]]) {
 {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   let n = 0;
-  await page.route("**/v1/feed?*", async (route) => {
+  await page.route("**/v1/live", async (route) => {
     const r = await route.fetch();
     const j = await r.json();
-    if (n++ === 0) j.items = j.items.slice(1);
+    if (n++ === 0) j.feed.items = j.feed.items.slice(1);
     await route.fulfill({ response: r, json: j });
   });
   await page.clock.install();
@@ -96,7 +96,7 @@ for (const [w, h] of [[1440, 900], [390, 844]]) {
 {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   let calls = 0;
-  page.on("request", (r) => r.url().includes("/v1/stats") && calls++);
+  page.on("request", (r) => r.url().includes("/v1/live") && calls++);
   await page.clock.install();
   await page.goto(`${BASE}/live`, { waitUntil: "networkidle" });
   await page.waitForFunction(() => !document.body.innerText.includes("Connecting…"));

@@ -237,6 +237,12 @@ def create_app(indexer, ledger: Ledger, cfg: Config, notary_pubkey: str, load_po
         return {k: idx[k] for k in ("notary", "checked_at", "indexed_at", "pass", "issues",
                                     "notary_txs_with_oath1_memos", "agents")}
 
+    @app.get("/v1/live")
+    def live():
+        """Everything the /live page shows, in one response (one round trip through the tunnel)."""
+        return {"health": health(), "stats": stats(), "feed": feed(limit=200),
+                "positions": positions(status=None, limit=200, offset=0), "decisions": decisions(limit=50)}
+
     @app.get("/v1/decisions")
     def decisions(limit: int = Query(50, ge=1, le=500)):
         return {"items": [decision_view(d) for d in ledger.decisions(limit=limit)]}

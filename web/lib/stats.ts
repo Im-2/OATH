@@ -17,9 +17,12 @@ export const SNAPSHOT: HeroStats = {
   asOf: snapshot.as_of,
 };
 
-export const API_BASE = (process.env.NEXT_PUBLIC_OATH_API_URL || "").replace(/\/+$/, "");
+/** The OATH API itself (a Cloudflare Tunnel to the laptop). Only the sandbox POST goes here directly. */
+export const API_ORIGIN = (process.env.NEXT_PUBLIC_OATH_API_URL || "").replace(/\/+$/, "");
+/** Reads go through this site's caching proxy (app/api/oath), so visitors never queue on the tunnel. */
+export const API_BASE = API_ORIGIN ? "/api/oath" : "";
 
-export async function fetchLiveStats(timeoutMs = 4000): Promise<HeroStats | null> {
+export async function fetchLiveStats(timeoutMs = 15000): Promise<HeroStats | null> {
   if (!API_BASE) return null;
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), timeoutMs);

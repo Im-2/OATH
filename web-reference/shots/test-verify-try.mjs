@@ -21,7 +21,7 @@ const overflow = (p) => p.evaluate(() => document.documentElement.scrollWidth - 
   const apiCalls = [];
   const rpcCalls = [];
   p.on("request", (r) => {
-    if (r.url().includes("127.0.0.1:8788")) apiCalls.push(r.url());
+    if (r.url().includes("/api/oath/")) apiCalls.push(r.url());
     if (r.url().includes("solana.com")) rpcCalls.push(r.url());
   });
   await p.goto(`${BASE}/verify`, { waitUntil: "networkidle" });
