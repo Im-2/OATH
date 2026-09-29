@@ -47,8 +47,8 @@ async function run(label, ctxOpts) {
   ok(`${label} /verify verdict`, (await p.innerText("main")).includes("All checks pass"));
   await p.getByRole("button", { name: "Run verification in my browser" }).click();
   await p.waitForSelector("text=/Independently verified|problem\\(s\\) found|stopped:/", { timeout: 180000 });
-  const res = (await p.innerText("main")).match(/Independently verified \d+\/\d+ oaths|\d+ problem\(s\)[^\n]*|stopped:[^\n]*/)?.[0];
-  ok(`${label} in-browser chain verify`, res === "Independently verified 2/2 oaths", res);
+  const res = (await p.innerText("main")).match(/Independently verified \d+\/\d+ oaths( within reach)?|\d+ problem\(s\)[^\n]*|stopped:[^\n]*/)?.[0];
+  ok(`${label} in-browser chain verify`, /^Independently verified (\d+)\/\1 oaths/.test(res ?? ""), res);
   ok(`${label} /verify no overflow`, (await overflow()) <= 0);
   await p.screenshot({ path: `prod-${w}-verify.png`, fullPage: true });
 
@@ -78,7 +78,7 @@ async function run(label, ctxOpts) {
   ok(`${label} /oath/2 verify ✅`, true);
   ok(`${label} /oath/2 no overflow`, (await overflow()) <= 0);
 
-  ok(`${label} API host is the tunnel`, [...apiHosts].every((h) => h.endsWith("trycloudflare.com")) && apiHosts.size > 0, [...apiHosts].join(","));
+  ok(`${label} reads go through the site's proxy`, [...apiHosts].includes(new URL(BASE).host), [...apiHosts].join(","));
   ok(`${label} no page errors`, errs.length === 0, errs.join(" | "));
   await ctx.close();
 }

@@ -13,8 +13,11 @@ import { canonicalJson, isCanonical, oathDigest, type Thesis } from "./canonical
 export const RPC_URLS = [
   ...(process.env.NEXT_PUBLIC_SOLANA_RPC ? [process.env.NEXT_PUBLIC_SOLANA_RPC.replace(/\/+$/, "")] : []),
   "https://solana-rpc.publicnode.com",
+  "https://solana.api.pocket.network",
   "https://api.mainnet-beta.solana.com",
 ];
+// Free browser-friendly RPCs keep only ~2 days of history (minimumLedgerSlot). Oaths older than every
+// source's horizon are reported as out of reach, never as missing; a full-history RPC sees them all.
 export const RPC_URL = RPC_URLS[0];
 const MEMO_PROGRAMS = new Set(["MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr", "Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo"]);
 const SOL_MINT = "So11111111111111111111111111111111111111112";
@@ -33,6 +36,10 @@ export type ChainReport = {
   total: number;
   pass: boolean;
   issues: string[];
+  /** seqs older than every RPC's history horizon: not checkable from this browser with these RPCs */
+  outOfReach: number[];
+  horizonSlot: number | null;
+  sources: string[];
 };
 
 /* ---------- RPC with backoff ---------- */
@@ -193,35 +200,77 @@ function assetDelta(tx: ParsedTx, owner: string, mint: string): bigint {
 type Rec<M> = M & { sig: string; slot: number; time: number | null };
 type SeqMemos = { c?: Rec<Extract<Memo, { kind: "c" }>>; b?: Rec<Extract<Memo, { kind: "b" }>>; o?: Rec<Extract<Memo, { kind: "o" }>>; r?: Rec<Extract<Memo, { kind: "r" }> & { thesis?: string }>; s?: Rec<Extract<Memo, { kind: "s" }>>; dup: boolean };
 
+const hostOf = (u: string) => {
+  try {
+    return new URL(u).host;
+  } catch {
+    return u;
+  }
+};
+
 export async function verifyFromChain(
   notary: string,
   log: (l: LogLine) => void,
   progress: (done: number, total: number) => void,
   signal?: AbortSignal,
+  urls: string[] = RPC_URLS,
 ): Promise<ChainReport> {
-  const rpc = new RpcClient(RPC_URLS, (m) => log({ tone: "dim", text: `  … ${m}` }), signal);
-  const host = new URL(rpc.url).host;
+  const wait = (m: string) => log({ tone: "dim", text: `  … ${m}` });
+  const clients = urls.map((u) => new RpcClient([u], wait, signal));
   log({ tone: "info", text: `$ oath verify --notary ${notary}` });
-  log({ tone: "dim", text: `  rpc: ${host} (public Solana RPC; the OATH API is not used)` });
+  log({ tone: "dim", text: `  rpcs: ${urls.map(hostOf).join(", ")} (public Solana RPCs; the OATH API is not used)` });
 
-  // 1. every signature for the notary
-  const sigs: { signature: string; err: unknown }[] = [];
-  let before: string | undefined;
-  for (;;) {
-    const page = await rpc.call<{ signature: string; err: unknown }[]>("getSignaturesForAddress", [notary, { limit: 1000, ...(before ? { before } : {}) }]);
-    sigs.push(...page);
-    if (page.length < 1000) break;
-    before = page[page.length - 1].signature;
+  // 1. every signature for the notary, merged across every RPC that answers (each keeps its own history)
+  type SigInfo = { signature: string; err: unknown; slot: number };
+  const bySig = new Map<string, SigInfo>();
+  const sources: RpcClient[] = [];
+  let horizonSlot: number | null = null;
+  for (const c of clients) {
+    try {
+      let before: string | undefined;
+      let n = 0;
+      for (;;) {
+        const page = await c.call<SigInfo[]>("getSignaturesForAddress", [notary, { limit: 1000, ...(before ? { before } : {}) }]);
+        page.forEach((x) => bySig.set(x.signature, x));
+        n += page.length;
+        if (page.length < 1000) break;
+        before = page[page.length - 1].signature;
+      }
+      sources.push(c);
+      let min: number | null = null;
+      try {
+        min = await c.call<number>("minimumLedgerSlot", []);
+      } catch {
+        min = null;
+      }
+      // the oldest slot ANY source still keeps = how far back this run can reach
+      horizonSlot = horizonSlot === null ? min ?? 0 : Math.min(horizonSlot, min ?? 0);
+      log({ tone: "dim", text: `  ${hostOf(c.url)}: ${n} notary txs${min ? `, history from slot ${min.toLocaleString("en-US")}` : ""}` });
+    } catch (e) {
+      log({ tone: "dim", text: `  ${hostOf(c.url)}: unavailable (${e instanceof Error ? e.message : String(e)})` });
+    }
   }
-  const ok = sigs.filter((s) => !s.err).reverse();
-  log({ tone: "info", text: `  found ${sigs.length} notary transactions (${ok.length} successful)` });
+  if (!sources.length) throw new Error("no RPC answered");
+  const ok = [...bySig.values()].filter((x) => !x.err).sort((a, b) => a.slot - b.slot);
+  log({ tone: "info", text: `  found ${bySig.size} notary transactions (${ok.length} successful)` });
 
   // 2. fetch + parse memos (oldest first)
   const bySeq = new Map<string, Map<number, SeqMemos>>(); // agent -> seq -> memos
   const disclosures: { agent: string; txSig: string; reason: string }[] = [];
   let memoTxs = 0;
   let memoCount = 0;
-  const getTx = (sig: string) => rpc.call<ParsedTx | null>("getTransaction", [sig, { encoding: "jsonParsed", maxSupportedTransactionVersion: 0, commitment: "confirmed" }]);
+  // a tx one RPC has pruned may still be on another: try each source in turn
+  const getTx = async (sig: string) => {
+    for (const c of sources) {
+      try {
+        const tx = await c.call<ParsedTx | null>("getTransaction", [sig, { encoding: "jsonParsed", maxSupportedTransactionVersion: 0, commitment: "confirmed" }]);
+        if (tx) return tx;
+      } catch {
+        /* next source */
+      }
+    }
+    return null;
+  };
   const txCache = new Map<string, ParsedTx | null>();
   const fetchTx = async (sig: string) => {
     if (!txCache.has(sig)) txCache.set(sig, await getTx(sig));
@@ -269,20 +318,34 @@ export async function verifyFromChain(
   // 3. per-seq checks
   const issues: string[] = [];
   const seqs: SeqResult[] = [];
+  const outOfReach: number[] = [];
   const now = Date.now() / 1000;
   for (const [agent, map] of bySeq) {
     log({ tone: "info", text: `\n  agent ${agent.slice(0, 4)}…${agent.slice(-4)}` });
     const numbered = [...map.entries()].filter(([, e]) => e.c || e.b).map(([s]) => s).sort((a, b) => a - b);
     const max = numbered.length ? numbered[numbered.length - 1] : 0;
     const gaps = Array.from({ length: max }, (_, i) => i + 1).filter((s) => !numbered.includes(s));
-    if (gaps.length) {
-      issues.push(`sequence gaps ${gaps.join(", ")}`);
-      log({ tone: "bad", text: `  ✗ sequence has gaps: missing ${gaps.join(", ")}` });
-    } else {
-      log({ tone: "ok", text: `  ✓ sequence 1…${max} is contiguous, no gaps` });
+    // Seqs below the first visible one, when every RPC's history starts after the oldest notary tx it
+    // returned, are simply too old for these RPCs. A hole ABOVE the first visible seq is always a real gap.
+    const first = numbered[0] ?? 1;
+    const oldestSeen = ok.length ? ok[0].slot : 0;
+    const truncated = horizonSlot !== null && horizonSlot > 0 && oldestSeen >= horizonSlot;
+    const prefix = truncated ? gaps.filter((s) => s < first) : [];
+    const realGaps = gaps.filter((s) => !prefix.includes(s));
+    outOfReach.push(...prefix);
+    if (prefix.length) {
+      const which = prefix.length > 1 ? `${prefix[0]}…${prefix[prefix.length - 1]}` : String(prefix[0]);
+      log({ tone: "dim", text: `  · seq ${which} is older than these RPCs keep (history from slot ${horizonSlot!.toLocaleString("en-US")}): not checked here` });
+    }
+    if (realGaps.length) {
+      issues.push(`sequence gaps ${realGaps.join(", ")}`);
+      log({ tone: "bad", text: `  ✗ sequence has gaps: missing ${realGaps.join(", ")}` });
+    } else if (numbered.length) {
+      log({ tone: "ok", text: `  ✓ sequence ${first}…${max} is contiguous, no gaps${prefix.length ? " (within reach)" : ""}` });
     }
     const orphans = [...map.keys()].filter((s) => !numbered.includes(s));
-    if (orphans.length) issues.push(`memos with no commitment: seq ${orphans.join(", ")}`);
+    const realOrphans = orphans.filter((s) => !prefix.includes(s)); // a prefix orphan's commit is beyond the horizon
+    if (realOrphans.length) issues.push(`memos with no commitment: seq ${realOrphans.join(", ")}`);
 
     for (const seq of numbered) {
       const e = map.get(seq)!;
@@ -357,9 +420,12 @@ export async function verifyFromChain(
     }
   }
   const verified = seqs.filter((s) => s.ok).length;
-  log({ tone: "dim", text: `\n  ${rpc.calls} RPC calls to ${new URL(rpc.url).host} · ${disclosures.length} operator disclosure(s) listed, not counted as trades` });
+  const calls = clients.reduce((n, c) => n + c.calls, 0);
+  log({ tone: "dim", text: `\n  ${calls} RPC calls · ${disclosures.length} operator disclosure(s) listed, not counted as trades` });
+  const reach = outOfReach.length ? ` · ${outOfReach.length} older oath(s) beyond these RPCs' history` : "";
   log(issues.length
     ? { tone: "bad", text: `  FAIL: ${issues.length} problem(s)` }
-    : { tone: "ok", text: `  PASS: independently verified ${verified}/${seqs.length} oaths` });
-  return { notary, txs: ok.length, memos: memoCount, seqs, verified, total: seqs.length, pass: !issues.length && seqs.length > 0, issues };
+    : { tone: "ok", text: `  PASS: independently verified ${verified}/${seqs.length} oaths${reach}` });
+  return { notary, txs: ok.length, memos: memoCount, seqs, verified, total: seqs.length, pass: !issues.length && seqs.length > 0,
+           issues, outOfReach, horizonSlot: outOfReach.length ? horizonSlot : null, sources: sources.map((c) => c.url) };
 }

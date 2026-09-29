@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { RPC_URL, verifyFromChain, type ChainReport, type LogLine } from "@/lib/chainVerify";
+import { RPC_URLS, verifyFromChain, type ChainReport, type LogLine } from "@/lib/chainVerify";
 import { CrossIcon, Panel, VerifiedCheck } from "@/components/live/ui";
 
 type State =
@@ -21,6 +21,8 @@ export function ChainRun({ notary, expected }: { notary: string; expected: numbe
   const [state, setState] = useState<State>({ phase: "idle" });
   const [lines, setLines] = useState<LogLine[]>([]);
   const [prog, setProg] = useState<{ done: number; total: number }>({ done: 0, total: 0 });
+  const [customRpc, setCustomRpc] = useState("");
+  const [showRpc, setShowRpc] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   const ctl = useRef<AbortController | null>(null);
 
@@ -38,11 +40,14 @@ export function ChainRun({ notary, expected }: { notary: string; expected: numbe
     setProg({ done: 0, total: 0 });
     setState({ phase: "running" });
     try {
+      const own = customRpc.trim();
+      const urls = /^https:\/\/[^\s]+$/.test(own) ? [own, ...RPC_URLS.filter((u) => u !== own)] : RPC_URLS;
       const report = await verifyFromChain(
         notary,
         (l) => setLines((xs) => [...xs, l]),
         (done, total) => setProg({ done, total }),
         c.signal,
+        urls,
       );
       setState({ phase: "done", report });
     } catch (e) {
@@ -73,8 +78,28 @@ export function ChainRun({ notary, expected }: { notary: string; expected: numbe
             Cancel
           </button>
         )}
-        <span className="ml-auto font-mono text-[11.5px] text-white/35">{new URL(RPC_URL).host}</span>
+        <button type="button" onClick={() => setShowRpc(!showRpc)} className="ml-auto text-[12px] text-white/40 underline-offset-2 hover:text-white/70 hover:underline">
+          {customRpc ? "using your RPC" : "use your own RPC"}
+        </button>
       </div>
+
+      {showRpc && (
+        <div className="border-b border-white/[0.06] px-4 py-3 sm:px-5">
+          <label className="block text-[12px] text-white/50" htmlFor="own-rpc">
+            Optional: a Solana RPC URL you trust. Free public RPCs keep only about two days of history; a full-history
+            RPC (e.g. a free Helius or QuickNode endpoint) lets your browser check every oath ever taken.
+          </label>
+          <input
+            id="own-rpc"
+            value={customRpc}
+            onChange={(e) => setCustomRpc(e.target.value)}
+            placeholder="https://mainnet.helius-rpc.com/?api-key=…"
+            spellCheck={false}
+            className="mt-2 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-[12.5px] text-white outline-none placeholder:text-white/25 focus:border-white/30"
+          />
+          <p className="mt-1.5 text-[11px] text-white/30">Stays in your browser. Tried first, then the public RPCs.</p>
+        </div>
+      )}
 
       {(running || prog.total > 0) && (
         <div className="h-[3px] bg-white/[0.05]" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
@@ -108,10 +133,18 @@ export function ChainRun({ notary, expected }: { notary: string; expected: numbe
           )}
           <span className={`text-[16px] font-medium ${state.report.pass ? "text-white" : "text-[#FF5A4E]"}`}>
             {state.report.pass
-              ? `Independently verified ${state.report.verified}/${state.report.total} oaths`
+              ? `Independently verified ${state.report.verified}/${state.report.total} oaths${state.report.outOfReach.length ? " within reach" : ""}`
               : `${state.report.issues.length} problem(s) found by your browser`}
           </span>
           <span className="text-[12.5px] text-white/45">{state.report.txs} notary txs · {state.report.memos} memos · no OATH server involved</span>
+          {state.report.outOfReach.length > 0 && (
+            <p className="w-full text-[12.5px] leading-[18px] text-white/55">
+              {state.report.outOfReach.length} older oath{state.report.outOfReach.length > 1 ? "s" : ""} (seq {state.report.outOfReach.join(", ")}) predate
+              {" "}what these public RPCs keep (history from slot {state.report.horizonSlot?.toLocaleString("en-US")}). They&apos;re still on-chain:
+              {" "}<button type="button" onClick={() => setShowRpc(true)} className="text-[#A8D86E] hover:underline">use a full-history RPC</button>
+              {" "}or run the Python command below to check them too.
+            </p>
+          )}
         </div>
       )}
       {state.phase === "error" && (

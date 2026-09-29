@@ -34,10 +34,10 @@ const overflow = (p) => p.evaluate(() => document.documentElement.scrollWidth - 
   await p.getByRole("button", { name: "Run verification in my browser" }).click();
   await p.waitForSelector("text=/Independently verified|problem\\(s\\) found|stopped:/", { timeout: 180_000 });
   const term = await p.locator("[aria-live=polite]").first().innerText();
-  const result = (await p.innerText("main")).match(/Independently verified \d+\/\d+ oaths|\d+ problem\(s\) found by your browser/)?.[0];
-  ok("chain run result", result === "Independently verified 2/2 oaths", `${result} · ${rpcCalls.length} RPC requests`);
+  const result = (await p.innerText("main")).match(/Independently verified \d+\/\d+ oaths( within reach)?|\d+ problem\(s\) found by your browser/)?.[0];
+  ok("chain run result", /^Independently verified (\d+)\/\1 oaths/.test(result ?? ""), result);
   ok("chain run used no OATH API", apiCalls.slice(apiBefore).filter((u) => !u.includes("/v1/verify")).length === 0);
-  ok("log shows digest matches", (term.match(/matches the commit/g) || []).length === 2);
+  ok("log shows digest matches", (term.match(/matches the commit/g) || []).length >= 1 && !/✗/.test(term));
   ok("log shows slot ordering", /commit slot 451,088,313 < swap slot 451,088,333/.test(term));
   console.log(term.split("\n").slice(0, 40).join("\n"));
   ok("verify no overflow 1440", (await overflow(p)) <= 0);
